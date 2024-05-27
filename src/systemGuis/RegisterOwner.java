@@ -8,12 +8,12 @@ package systemGuis;
  *
  * @author diego
  */
-public class registerForeman extends javax.swing.JFrame {
+public class RegisterOwner extends javax.swing.JFrame {
 
     /**
-     * Creates new form registerForeman
+     * Creates new form RegisterOwner
      */
-    public registerForeman() {
+    public RegisterOwner() {
         initComponents();
     }
 
@@ -26,39 +26,39 @@ public class registerForeman extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        RegisterForemanTitle = new javax.swing.JLabel();
+        RegisterOwnerTitle = new javax.swing.JLabel();
         NameForemanInput = new javax.swing.JTextField();
-        NameForemanLable = new javax.swing.JLabel();
-        IdForemanLable = new javax.swing.JLabel();
-        IdForemanInput = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        NameOwnerLabel = new javax.swing.JLabel();
+        IdOwnerLabel = new javax.swing.JLabel();
+        IdOwnerInput = new javax.swing.JTextField();
+        AdressOwnerLabel = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        YearOfIncomeForeman = new javax.swing.JLabel();
-        ForemanYearOfIncomeInput = new javax.swing.JTextField();
-        AddForemanButton = new javax.swing.JButton();
+        CellphoneOwnerLable = new javax.swing.JLabel();
+        CellphoneOwnerInput = new javax.swing.JTextField();
+        addOwnerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        RegisterForemanTitle.setText("Registrar Capataz");
-        getContentPane().add(RegisterForemanTitle);
-        RegisterForemanTitle.setBounds(16, 16, 110, 16);
+        RegisterOwnerTitle.setText("Registrar Propietario");
+        getContentPane().add(RegisterOwnerTitle);
+        RegisterOwnerTitle.setBounds(16, 16, 110, 16);
         getContentPane().add(NameForemanInput);
         NameForemanInput.setBounds(20, 70, 150, 22);
 
-        NameForemanLable.setText("Nombre:");
-        getContentPane().add(NameForemanLable);
-        NameForemanLable.setBounds(20, 50, 60, 16);
+        NameOwnerLabel.setText("Nombre:");
+        getContentPane().add(NameOwnerLabel);
+        NameOwnerLabel.setBounds(20, 50, 60, 16);
 
-        IdForemanLable.setText("Cédula de Identidad:");
-        getContentPane().add(IdForemanLable);
-        IdForemanLable.setBounds(20, 110, 130, 16);
-        getContentPane().add(IdForemanInput);
-        IdForemanInput.setBounds(20, 130, 150, 22);
+        IdOwnerLabel.setText("Cédula de Identidad:");
+        getContentPane().add(IdOwnerLabel);
+        IdOwnerLabel.setBounds(20, 110, 130, 16);
+        getContentPane().add(IdOwnerInput);
+        IdOwnerInput.setBounds(20, 130, 150, 22);
 
-        jLabel4.setText("Dirección:");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(200, 50, 60, 16);
+        AdressOwnerLabel.setText("Dirección:");
+        getContentPane().add(AdressOwnerLabel);
+        AdressOwnerLabel.setBounds(200, 50, 60, 16);
 
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,31 +68,31 @@ public class registerForeman extends javax.swing.JFrame {
         getContentPane().add(jTextField3);
         jTextField3.setBounds(200, 70, 160, 22);
 
-        YearOfIncomeForeman.setText("Año de ingreso");
-        getContentPane().add(YearOfIncomeForeman);
-        YearOfIncomeForeman.setBounds(200, 110, 100, 16);
-        getContentPane().add(ForemanYearOfIncomeInput);
-        ForemanYearOfIncomeInput.setBounds(200, 130, 160, 22);
+        CellphoneOwnerLable.setText("Celular");
+        getContentPane().add(CellphoneOwnerLable);
+        CellphoneOwnerLable.setBounds(200, 110, 100, 16);
+        getContentPane().add(CellphoneOwnerInput);
+        CellphoneOwnerInput.setBounds(200, 130, 160, 22);
 
-        AddForemanButton.setText("Agregar");
-        AddForemanButton.addActionListener(new java.awt.event.ActionListener() {
+        addOwnerButton.setText("Agregar");
+        addOwnerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddForemanButtonActionPerformed(evt);
+                addOwnerButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(AddForemanButton);
-        AddForemanButton.setBounds(20, 180, 110, 23);
+        getContentPane().add(addOwnerButton);
+        addOwnerButton.setBounds(20, 180, 110, 23);
 
-        setBounds(0, 0, 414, 227);
+        setBounds(0, 0, 414, 307);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
-    private void AddForemanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddForemanButtonActionPerformed
+    private void addOwnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOwnerButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_AddForemanButtonActionPerformed
+    }//GEN-LAST:event_addOwnerButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -111,34 +111,34 @@ public class registerForeman extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(registerForeman.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterOwner.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(registerForeman.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterOwner.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(registerForeman.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterOwner.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(registerForeman.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RegisterOwner.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new registerForeman().setVisible(true);
+                new RegisterOwner().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddForemanButton;
-    private javax.swing.JTextField ForemanYearOfIncomeInput;
-    private javax.swing.JTextField IdForemanInput;
-    private javax.swing.JLabel IdForemanLable;
+    private javax.swing.JLabel AdressOwnerLabel;
+    private javax.swing.JTextField CellphoneOwnerInput;
+    private javax.swing.JLabel CellphoneOwnerLable;
+    private javax.swing.JTextField IdOwnerInput;
+    private javax.swing.JLabel IdOwnerLabel;
     private javax.swing.JTextField NameForemanInput;
-    private javax.swing.JLabel NameForemanLable;
-    private javax.swing.JLabel RegisterForemanTitle;
-    private javax.swing.JLabel YearOfIncomeForeman;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel NameOwnerLabel;
+    private javax.swing.JLabel RegisterOwnerTitle;
+    private javax.swing.JButton addOwnerButton;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
