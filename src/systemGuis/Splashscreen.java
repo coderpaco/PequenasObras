@@ -12,7 +12,7 @@ public class Splashscreen {
     
     
     WelcomeMenu window = new WelcomeMenu();
-    MenuChooser menu = new MenuChooser();
+    //MenuChooser menu = new MenuChooser();
 
 
     public void start() {
