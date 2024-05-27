@@ -60,10 +60,20 @@ public class MainMenu extends javax.swing.JFrame {
 
         registerForeman.setMnemonic('s');
         registerForeman.setText("Registrar Capataz");
+        registerForeman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerForemanActionPerformed(evt);
+            }
+        });
         registerMenu.add(registerForeman);
 
         registerOwner.setMnemonic('a');
         registerOwner.setText("Registro de propietario");
+        registerOwner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerOwnerActionPerformed(evt);
+            }
+        });
         registerMenu.add(registerOwner);
 
         constructionRegister.setMnemonic('x');
@@ -124,12 +134,27 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void constructionRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constructionRegisterActionPerformed
-        System.exit(0);
+        RegisterConstructionSite v = new RegisterConstructionSite();
+        v.setVisible(true);
     }//GEN-LAST:event_constructionRegisterActionPerformed
 
     private void registerModifyCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerModifyCatActionPerformed
         // TODO add your handling code here:
+        RegisterModifyCategory v = new RegisterModifyCategory();
+        v.setVisible(true);
     }//GEN-LAST:event_registerModifyCatActionPerformed
+
+    private void registerForemanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerForemanActionPerformed
+        // TODO add your handling code here:
+        RegisterForeman v = new RegisterForeman();
+        v.setVisible(true);
+    }//GEN-LAST:event_registerForemanActionPerformed
+
+    private void registerOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerOwnerActionPerformed
+        // TODO add your handling code here:
+        RegisterOwner v = new RegisterOwner();
+        v.setVisible(true);
+    }//GEN-LAST:event_registerOwnerActionPerformed
 
     /**
      * @param args the command line arguments
