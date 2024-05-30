@@ -37,7 +37,7 @@ public class RegisterForeman extends javax.swing.JFrame {
         ForemanYearOfIncomeInput = new javax.swing.JTextField();
         AddForemanButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         RegisterForemanTitle.setText("Registrar Capataz");

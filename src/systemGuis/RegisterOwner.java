@@ -37,7 +37,7 @@ public class RegisterOwner extends javax.swing.JFrame {
         CellphoneOwnerInput = new javax.swing.JTextField();
         addOwnerButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         RegisterOwnerTitle.setText("Registrar Propietario");
