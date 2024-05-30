@@ -4,6 +4,8 @@
  */
 package systemGuis;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author diego
@@ -32,7 +34,7 @@ public class RegisterForeman extends javax.swing.JFrame {
         IdForemanLable = new javax.swing.JLabel();
         IdForemanInput = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        foremanAddress = new javax.swing.JTextField();
         YearOfIncomeForeman = new javax.swing.JLabel();
         ForemanYearOfIncomeInput = new javax.swing.JTextField();
         AddForemanButton = new javax.swing.JButton();
@@ -60,13 +62,13 @@ public class RegisterForeman extends javax.swing.JFrame {
         getContentPane().add(jLabel4);
         jLabel4.setBounds(200, 50, 60, 16);
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        foremanAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                foremanAddressActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField3);
-        jTextField3.setBounds(200, 70, 160, 22);
+        getContentPane().add(foremanAddress);
+        foremanAddress.setBounds(200, 70, 160, 22);
 
         YearOfIncomeForeman.setText("Año de ingreso");
         getContentPane().add(YearOfIncomeForeman);
@@ -86,11 +88,35 @@ public class RegisterForeman extends javax.swing.JFrame {
         setBounds(0, 0, 414, 257);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void foremanAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foremanAddressActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_foremanAddressActionPerformed
 
     private void AddForemanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddForemanButtonActionPerformed
+        try{
+        int foremanYear = Integer.parseInt(ForemanYearOfIncomeInput.getText().trim());
+        String foremanName = NameForemanInput.getText();
+        String foremanInputAddress = foremanAddress.getText();
+        String foremanId = IdForemanInput.getText();
+        
+        if ((!NameForemanInput.getText().isBlank()) && (!foremanAddress.getText().isBlank()) && (foremanYear != 0) && (!IdForemanInput.getText().isBlank())){
+            Foreman foreman = new Foreman(foremanName, foremanId, foremanInputAddress, foremanYear);
+            //debugging below
+            System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanInputAddress + " " + foremanYear);
+            System.out.println(foreman);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, 
+                              "Estas faltando datos. Completar todos los datos para seguir.", 
+                              "Faltando Datos", 
+                              JOptionPane.WARNING_MESSAGE);
+        }
+        } catch(java.lang.NumberFormatException e){  //the user has not input a number. The code cannot convert "null" to an int!
+            JOptionPane.showMessageDialog(null, 
+                              "Habia un error. Comprobar los datos ingresados", 
+                              "NumberFormatException Error", 
+                              JOptionPane.WARNING_MESSAGE);
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_AddForemanButtonActionPerformed
 
@@ -121,6 +147,8 @@ public class RegisterForeman extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -139,7 +167,7 @@ public class RegisterForeman extends javax.swing.JFrame {
     private javax.swing.JLabel NameForemanLable;
     private javax.swing.JLabel RegisterForemanTitle;
     private javax.swing.JLabel YearOfIncomeForeman;
+    private javax.swing.JTextField foremanAddress;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

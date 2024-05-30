@@ -4,14 +4,14 @@ public class Foreman {
         // class atributes
         private String name;
         private String id;
-        private String adress;
+        private String address;
         private int yearHired;
     
         // Constructor to initialize atributes
-        public Foreman(String name, String id, String adress, int yearHired) {
+        public Foreman(String name, String id, String address, int yearHired) {
             this.name = name;
             this.id = id;
-            this.adress = adress;
+            this.address = address;
             this.yearHired = yearHired;
         }
     
@@ -33,11 +33,11 @@ public class Foreman {
         }
     
         public String getAdress() {
-            return adress;
+            return address;
         }
     
-        public void setAdress(String adress) {
-            this.adress = adress;
+        public void setAdress(String address) {
+            this.address = address;
         }
     
         public int getYearHired() {
@@ -53,7 +53,7 @@ public class Foreman {
             return "Foreman{" +
                     "name='" + name + '\'' +
                     ", id='" + id + '\'' +
-                    ", adress='" + adress + '\'' +
+                    ", address='" + address + '\'' +
                     ", yearHired=" + yearHired +
                     '}';
         }
