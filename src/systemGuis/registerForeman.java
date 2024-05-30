@@ -83,7 +83,7 @@ public class RegisterForeman extends javax.swing.JFrame {
         getContentPane().add(AddForemanButton);
         AddForemanButton.setBounds(20, 180, 110, 23);
 
-        setBounds(0, 0, 414, 227);
+        setBounds(0, 0, 414, 257);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed

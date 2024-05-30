@@ -45,7 +45,8 @@ public class RegisterConstructionSite extends javax.swing.JFrame {
         jTextPane1 = new javax.swing.JTextPane();
         javax.swing.JButton Agregar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setSize(new java.awt.Dimension(5, 5));
         getContentPane().setLayout(null);
 
         jLabel1.setText("Registro de Obra");
@@ -131,7 +132,7 @@ public class RegisterConstructionSite extends javax.swing.JFrame {
         getContentPane().add(Agregar);
         Agregar.setBounds(420, 380, 110, 23);
 
-        pack();
+        setBounds(0, 0, 605, 520);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

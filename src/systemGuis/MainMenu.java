@@ -135,24 +135,28 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void constructionRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constructionRegisterActionPerformed
         RegisterConstructionSite v = new RegisterConstructionSite();
+        v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_constructionRegisterActionPerformed
 
     private void registerModifyCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerModifyCatActionPerformed
         // TODO add your handling code here:
         RegisterModifyCategory v = new RegisterModifyCategory();
+        v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerModifyCatActionPerformed
 
     private void registerForemanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerForemanActionPerformed
         // TODO add your handling code here:
         RegisterForeman v = new RegisterForeman();
+        v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerForemanActionPerformed
 
     private void registerOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerOwnerActionPerformed
         // TODO add your handling code here:
         RegisterOwner v = new RegisterOwner();
+        v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerOwnerActionPerformed
 
