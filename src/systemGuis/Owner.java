@@ -4,14 +4,14 @@ public class Owner {
   // class atributes
   private String name;
   private String id;
-  private String adress;
+  private String address;
   private int cellPhone;
 
   // Constructor to initialize atributes
-  public Owner(String name, String id, String adress, int cellPhone) {
+  public Owner(String name, String id, String address, int cellPhone) {
       this.name = name;
       this.id = id;
-      this.adress = adress;
+      this.address = address;
       this.cellPhone = cellPhone;
   }
 
@@ -32,12 +32,12 @@ public class Owner {
       this.id = id;
   }
 
-  public String getAdress() {
-      return adress;
+  public String getAddress() {
+      return address;
   }
 
-  public void setAdress(String adress) {
-      this.adress = adress;
+  public void setAdress(String address) {
+      this.address = address;
   }
 
   public int getCellPhone() {
@@ -53,7 +53,7 @@ public class Owner {
       return "Foreman{" +
               "name='" + name + '\'' +
               ", id='" + id + '\'' +
-              ", adress='" + adress + '\'' +
+              ", address='" + address + '\'' +
               ", yearHired=" + cellPhone +
               '}';
   }
