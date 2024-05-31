@@ -40,6 +40,7 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registrar / Modificar Rubro");
         getContentPane().setLayout(null);
 
         nameLabel.setText("Nombre:");

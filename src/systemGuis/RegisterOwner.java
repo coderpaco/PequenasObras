@@ -38,6 +38,8 @@ public class RegisterOwner extends javax.swing.JFrame {
         addOwnerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registrar Propietario");
+        setResizable(false);
         getContentPane().setLayout(null);
 
         RegisterOwnerTitle.setText("Registrar Propietario");

@@ -46,6 +46,7 @@ public class RegisterConstructionSite extends javax.swing.JFrame {
         javax.swing.JButton Agregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registro de Obra");
         setSize(new java.awt.Dimension(5, 5));
         getContentPane().setLayout(null);
 

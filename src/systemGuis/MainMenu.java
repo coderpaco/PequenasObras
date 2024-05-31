@@ -45,6 +45,7 @@ public class MainMenu extends javax.swing.JFrame {
         exportDataNewOwnerForeman = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu Principal");
 
         registerMenu.setMnemonic('f');
         registerMenu.setText("Registros");

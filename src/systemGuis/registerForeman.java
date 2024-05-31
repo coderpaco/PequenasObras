@@ -4,6 +4,7 @@
  */
 package systemGuis;
 
+import domain.Foreman;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,24 +30,27 @@ public class RegisterForeman extends javax.swing.JFrame {
     private void initComponents() {
 
         RegisterForemanTitle = new javax.swing.JLabel();
-        NameForemanInput = new javax.swing.JTextField();
+        foremanNameInput = new javax.swing.JTextField();
         NameForemanLable = new javax.swing.JLabel();
         IdForemanLable = new javax.swing.JLabel();
-        IdForemanInput = new javax.swing.JTextField();
+        foremanIdInput = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        foremanAddress = new javax.swing.JTextField();
+        foremanAddressInput = new javax.swing.JTextField();
         YearOfIncomeForeman = new javax.swing.JLabel();
-        ForemanYearOfIncomeInput = new javax.swing.JTextField();
+        foremanYearInput = new javax.swing.JTextField();
         AddForemanButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registrar Capataz");
+        setFocusable(false);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         RegisterForemanTitle.setText("Registrar Capataz");
         getContentPane().add(RegisterForemanTitle);
         RegisterForemanTitle.setBounds(16, 16, 110, 16);
-        getContentPane().add(NameForemanInput);
-        NameForemanInput.setBounds(20, 70, 150, 22);
+        getContentPane().add(foremanNameInput);
+        foremanNameInput.setBounds(20, 70, 150, 22);
 
         NameForemanLable.setText("Nombre:");
         getContentPane().add(NameForemanLable);
@@ -55,26 +59,26 @@ public class RegisterForeman extends javax.swing.JFrame {
         IdForemanLable.setText("Cédula de Identidad:");
         getContentPane().add(IdForemanLable);
         IdForemanLable.setBounds(20, 110, 130, 16);
-        getContentPane().add(IdForemanInput);
-        IdForemanInput.setBounds(20, 130, 150, 22);
+        getContentPane().add(foremanIdInput);
+        foremanIdInput.setBounds(20, 130, 150, 22);
 
         jLabel4.setText("Dirección:");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(200, 50, 60, 16);
 
-        foremanAddress.addActionListener(new java.awt.event.ActionListener() {
+        foremanAddressInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                foremanAddressActionPerformed(evt);
+                foremanAddressInputActionPerformed(evt);
             }
         });
-        getContentPane().add(foremanAddress);
-        foremanAddress.setBounds(200, 70, 160, 22);
+        getContentPane().add(foremanAddressInput);
+        foremanAddressInput.setBounds(200, 70, 160, 22);
 
         YearOfIncomeForeman.setText("Año de ingreso");
         getContentPane().add(YearOfIncomeForeman);
         YearOfIncomeForeman.setBounds(200, 110, 100, 16);
-        getContentPane().add(ForemanYearOfIncomeInput);
-        ForemanYearOfIncomeInput.setBounds(200, 130, 160, 22);
+        getContentPane().add(foremanYearInput);
+        foremanYearInput.setBounds(200, 130, 160, 22);
 
         AddForemanButton.setText("Agregar");
         AddForemanButton.addActionListener(new java.awt.event.ActionListener() {
@@ -88,22 +92,30 @@ public class RegisterForeman extends javax.swing.JFrame {
         setBounds(0, 0, 414, 257);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void foremanAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foremanAddressActionPerformed
+    private void foremanAddressInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foremanAddressInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_foremanAddressActionPerformed
+    }//GEN-LAST:event_foremanAddressInputActionPerformed
 
     private void AddForemanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddForemanButtonActionPerformed
         try{
-        int foremanYear = Integer.parseInt(ForemanYearOfIncomeInput.getText().trim());
-        String foremanName = NameForemanInput.getText();
-        String foremanInputAddress = foremanAddress.getText();
-        String foremanId = IdForemanInput.getText();
+        int foremanYear = Integer.parseInt(foremanYearInput.getText().trim());
+        String foremanName = foremanNameInput.getText();
+        String foremanInputAddress = foremanAddressInput.getText();
+        String foremanId = foremanIdInput.getText();
         
-        if ((!NameForemanInput.getText().isBlank()) && (!foremanAddress.getText().isBlank()) && (foremanYear != 0) && (!IdForemanInput.getText().isBlank())){
+        if ((!foremanNameInput.getText().isBlank()) && (!foremanAddressInput.getText().isBlank()) && (foremanYear != 0) && (!foremanIdInput.getText().isBlank())){
             Foreman foreman = new Foreman(foremanName, foremanId, foremanInputAddress, foremanYear);
             //debugging below
             System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanInputAddress + " " + foremanYear);
             System.out.println(foreman);
+            foremanNameInput.setText("");
+            foremanAddressInput.setText("");
+            foremanIdInput.setText("");
+            foremanYearInput.setText("");
+            JOptionPane.showMessageDialog(null, 
+                              "Foreman guardado!", 
+                              "Exito!", 
+                              JOptionPane.INFORMATION_MESSAGE);
         }
         else {
             JOptionPane.showMessageDialog(null, 
@@ -149,6 +161,10 @@ public class RegisterForeman extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -160,14 +176,14 @@ public class RegisterForeman extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddForemanButton;
-    private javax.swing.JTextField ForemanYearOfIncomeInput;
-    private javax.swing.JTextField IdForemanInput;
     private javax.swing.JLabel IdForemanLable;
-    private javax.swing.JTextField NameForemanInput;
     private javax.swing.JLabel NameForemanLable;
     private javax.swing.JLabel RegisterForemanTitle;
     private javax.swing.JLabel YearOfIncomeForeman;
-    private javax.swing.JTextField foremanAddress;
+    private javax.swing.JTextField foremanAddressInput;
+    private javax.swing.JTextField foremanIdInput;
+    private javax.swing.JTextField foremanNameInput;
+    private javax.swing.JTextField foremanYearInput;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }
