@@ -6,6 +6,8 @@ package systemGuis;
 
 import domain.Foreman;
 import javax.swing.JOptionPane;
+import java.io.FileNotFoundException;
+import java.util.Formatter;
 
 /**
  *
@@ -19,7 +21,58 @@ public class RegisterForeman extends javax.swing.JFrame {
     public RegisterForeman() {
         initComponents();
     }
-
+     private void saveForemanToFile(Foreman foreman) {
+        try {
+            Formatter formatter = new Formatter("foremen.txt");
+            formatter.format("%s;%s;%s;%d%n", foreman.getName(), foreman.getId(), foreman.getAddress(), foreman.getYear());
+            formatter.close();
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, 
+                "Error al guardar el archivo: " + e.getMessage(), 
+                "FileNotFoundException Error", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+     
+     private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+     private boolean validateInputs(String name, String id, String address, String year) {
+        if (name.length() < 3) {
+            JOptionPane.showMessageDialog(null, 
+                "El nombre debe tener al menos 3 caracteres.", 
+                "Nombre inválido", 
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (!isNumeric(id)) {
+            JOptionPane.showMessageDialog(null, 
+                "La cédula de identidad debe contener solo números.", 
+                "ID inválido", 
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (address.length() < 4) {
+            JOptionPane.showMessageDialog(null, 
+                "La dirección debe tener al menos 4 caracteres.", 
+                "Dirección inválida", 
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (!isNumeric(year) || Integer.parseInt(year) <= 0) {
+            JOptionPane.showMessageDialog(null, 
+                "El año debe ser un número positivo.", 
+                "Año inválido", 
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,39 +150,36 @@ public class RegisterForeman extends javax.swing.JFrame {
     }//GEN-LAST:event_foremanAddressInputActionPerformed
 
     private void AddForemanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddForemanButtonActionPerformed
-        try{
-        int foremanYear = Integer.parseInt(foremanYearInput.getText().trim());
-        String foremanName = foremanNameInput.getText();
-        String foremanInputAddress = foremanAddressInput.getText();
-        String foremanId = foremanIdInput.getText();
+        String foremanName = foremanNameInput.getText().trim();
+        String foremanId = foremanIdInput.getText().trim();
+        String foremanAddress = foremanAddressInput.getText().trim();
+        String foremanYearStr = foremanYearInput.getText().trim();
         
-        if ((!foremanNameInput.getText().isBlank()) && (!foremanAddressInput.getText().isBlank()) && (foremanYear != 0) && (!foremanIdInput.getText().isBlank())){
-            Foreman foreman = new Foreman(foremanName, foremanId, foremanInputAddress, foremanYear);
-            //debugging below
-            System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanInputAddress + " " + foremanYear);
+        if (validateInputs(foremanName, foremanId, foremanAddress, foremanYearStr)) {
+            int foremanYear = Integer.parseInt(foremanYearStr);
+            Foreman foreman = new Foreman(foremanName, foremanId, foremanAddress, foremanYear);
+            saveForemanToFile(foreman);
+
+            // Debugging
+            System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanAddress + " " + foremanYear);
             System.out.println(foreman);
+
+            // Clear the input fields
             foremanNameInput.setText("");
-            foremanAddressInput.setText("");
             foremanIdInput.setText("");
+            foremanAddressInput.setText("");
             foremanYearInput.setText("");
+            
             JOptionPane.showMessageDialog(null, 
-                              "Foreman guardado!", 
-                              "Exito!", 
-                              JOptionPane.INFORMATION_MESSAGE);
-        }
-        else {
+                "Foreman guardado!", 
+                "Exito!", 
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
             JOptionPane.showMessageDialog(null, 
-                              "Estas faltando datos. Completar todos los datos para seguir.", 
-                              "Faltando Datos", 
-                              JOptionPane.WARNING_MESSAGE);
-        }
-        } catch(java.lang.NumberFormatException e){  //the user has not input a number. The code cannot convert "null" to an int!
-            JOptionPane.showMessageDialog(null, 
-                              "Habia un error. Comprobar los datos ingresados", 
-                              "NumberFormatException Error", 
-                              JOptionPane.WARNING_MESSAGE);
-        }
-        // TODO add your handling code here:
+                "Estas faltando datos. Completar todos los datos para seguir.", 
+                "Faltando Datos", 
+                JOptionPane.WARNING_MESSAGE);
+        }                     
     }//GEN-LAST:event_AddForemanButtonActionPerformed
 
     /**
