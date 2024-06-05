@@ -6,9 +6,7 @@ package systemGuis;
 
 import domain.Foreman;
 import javax.swing.JOptionPane;
-import java.io.FileNotFoundException;
-import java.util.Formatter;
-
+import domain.FileManager;
 /**
  *
  * @author diego
@@ -20,18 +18,6 @@ public class RegisterForeman extends javax.swing.JFrame {
      */
     public RegisterForeman() {
         initComponents();
-    }
-     private void saveForemanToFile(Foreman foreman) {
-        try {
-            Formatter formatter = new Formatter("foremen.txt");
-            formatter.format("%s;%s;%s;%d%n", foreman.getName(), foreman.getId(), foreman.getAddress(), foreman.getYear());
-            formatter.close();
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, 
-                "Error al guardar el archivo: " + e.getMessage(), 
-                "FileNotFoundException Error", 
-                JOptionPane.ERROR_MESSAGE);
-        }
     }
      
      private boolean isNumeric(String str) {
@@ -156,10 +142,9 @@ public class RegisterForeman extends javax.swing.JFrame {
         String foremanYearStr = foremanYearInput.getText().trim();
         
         if (validateInputs(foremanName, foremanId, foremanAddress, foremanYearStr)) {
-            int foremanYear = Integer.parseInt(foremanYearStr);
+           int foremanYear = Integer.parseInt(foremanYearStr);
             Foreman foreman = new Foreman(foremanName, foremanId, foremanAddress, foremanYear);
-            saveForemanToFile(foreman);
-
+            FileManager.saveForemanToFile(foreman);
             // Debugging
             System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanAddress + " " + foremanYear);
             System.out.println(foreman);
