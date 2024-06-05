@@ -150,20 +150,33 @@ public class RegisterOwner extends javax.swing.JFrame {
         String ownerId = IdOwnerInput.getText().trim();
         String ownerAddress = AddressOwnerInput.getText().trim(); // Corregido aquí
         String ownerCellphone = CellphoneOwnerInput.getText().trim();
+        if (NameOwnerInput.getText().isBlank() || IdOwnerInput.getText().isBlank() || AddressOwnerInput.getText().isBlank() || CellphoneOwnerInput.getText().isBlank()){
+            JOptionPane.showMessageDialog(null, 
+                    "Debe completar todos los campos!", 
+                    "Error!", 
+                    JOptionPane.ERROR_MESSAGE);
+        }else {
+            if (validateInputs(ownerName, ownerId, ownerAddress, ownerCellphone)) { 
+                int ownerCellInt = Integer.parseInt(ownerCellphone);
+                if (system1.registerOwner(ownerName, ownerId, ownerAddress, ownerCellInt)){
+                // Clear the input fields
+                NameOwnerInput.setText("");
+                IdOwnerInput.setText("");
+                AddressOwnerInput.setText(""); // Corregido aquí
+                CellphoneOwnerInput.setText("");
 
-        if (validateInputs(ownerName, ownerId, ownerAddress, ownerCellphone)) {           
-            system1.registerOwner(ownerName, ownerId, ownerAddress, ownerCellphone);
-            // Clear the input fields
-            NameOwnerInput.setText("");
-            IdOwnerInput.setText("");
-            AddressOwnerInput.setText(""); // Corregido aquí
-            CellphoneOwnerInput.setText("");
-
-            JOptionPane.showMessageDialog(null,
-                "Propietario guardado!",
-                "Exito!",
-                JOptionPane.INFORMATION_MESSAGE);
-        }         
+                JOptionPane.showMessageDialog(null,
+                    "Propietario guardado!",
+                    "Exito!",
+                    JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                JOptionPane.showMessageDialog(null,
+                    "Ya esta guardado este Foreman!",
+                    "Error!",
+                    JOptionPane.INFORMATION_MESSAGE);
+                }   
+            }
+        }
     }//GEN-LAST:event_addOwnerButtonMouseClicked
 
     /**

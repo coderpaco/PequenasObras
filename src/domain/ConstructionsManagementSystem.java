@@ -47,6 +47,7 @@ public class ConstructionsManagementSystem {
            System.out.println(f);
            if (f.equals(newForeman)){
                isUnique = false; //return false bc it exists
+               break;
            }
        }
        if (isUnique){
@@ -62,16 +63,19 @@ public class ConstructionsManagementSystem {
    }
 
    // Métodos para registrar propietario 
-   public boolean registerOwner(String name, String id, String address, String cellphone) {
+   public boolean registerOwner(String name, String id, String address, int cellphone) {
        Owner newOwner = new Owner(name, id, address, cellphone);
        boolean isUnique = true;
        for (Owner o: this.obtainOwners()){
+           System.out.println(o);
            if (o.equals(newOwner)){
                isUnique = false;
+               break;
            }
        }
        if (isUnique){
            owners.add(newOwner);
+           System.out.println(this.obtainOwners());
            FileManager.saveOwnerToFile(newOwner);
        }
        return isUnique;
