@@ -1,6 +1,5 @@
 package domain;
-import domain.ConstructionSite;
-import domain.Category;
+import domain.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,13 +21,6 @@ public class ConstructionsManagementSystem {
        this.categories = new ArrayList<>();
        this.categoriesMap = new HashMap<>();
    }
-
-   
-   /*public ConstructionsManagementSystem getSystem(ConstructionsManagementSystem system){
-       
-       System.out.println("system is here");
-       return Sonc;
-   }*/
    
    // Métodos para registrar/modificar rubro
    public void registerCategory(String name, String description) {
@@ -46,19 +38,23 @@ public class ConstructionsManagementSystem {
        return new ArrayList<>(categories);
    }
 
+   
    // Métodos para registrar capataz
-   public void registerForeman(String name, String id, String address, int yearHired) {
+   public boolean registerForeman(String name, String id, String address, int yearHired) {
        Foreman newForeman = new Foreman(name, id, address, yearHired);
-       boolean exists = true;
+       boolean isUnique = true;
        for (Foreman f : this.obtainForemen()){
+           System.out.println(f);
            if (f.equals(newForeman)){
-               exists = false;
+               isUnique = false; //return false bc it exists
            }
        }
-       if (exists){
+       if (isUnique){
             foremen.add(newForeman);
+            System.out.println(this.obtainForemen());
             FileManager.saveForemanToFile(newForeman);
        }
+       return isUnique;
    }
 
    public List<Foreman> obtainForemen() {
@@ -66,19 +62,19 @@ public class ConstructionsManagementSystem {
    }
 
    // Métodos para registrar propietario 
-   public void registerOwner(String name, String id, String address, String cellphone) {
+   public boolean registerOwner(String name, String id, String address, String cellphone) {
        Owner newOwner = new Owner(name, id, address, cellphone);
-       boolean exists = true;
+       boolean isUnique = true;
        for (Owner o: this.obtainOwners()){
            if (o.equals(newOwner)){
-               exists = false;
+               isUnique = false;
            }
        }
-       if (exists){
+       if (isUnique){
            owners.add(newOwner);
            FileManager.saveOwnerToFile(newOwner);
        }
-       
+       return isUnique;
    }
 
    public List<Owner> obtainOwners() {

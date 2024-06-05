@@ -11,7 +11,7 @@ public class RegisterForeman extends javax.swing.JFrame {
         system1 = system;
         initComponents();
     }
-     
+    
      private boolean isNumeric(String str) {
         try {
             Integer.parseInt(str);
@@ -141,23 +141,35 @@ public class RegisterForeman extends javax.swing.JFrame {
         String foremanAddress = foremanAddressInput.getText().trim();
         String foremanYearStr = foremanYearInput.getText().trim();
         
-        if (validateInputs(foremanName, foremanId, foremanAddress, foremanYearStr)) {
-            int foremanYear = Integer.parseInt(foremanYearStr);
-            system1.registerForeman(foremanName, foremanId, foremanAddress, foremanYear);
-
-            // Clear the input fields
-            foremanNameInput.setText("");
-            foremanIdInput.setText("");
-            foremanAddressInput.setText("");
-            foremanYearInput.setText("");
-            
+        if (foremanNameInput.getText().isBlank() || foremanIdInput.getText().isBlank() || foremanAddressInput.getText().isBlank() || foremanYearInput.getText().isBlank()){
             JOptionPane.showMessageDialog(null, 
-                "Foreman guardado!", 
-                "Exito!", 
-                JOptionPane.INFORMATION_MESSAGE);
-        } 
+                    "Debe completar todos los campos!", 
+                    "Error!", 
+                    JOptionPane.ERROR_MESSAGE);
+        }else {
+            if  (validateInputs(foremanName,foremanId,foremanAddress,foremanYearStr)){
+                int foremanYear = Integer.parseInt(foremanYearStr);
+                if (system1.registerForeman(foremanName, foremanId, foremanAddress, foremanYear)){
+                    // Clear the input fields
+                    foremanNameInput.setText("");
+                    foremanIdInput.setText("");
+                    foremanAddressInput.setText("");
+                    foremanYearInput.setText("");
+                    JOptionPane.showMessageDialog(null, 
+                        "Foreman guardado!", 
+                        "Exito!", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                JOptionPane.showMessageDialog(null,
+                    "Ya esta guardado este Foreman!",
+                    "Error!",
+                    JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_AddForemanButtonMouseClicked
 
+    
     /**
      * @param args the command line arguments
      */
