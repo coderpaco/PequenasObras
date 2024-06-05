@@ -1,23 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/Application.java to edit this template
- */
 package systemGuis;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-/**
- *
- * @author diego
- */
+import domain.*;
+
 public class MainMenu extends javax.swing.JFrame {
+    
+    private static ConstructionsManagementSystem system1;
 
-    /**
-     * Creates new form MainMenu
-     */
-    public MainMenu() {
+    public MainMenu(ConstructionsManagementSystem system) {
+        system1 = system;
         initComponents();
     }
 
@@ -174,7 +164,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void registerForemanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerForemanActionPerformed
         // TODO add your handling code here:
-        RegisterForeman v = new RegisterForeman();
+        RegisterForeman v = new RegisterForeman(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerForemanActionPerformed
@@ -213,7 +203,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_constructionRegisterMouseClicked
 
     private void registerForemanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerForemanMouseClicked
-        RegisterForeman v = new RegisterForeman();
+        RegisterForeman v = new RegisterForeman(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerForemanMouseClicked
@@ -248,7 +238,7 @@ public class MainMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainMenu().setVisible(true);
+                new MainMenu(system1).setVisible(true);
             }
         });
     }

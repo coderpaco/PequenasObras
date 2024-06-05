@@ -23,6 +23,13 @@ public class ConstructionsManagementSystem {
        this.categoriesMap = new HashMap<>();
    }
 
+   
+   /*public ConstructionsManagementSystem getSystem(ConstructionsManagementSystem system){
+       
+       System.out.println("system is here");
+       return Sonc;
+   }*/
+   
    // Métodos para registrar/modificar rubro
    public void registerCategory(String name, String description) {
        if (!categoriesMap.containsKey(name)) {
@@ -42,17 +49,36 @@ public class ConstructionsManagementSystem {
    // Métodos para registrar capataz
    public void registerForeman(String name, String id, String address, int yearHired) {
        Foreman newForeman = new Foreman(name, id, address, yearHired);
-       foremen.add(newForeman);
+       boolean exists = true;
+       for (Foreman f : this.obtainForemen()){
+           if (f.equals(newForeman)){
+               exists = false;
+           }
+       }
+       if (exists){
+            foremen.add(newForeman);
+            FileManager.saveForemanToFile(newForeman);
+       }
    }
 
    public List<Foreman> obtainForemen() {
        return new ArrayList<>(foremen);
    }
 
-   // Métodos para registrar propietario
+   // Métodos para registrar propietario 
    public void registerOwner(String name, String id, String address, String cellphone) {
        Owner newOwner = new Owner(name, id, address, cellphone);
-       owners.add(newOwner);
+       boolean exists = true;
+       for (Owner o: this.obtainOwners()){
+           if (o.equals(newOwner)){
+               exists = false;
+           }
+       }
+       if (exists){
+           owners.add(newOwner);
+           FileManager.saveOwnerToFile(newOwner);
+       }
+       
    }
 
    public List<Owner> obtainOwners() {

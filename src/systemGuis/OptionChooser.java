@@ -4,17 +4,22 @@
  */
 package systemGuis;
 
+import domain.*;
+
 /**
  *
  * @author A
  */
 public class OptionChooser extends javax.swing.JFrame {
-    MainMenu window = new MainMenu();
+
+    private ConstructionsManagementSystem system1;
+
 
     /**
      * Creates new form MenuChooser
      */
-    public OptionChooser() {
+    public OptionChooser(ConstructionsManagementSystem system) {
+        system1 = system;
         initComponents();
     }
 
@@ -105,27 +110,30 @@ public class OptionChooser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-            window.setVisible(true);
-            window.setLocationRelativeTo(null);
-            this.setVisible(false);
+        MainMenu window = new MainMenu(system1);    
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-            window.setVisible(true);
-            window.setLocationRelativeTo(null);
-            this.setVisible(false);
+        MainMenu window = new MainMenu(system1);
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-            window.setVisible(true);
-            window.setLocationRelativeTo(null);
-            this.setVisible(false);
+        MainMenu window = new MainMenu(system1);
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -148,7 +156,7 @@ public class OptionChooser extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OptionChooser().setVisible(true);
+                new OptionChooser(system1).setVisible(true);
             }
         });
     }

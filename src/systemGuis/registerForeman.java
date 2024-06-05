@@ -1,22 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package systemGuis;
 
-import domain.Foreman;
+import domain.*;
 import javax.swing.JOptionPane;
-import domain.FileManager;
-/**
- *
- * @author diego
- */
-public class RegisterForeman extends javax.swing.JFrame {
 
-    /**
-     * Creates new form registerForeman
-     */
-    public RegisterForeman() {
+public class RegisterForeman extends javax.swing.JFrame {
+    
+    private ConstructionsManagementSystem system1;
+
+    public RegisterForeman(ConstructionsManagementSystem system) {
+        system1 = system;
         initComponents();
     }
      
@@ -120,6 +112,11 @@ public class RegisterForeman extends javax.swing.JFrame {
         foremanYearInput.setBounds(200, 130, 160, 22);
 
         AddForemanButton.setText("Agregar");
+        AddForemanButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddForemanButtonMouseClicked(evt);
+            }
+        });
         AddForemanButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddForemanButtonActionPerformed(evt);
@@ -132,22 +129,29 @@ public class RegisterForeman extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void foremanAddressInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_foremanAddressInputActionPerformed
-        // TODO add your handling code here:
+        //THIS IS EMPTY
     }//GEN-LAST:event_foremanAddressInputActionPerformed
 
     private void AddForemanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddForemanButtonActionPerformed
+        //THIS IS EMPTY
+    }//GEN-LAST:event_AddForemanButtonActionPerformed
+
+    private void AddForemanButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddForemanButtonMouseClicked
         String foremanName = foremanNameInput.getText().trim();
         String foremanId = foremanIdInput.getText().trim();
         String foremanAddress = foremanAddressInput.getText().trim();
         String foremanYearStr = foremanYearInput.getText().trim();
         
         if (validateInputs(foremanName, foremanId, foremanAddress, foremanYearStr)) {
-           int foremanYear = Integer.parseInt(foremanYearStr);
-            Foreman foreman = new Foreman(foremanName, foremanId, foremanAddress, foremanYear);
-            FileManager.saveForemanToFile(foreman);
+            int foremanYear = Integer.parseInt(foremanYearStr);
+            system1.registerForeman(foremanName, foremanId, foremanAddress, foremanYear);
+            
+            //Foreman foreman = new Foreman(foremanName, foremanId, foremanAddress, foremanYear);
+            //FileManager.saveForemanToFile(foreman);
+            
             // Debugging
             System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanAddress + " " + foremanYear);
-            System.out.println(foreman);
+            System.out.println(system1.obtainForemen());
 
             // Clear the input fields
             foremanNameInput.setText("");
@@ -159,18 +163,13 @@ public class RegisterForeman extends javax.swing.JFrame {
                 "Foreman guardado!", 
                 "Exito!", 
                 JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, 
-                "Estas faltando datos. Completar todos los datos para seguir.", 
-                "Faltando Datos", 
-                JOptionPane.WARNING_MESSAGE);
-        }                     
-    }//GEN-LAST:event_AddForemanButtonActionPerformed
+        } 
+    }//GEN-LAST:event_AddForemanButtonMouseClicked
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -204,7 +203,7 @@ public class RegisterForeman extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegisterForeman().setVisible(true);
+                new RegisterForeman(system1).setVisible(true);
             }
         });
     }
