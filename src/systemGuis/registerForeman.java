@@ -150,8 +150,8 @@ public class RegisterForeman extends javax.swing.JFrame {
             //FileManager.saveForemanToFile(foreman);
             
             // Debugging
-            System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanAddress + " " + foremanYear);
-            System.out.println(system1.obtainForemen());
+            //System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanAddress + " " + foremanYear);
+            //System.out.println(system1.obtainForemen());
 
             // Clear the input fields
             foremanNameInput.setText("");

@@ -150,54 +150,47 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void constructionRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constructionRegisterActionPerformed
-        RegisterConstructionSite v = new RegisterConstructionSite();
+        RegisterConstructionSite v = new RegisterConstructionSite(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_constructionRegisterActionPerformed
 
     private void registerModifyCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerModifyCatActionPerformed
-        // TODO add your handling code here:
-        RegisterModifyCategory v = new RegisterModifyCategory();
+        RegisterModifyCategory v = new RegisterModifyCategory(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerModifyCatActionPerformed
 
     private void registerForemanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerForemanActionPerformed
-        // TODO add your handling code here:
         RegisterForeman v = new RegisterForeman(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerForemanActionPerformed
 
     private void registerOwnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerOwnerActionPerformed
-        // TODO add your handling code here:
-        RegisterOwner v = new RegisterOwner();
+        RegisterOwner v = new RegisterOwner(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerOwnerActionPerformed
 
     private void registerMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMenuMouseClicked
- //nada
- 
+        //LEAVE EMPTY
     }//GEN-LAST:event_registerMenuMouseClicked
 
     private void registerModifyCatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerModifyCatMouseClicked
-        // TODO add your handling code here:
-        RegisterModifyCategory v = new RegisterModifyCategory();
+        RegisterModifyCategory v = new RegisterModifyCategory(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerModifyCatMouseClicked
 
     private void registerOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerOwnerMouseClicked
-        // TODO add your handling code here:
-        RegisterOwner v = new RegisterOwner();
+        RegisterOwner v = new RegisterOwner(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerOwnerMouseClicked
 
     private void constructionRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_constructionRegisterMouseClicked
-        // TODO add your handling code here:
-        RegisterConstructionSite v = new RegisterConstructionSite();
+        RegisterConstructionSite v = new RegisterConstructionSite(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_constructionRegisterMouseClicked

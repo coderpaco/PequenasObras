@@ -1,23 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package systemGuis;
 
 import domain.*;
 
-/**
- *
- * @author A
- */
 public class OptionChooser extends javax.swing.JFrame {
 
     private ConstructionsManagementSystem system1;
 
-
-    /**
-     * Creates new form MenuChooser
-     */
     public OptionChooser(ConstructionsManagementSystem system) {
         system1 = system;
         initComponents();

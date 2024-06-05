@@ -1,20 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package systemGuis;
-import domain.Owner;
+import domain.*;
 import javax.swing.JOptionPane;
-import domain.FileManager;
-/**
- *
- * @author diego
- */
-
 
 public class RegisterOwner extends javax.swing.JFrame {
 
-    public RegisterOwner() {
+    private ConstructionsManagementSystem system1;
+    
+    public RegisterOwner(ConstructionsManagementSystem system) {
+        system1 = system;
         initComponents();
     }
 
@@ -124,6 +117,11 @@ public class RegisterOwner extends javax.swing.JFrame {
         CellphoneOwnerInput.setBounds(200, 130, 160, 22);
 
         addOwnerButton.setText("Agregar");
+        addOwnerButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addOwnerButtonMouseClicked(evt);
+            }
+        });
         addOwnerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addOwnerButtonActionPerformed(evt);
@@ -136,22 +134,33 @@ public class RegisterOwner extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddressOwnerInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddressOwnerInputActionPerformed
-        // TODO add your handling code here:
+        // THIS IS EMPTY
     }//GEN-LAST:event_AddressOwnerInputActionPerformed
 
     private void addOwnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOwnerButtonActionPerformed
-          String ownerName = NameOwnerInput.getText().trim();
+        //THIS IS EMPTY
+    }//GEN-LAST:event_addOwnerButtonActionPerformed
+
+    private void NameOwnerInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameOwnerInputActionPerformed
+        // TODO add your handling code here:R
+    }//GEN-LAST:event_NameOwnerInputActionPerformed
+
+    private void addOwnerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addOwnerButtonMouseClicked
+        String ownerName = NameOwnerInput.getText().trim();
         String ownerId = IdOwnerInput.getText().trim();
         String ownerAddress = AddressOwnerInput.getText().trim(); // Corregido aquí
         String ownerCellphone = CellphoneOwnerInput.getText().trim();
 
         if (validateInputs(ownerName, ownerId, ownerAddress, ownerCellphone)) {
-            Owner owner = new Owner(ownerName, ownerId, ownerAddress, ownerCellphone);
-            FileManager.saveOwnerToFile(owner);
+            
+            system1.registerOwner(ownerName, ownerId, ownerAddress, ownerCellphone);
+            
+            //Owner owner = new Owner(ownerName, ownerId, ownerAddress, ownerCellphone);
+            //FileManager.saveOwnerToFile(owner);
 
             // Debugging
             System.out.println("Data saved: " + ownerName + " " + ownerId + " " + ownerAddress + " " + ownerCellphone);
-            System.out.println(owner);
+            System.out.println(system1.obtainOwners());
 
             // Clear the input fields
             NameOwnerInput.setText("");
@@ -169,16 +178,12 @@ public class RegisterOwner extends javax.swing.JFrame {
                 "Faltando Datos",
                 JOptionPane.WARNING_MESSAGE);
         }            
-    }//GEN-LAST:event_addOwnerButtonActionPerformed
-
-    private void NameOwnerInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameOwnerInputActionPerformed
-        // TODO add your handling code here:R
-    }//GEN-LAST:event_NameOwnerInputActionPerformed
+    }//GEN-LAST:event_addOwnerButtonMouseClicked
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -205,7 +210,7 @@ public class RegisterOwner extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegisterOwner().setVisible(true);
+                new RegisterOwner(system1).setVisible(true);
             }
         });
     }
