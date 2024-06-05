@@ -50,8 +50,8 @@ public class ConstructionsManagementSystem {
    }
 
    // Métodos para registrar propietario
-   public void registerOwner(String name, String id, String address, int cellPhone) {
-       Owner newOwner = new Owner(name, id, address, cellPhone);
+   public void registerOwner(String name, String id, String address, String cellphone) {
+       Owner newOwner = new Owner(name, id, address, cellphone);
        owners.add(newOwner);
    }
 

@@ -30,8 +30,8 @@ public class SystemClass {
         return this.foreman;
     }    
     
-    public void setOwnersList(String ownerName, String ownerId, String ownerAddress, int ownerPhone){
-        Owner o = new Owner(ownerName, ownerId, ownerAddress, ownerPhone);
+    public void setOwnersList(String ownerName, String ownerId, String ownerAddress, String cellphone){
+        Owner o = new Owner(ownerName, ownerId, ownerAddress, cellphone);
         this.owners.add(o);
         System.out.println(o);
     }

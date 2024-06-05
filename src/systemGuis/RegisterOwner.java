@@ -3,20 +3,61 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package systemGuis;
-
+import domain.Owner;
+import javax.swing.JOptionPane;
+import domain.FileManager;
 /**
  *
  * @author diego
  */
+
+
 public class RegisterOwner extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegisterOwner
-     */
     public RegisterOwner() {
         initComponents();
     }
 
+    private boolean isNumeric(String str) {
+        try {
+            Long.parseLong(str); // Use Long to accommodate larger numbers for IDs and cellphones
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean validateInputs(String name, String id, String address, String cellphone) {
+        if (name.length() < 3) {
+            JOptionPane.showMessageDialog(null,
+                "El nombre debe tener al menos 3 caracteres.",
+                "Nombre inválido",
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (!isNumeric(id) || id.length() < 7) {
+            JOptionPane.showMessageDialog(null,
+                "La cédula de identidad debe contener solo números y tener al menos 7 dígitos.",
+                "ID inválido",
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (address.length() < 4) {
+            JOptionPane.showMessageDialog(null,
+                "La dirección debe tener al menos 4 caracteres.",
+                "Dirección inválida",
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (!isNumeric(cellphone) || cellphone.length() < 9) {
+            JOptionPane.showMessageDialog(null,
+                "El celular debe contener solo números y tener al menos 9 dígitos.",
+                "Celular inválido",
+                JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,12 +68,12 @@ public class RegisterOwner extends javax.swing.JFrame {
     private void initComponents() {
 
         RegisterOwnerTitle = new javax.swing.JLabel();
-        NameForemanInput = new javax.swing.JTextField();
+        NameOwnerInput = new javax.swing.JTextField();
         NameOwnerLabel = new javax.swing.JLabel();
         IdOwnerLabel = new javax.swing.JLabel();
         IdOwnerInput = new javax.swing.JTextField();
         AdressOwnerLabel = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        AddressOwnerInput = new javax.swing.JTextField();
         CellphoneOwnerLable = new javax.swing.JLabel();
         CellphoneOwnerInput = new javax.swing.JTextField();
         addOwnerButton = new javax.swing.JButton();
@@ -45,8 +86,14 @@ public class RegisterOwner extends javax.swing.JFrame {
         RegisterOwnerTitle.setText("Registrar Propietario");
         getContentPane().add(RegisterOwnerTitle);
         RegisterOwnerTitle.setBounds(16, 16, 110, 16);
-        getContentPane().add(NameForemanInput);
-        NameForemanInput.setBounds(20, 70, 150, 22);
+
+        NameOwnerInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NameOwnerInputActionPerformed(evt);
+            }
+        });
+        getContentPane().add(NameOwnerInput);
+        NameOwnerInput.setBounds(20, 70, 150, 22);
 
         NameOwnerLabel.setText("Nombre:");
         getContentPane().add(NameOwnerLabel);
@@ -62,13 +109,13 @@ public class RegisterOwner extends javax.swing.JFrame {
         getContentPane().add(AdressOwnerLabel);
         AdressOwnerLabel.setBounds(200, 50, 60, 16);
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        AddressOwnerInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                AddressOwnerInputActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField3);
-        jTextField3.setBounds(200, 70, 160, 22);
+        getContentPane().add(AddressOwnerInput);
+        AddressOwnerInput.setBounds(200, 70, 160, 22);
 
         CellphoneOwnerLable.setText("Celular");
         getContentPane().add(CellphoneOwnerLable);
@@ -88,13 +135,45 @@ public class RegisterOwner extends javax.swing.JFrame {
         setBounds(0, 0, 414, 307);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void AddressOwnerInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddressOwnerInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_AddressOwnerInputActionPerformed
 
     private void addOwnerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOwnerButtonActionPerformed
-        // TODO add your handling code here:
+          String ownerName = NameOwnerInput.getText().trim();
+        String ownerId = IdOwnerInput.getText().trim();
+        String ownerAddress = AddressOwnerInput.getText().trim(); // Corregido aquí
+        String ownerCellphone = CellphoneOwnerInput.getText().trim();
+
+        if (validateInputs(ownerName, ownerId, ownerAddress, ownerCellphone)) {
+            Owner owner = new Owner(ownerName, ownerId, ownerAddress, ownerCellphone);
+            FileManager.saveOwnerToFile(owner);
+
+            // Debugging
+            System.out.println("Data saved: " + ownerName + " " + ownerId + " " + ownerAddress + " " + ownerCellphone);
+            System.out.println(owner);
+
+            // Clear the input fields
+            NameOwnerInput.setText("");
+            IdOwnerInput.setText("");
+            AddressOwnerInput.setText(""); // Corregido aquí
+            CellphoneOwnerInput.setText("");
+
+            JOptionPane.showMessageDialog(null,
+                "Propietario guardado!",
+                "Exito!",
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null,
+                "Estas faltando datos. Completar todos los datos para seguir.",
+                "Faltando Datos",
+                JOptionPane.WARNING_MESSAGE);
+        }            
     }//GEN-LAST:event_addOwnerButtonActionPerformed
+
+    private void NameOwnerInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameOwnerInputActionPerformed
+        // TODO add your handling code here:R
+    }//GEN-LAST:event_NameOwnerInputActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,15 +211,15 @@ public class RegisterOwner extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField AddressOwnerInput;
     private javax.swing.JLabel AdressOwnerLabel;
     private javax.swing.JTextField CellphoneOwnerInput;
     private javax.swing.JLabel CellphoneOwnerLable;
     private javax.swing.JTextField IdOwnerInput;
     private javax.swing.JLabel IdOwnerLabel;
-    private javax.swing.JTextField NameForemanInput;
+    private javax.swing.JTextField NameOwnerInput;
     private javax.swing.JLabel NameOwnerLabel;
     private javax.swing.JLabel RegisterOwnerTitle;
     private javax.swing.JButton addOwnerButton;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
