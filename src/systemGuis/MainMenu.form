@@ -9,6 +9,9 @@
             <Property name="mnemonic" type="int" value="102"/>
             <Property name="text" type="java.lang.String" value="Registros"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="registerMenuMouseClicked"/>
+          </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="registerModifyCat">
               <Properties>
@@ -16,6 +19,7 @@
                 <Property name="text" type="java.lang.String" value="Registrar/Modificar rubro"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="registerModifyCatMouseClicked"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerModifyCatActionPerformed"/>
               </Events>
             </MenuItem>
@@ -25,6 +29,7 @@
                 <Property name="text" type="java.lang.String" value="Registrar Capataz"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="registerForemanMouseClicked"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerForemanActionPerformed"/>
               </Events>
             </MenuItem>
@@ -34,6 +39,7 @@
                 <Property name="text" type="java.lang.String" value="Registro de propietario"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="registerOwnerMouseClicked"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registerOwnerActionPerformed"/>
               </Events>
             </MenuItem>
@@ -43,6 +49,7 @@
                 <Property name="text" type="java.lang.String" value="Registro de obra"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="constructionRegisterMouseClicked"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="constructionRegisterActionPerformed"/>
               </Events>
             </MenuItem>
@@ -83,7 +90,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="importDataNewConstruction">
               <Properties>
                 <Property name="mnemonic" type="int" value="99"/>
-                <Property name="text" type="java.lang.String" value="Importaci&#xf3;n de edatos para obra nueva"/>
+                <Property name="text" type="java.lang.String" value="Importaci&#xf3;n de datos para obra nueva"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="exportDataNewOwnerForeman">

@@ -49,9 +49,19 @@ public class MainMenu extends javax.swing.JFrame {
 
         registerMenu.setMnemonic('f');
         registerMenu.setText("Registros");
+        registerMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registerMenuMouseClicked(evt);
+            }
+        });
 
         registerModifyCat.setMnemonic('o');
         registerModifyCat.setText("Registrar/Modificar rubro");
+        registerModifyCat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registerModifyCatMouseClicked(evt);
+            }
+        });
         registerModifyCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registerModifyCatActionPerformed(evt);
@@ -61,6 +71,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         registerForeman.setMnemonic('s');
         registerForeman.setText("Registrar Capataz");
+        registerForeman.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registerForemanMouseClicked(evt);
+            }
+        });
         registerForeman.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registerForemanActionPerformed(evt);
@@ -70,6 +85,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         registerOwner.setMnemonic('a');
         registerOwner.setText("Registro de propietario");
+        registerOwner.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registerOwnerMouseClicked(evt);
+            }
+        });
         registerOwner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 registerOwnerActionPerformed(evt);
@@ -79,6 +99,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         constructionRegister.setMnemonic('x');
         constructionRegister.setText("Registro de obra");
+        constructionRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                constructionRegisterMouseClicked(evt);
+            }
+        });
         constructionRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 constructionRegisterActionPerformed(evt);
@@ -109,7 +134,7 @@ public class MainMenu extends javax.swing.JFrame {
         importationAndExportationMenu.setText("Importación y Exportación");
 
         importDataNewConstruction.setMnemonic('c');
-        importDataNewConstruction.setText("Importación de edatos para obra nueva");
+        importDataNewConstruction.setText("Importación de datos para obra nueva");
         importationAndExportationMenu.add(importDataNewConstruction);
 
         exportDataNewOwnerForeman.setMnemonic('a');
@@ -160,6 +185,38 @@ public class MainMenu extends javax.swing.JFrame {
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerOwnerActionPerformed
+
+    private void registerMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMenuMouseClicked
+ //nada
+ 
+    }//GEN-LAST:event_registerMenuMouseClicked
+
+    private void registerModifyCatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerModifyCatMouseClicked
+        // TODO add your handling code here:
+        RegisterModifyCategory v = new RegisterModifyCategory();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_registerModifyCatMouseClicked
+
+    private void registerOwnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerOwnerMouseClicked
+        // TODO add your handling code here:
+        RegisterOwner v = new RegisterOwner();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_registerOwnerMouseClicked
+
+    private void constructionRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_constructionRegisterMouseClicked
+        // TODO add your handling code here:
+        RegisterConstructionSite v = new RegisterConstructionSite();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_constructionRegisterMouseClicked
+
+    private void registerForemanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerForemanMouseClicked
+        RegisterForeman v = new RegisterForeman();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_registerForemanMouseClicked
 
     /**
      * @param args the command line arguments
