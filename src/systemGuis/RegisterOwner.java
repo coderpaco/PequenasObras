@@ -142,7 +142,7 @@ public class RegisterOwner extends javax.swing.JFrame {
     }//GEN-LAST:event_addOwnerButtonActionPerformed
 
     private void NameOwnerInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameOwnerInputActionPerformed
-        // TODO add your handling code here:R
+        // THIS IS EMPTY
     }//GEN-LAST:event_NameOwnerInputActionPerformed
 
     private void addOwnerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addOwnerButtonMouseClicked
@@ -151,17 +151,8 @@ public class RegisterOwner extends javax.swing.JFrame {
         String ownerAddress = AddressOwnerInput.getText().trim(); // Corregido aquí
         String ownerCellphone = CellphoneOwnerInput.getText().trim();
 
-        if (validateInputs(ownerName, ownerId, ownerAddress, ownerCellphone)) {
-            
+        if (validateInputs(ownerName, ownerId, ownerAddress, ownerCellphone)) {           
             system1.registerOwner(ownerName, ownerId, ownerAddress, ownerCellphone);
-            
-            //Owner owner = new Owner(ownerName, ownerId, ownerAddress, ownerCellphone);
-            //FileManager.saveOwnerToFile(owner);
-
-            // Debugging
-            System.out.println("Data saved: " + ownerName + " " + ownerId + " " + ownerAddress + " " + ownerCellphone);
-            System.out.println(system1.obtainOwners());
-
             // Clear the input fields
             NameOwnerInput.setText("");
             IdOwnerInput.setText("");
@@ -172,12 +163,7 @@ public class RegisterOwner extends javax.swing.JFrame {
                 "Propietario guardado!",
                 "Exito!",
                 JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null,
-                "Estas faltando datos. Completar todos los datos para seguir.",
-                "Faltando Datos",
-                JOptionPane.WARNING_MESSAGE);
-        }            
+        }         
     }//GEN-LAST:event_addOwnerButtonMouseClicked
 
     /**

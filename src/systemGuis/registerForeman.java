@@ -73,7 +73,6 @@ public class RegisterForeman extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registrar Capataz");
-        setFocusable(false);
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -145,13 +144,6 @@ public class RegisterForeman extends javax.swing.JFrame {
         if (validateInputs(foremanName, foremanId, foremanAddress, foremanYearStr)) {
             int foremanYear = Integer.parseInt(foremanYearStr);
             system1.registerForeman(foremanName, foremanId, foremanAddress, foremanYear);
-            
-            //Foreman foreman = new Foreman(foremanName, foremanId, foremanAddress, foremanYear);
-            //FileManager.saveForemanToFile(foreman);
-            
-            // Debugging
-            //System.out.println("Data saved: " + foremanName + " " + foremanId + " " + foremanAddress + " " + foremanYear);
-            //System.out.println(system1.obtainForemen());
 
             // Clear the input fields
             foremanNameInput.setText("");
