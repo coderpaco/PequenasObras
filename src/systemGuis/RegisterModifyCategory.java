@@ -1,14 +1,35 @@
 package systemGuis;
 
-import domain.*;
+import domain.Category;
+import domain.ConstructionsManagementSystem;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 public class RegisterModifyCategory extends javax.swing.JFrame {
-
-    private ConstructionsManagementSystem system1;
     
+    private ConstructionsManagementSystem system1;
+    private DefaultListModel<String> categoryListModel;
+
     public RegisterModifyCategory(ConstructionsManagementSystem system) {
         system1 = system;
+        categoryListModel = new DefaultListModel<>();
         initComponents();
+        updateCategoryList();
+    }
+
+     private void updateCategoryList() {
+        categoryListModel.clear();
+        List<Category> categories = system1.obtainCategories();
+        for (Category category : categories) {
+            categoryListModel.addElement(category.getName());
+        }
+    }
+     private void clearInputs() {
+        nameInput.setText("");
+        descriptionInput.setText("");
     }
 
     /**
@@ -61,6 +82,11 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         jScrollPane1.setBounds(20, 150, 150, 70);
 
         addCategory.setText("Agregar");
+        addCategory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addCategoryMouseClicked(evt);
+            }
+        });
         addCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addCategoryActionPerformed(evt);
@@ -103,8 +129,71 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
     }//GEN-LAST:event_nameInputActionPerformed
 
     private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_addCategoryActionPerformed
+
+    private void addCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addCategoryMouseClicked
+         String name = nameInput.getText().trim();
+        String description = descriptionInput.getText().trim();
+
+        if (name.isEmpty() || description.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Datos incompletos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (system1.obtainCategories().stream().anyMatch(category -> category.getName().equals(name))) {
+            JOptionPane.showMessageDialog(this, "El nombre del rubro ya existe.", "Nombre duplicado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        system1.registerCategory(name, description);
+        updateCategoryList();
+        clearInputs();
+        JOptionPane.showMessageDialog(this, "Rubro agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    
+    }//GEN-LAST:event_addCategoryMouseClicked
+ private void modifyDescriptionActionPerformed(ActionEvent evt) {
+        int selectedIndex = jList1.getSelectedIndex();
+        if (selectedIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un rubro de la lista.", "No se seleccionó ningún rubro", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String selectedCategory = jList1.getSelectedValue();
+        for (Category category : system1.obtainCategories()) {
+            if (category.getName().equals(selectedCategory)) {
+                nameInput.setText(category.getName());
+                descriptionInput.setText(category.getDescription());
+                break;
+            }
+        }
+    }
+
+      private void confirmModifyActionPerformed(ActionEvent evt) {
+        int selectedIndex = jList1.getSelectedIndex();
+        if (selectedIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un rubro de la lista.", "No se seleccionó ningún rubro", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String selectedCategory = jList1.getSelectedValue();
+        String newDescription = descriptionInput.getText().trim();
+
+        if (newDescription.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese una descripción.", "Descripción vacía", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+         for (Category category : system1.obtainCategories()) {
+            if (category.getName().equals(selectedCategory)) {
+                category.setDescription(newDescription);
+                break;
+            }
+        }
+
+        updateCategoryList();
+        clearInputs();
+        JOptionPane.showMessageDialog(this, "Descripción del rubro modificada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     /**
      * @param args the command line arguments
@@ -134,9 +223,9 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+      java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegisterModifyCategory(system1).setVisible(true);
+                new RegisterModifyCategory(new ConstructionsManagementSystem()).setVisible(true); // Pass the correct system object here
             }
         });
     }
