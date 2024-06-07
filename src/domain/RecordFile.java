@@ -28,21 +28,10 @@ public class RecordFile {
     }
     public void recordLine(String line){
     exit.format("%s%n", line);//take this line and this line make it match with %s get first argument, %n nextline
-    }//there is a for i miss it has to check it tomorrow
-    
-    public static void ejercicio3(){
-        ArchivoGrabacion grabacion = new ArchivoGrabacion("Fibronaccio.txt");
-        grabacion.grabarLinea("0");
-        grabacion.grabarLinea("1");
-        double anterior1 = 0;
-        double anterior 2 = 1;
-        double suma;
-        for(int i = 2; i < 100; i++){
-         suma = anterior1 +anterior2;
-         grabacion.grabarLinea(""+suma);
-         anterior1 = anterior2;
-         anterior2 = suma;
-        }
-        grabacion.cerrar();
+    }
+    public void close(){
+        exit.close();
     }
 }
+    
+   
