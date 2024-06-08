@@ -1,16 +1,46 @@
 package systemGuis;
 
-import domain.*;
+
+import domain.ConstructionsManagementSystem;
+import domain.Foreman;
+import domain.Owner;
+
+import javax.swing.*;
+import java.util.List;
 
 public class RegisterConstructionSite extends javax.swing.JFrame {
 
     private ConstructionsManagementSystem system1;
+    private DefaultListModel<String> ownerListModel;
+    private DefaultListModel<String> foremanListModel;
     
     public RegisterConstructionSite(ConstructionsManagementSystem system) {
         system1 = system;
+        ownerListModel = new DefaultListModel<>();
+        foremanListModel = new DefaultListModel<>();
         initComponents();
+        loadOwnerList();
+        loadForemanList();
+    }
+private void loadOwnerList() {
+         ownerListModel.clear();
+        List<Owner> owners = system1.obtainOwners();
+        for (Owner owner : owners) {
+            ownerListModel.addElement(owner.getName());
+        }
+        OwnerList.setModel(ownerListModel); // Ensure JList is updated
+        System.out.println("Loaded owners: " + ownerListModel);
     }
 
+    private void loadForemanList() {
+          foremanListModel.clear();
+        List<Foreman> foremen = system1.obtainForemen();
+        for (Foreman foreman : foremen) {
+            foremanListModel.addElement(foreman.getName());
+        }
+        ForemanList.setModel(foremanListModel); // Ensure JList is updated
+        System.out.println("Loaded foremen: " + foremanListModel);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -21,23 +51,23 @@ public class RegisterConstructionSite extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        OwnerListLabel = new javax.swing.JLabel();
+        ForemanListLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        OwnerList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
-        jLabel7 = new javax.swing.JLabel();
+        ForemanList = new javax.swing.JList<>();
+        PermitNumberLable = new javax.swing.JLabel();
+        PermitNumberInput = new javax.swing.JTextField();
+        AdressLabel = new javax.swing.JLabel();
+        AdressInput = new javax.swing.JTextField();
+        StartConstructionLabel = new javax.swing.JLabel();
+        MonthInput = new javax.swing.JSpinner();
+        YearsInput = new javax.swing.JSpinner();
+        TotalBudgetLabel = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
-        javax.swing.JButton Agregar = new javax.swing.JButton();
+        TotalBudgetInput = new javax.swing.JTextPane();
+        javax.swing.JButton AddButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro de Obra");
@@ -48,109 +78,110 @@ public class RegisterConstructionSite extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(20, 10, 100, 16);
 
-        jLabel2.setText("Propietarios");
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(20, 40, 70, 16);
+        OwnerListLabel.setText("Propietarios");
+        getContentPane().add(OwnerListLabel);
+        OwnerListLabel.setBounds(20, 40, 70, 16);
 
-        jLabel3.setText("Capataces");
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(210, 40, 60, 16);
+        ForemanListLabel.setText("Capataces");
+        getContentPane().add(ForemanListLabel);
+        ForemanListLabel.setBounds(210, 40, 60, 16);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        OwnerList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(OwnerList);
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(20, 60, 160, 146);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        ForemanList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(ForemanList);
 
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(210, 60, 160, 146);
 
-        jLabel4.setText("Permiso Nro");
-        getContentPane().add(jLabel4);
-        jLabel4.setBounds(410, 30, 80, 16);
+        PermitNumberLable.setText("Permiso Nro");
+        getContentPane().add(PermitNumberLable);
+        PermitNumberLable.setBounds(410, 30, 80, 16);
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        PermitNumberInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                PermitNumberInputActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(410, 60, 64, 22);
+        getContentPane().add(PermitNumberInput);
+        PermitNumberInput.setBounds(410, 60, 64, 22);
 
-        jLabel5.setText("Dirección");
-        getContentPane().add(jLabel5);
-        jLabel5.setBounds(410, 100, 70, 16);
+        AdressLabel.setText("Dirección");
+        getContentPane().add(AdressLabel);
+        AdressLabel.setBounds(410, 100, 70, 16);
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        AdressInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                AdressInputActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField2);
-        jTextField2.setBounds(410, 130, 160, 22);
+        getContentPane().add(AdressInput);
+        AdressInput.setBounds(410, 130, 160, 22);
 
-        jLabel6.setText("Comienzo Mes/Año");
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(410, 180, 110, 16);
-        getContentPane().add(jSpinner1);
-        jSpinner1.setBounds(410, 210, 64, 22);
-        getContentPane().add(jSpinner2);
-        jSpinner2.setBounds(490, 210, 64, 22);
+        StartConstructionLabel.setText("Comienzo Mes/Año");
+        getContentPane().add(StartConstructionLabel);
+        StartConstructionLabel.setBounds(410, 180, 110, 16);
+        getContentPane().add(MonthInput);
+        MonthInput.setBounds(410, 210, 64, 22);
+        getContentPane().add(YearsInput);
+        YearsInput.setBounds(490, 210, 64, 22);
 
-        jLabel7.setText("Total Presupuesto");
-        getContentPane().add(jLabel7);
-        jLabel7.setBounds(370, 250, 100, 16);
+        TotalBudgetLabel.setText("Total Presupuesto");
+        getContentPane().add(TotalBudgetLabel);
+        TotalBudgetLabel.setBounds(370, 250, 100, 16);
 
-        jScrollPane3.setViewportView(jTextPane1);
+        jScrollPane3.setViewportView(TotalBudgetInput);
 
         getContentPane().add(jScrollPane3);
         jScrollPane3.setBounds(490, 250, 64, 22);
 
-        Agregar.setText("Agregar");
-        Agregar.setToolTipText("");
-        Agregar.addActionListener(new java.awt.event.ActionListener() {
+        AddButton.setText("Agregar");
+        AddButton.setToolTipText("");
+        AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AgregarActionPerformed(evt);
+                AddButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(Agregar);
-        Agregar.setBounds(420, 380, 110, 23);
+        getContentPane().add(AddButton);
+        AddButton.setBounds(420, 380, 110, 23);
 
         setBounds(0, 0, 605, 520);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void PermitNumberInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PermitNumberInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_PermitNumberInputActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void AdressInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdressInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_AdressInputActionPerformed
 
-    private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_AgregarActionPerformed
+    }//GEN-LAST:event_AddButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+       java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new RegisterConstructionSite(new ConstructionsManagementSystem()).setVisible(true);
+            }
+        });
+    
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -178,22 +209,23 @@ public class RegisterConstructionSite extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField AdressInput;
+    private javax.swing.JLabel AdressLabel;
+    private javax.swing.JList<String> ForemanList;
+    private javax.swing.JLabel ForemanListLabel;
+    private javax.swing.JSpinner MonthInput;
+    private javax.swing.JList<String> OwnerList;
+    private javax.swing.JLabel OwnerListLabel;
+    private javax.swing.JTextField PermitNumberInput;
+    private javax.swing.JLabel PermitNumberLable;
+    private javax.swing.JLabel StartConstructionLabel;
+    private javax.swing.JTextPane TotalBudgetInput;
+    private javax.swing.JLabel TotalBudgetLabel;
+    private javax.swing.JSpinner YearsInput;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
+
 }
