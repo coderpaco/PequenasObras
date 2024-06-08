@@ -108,6 +108,16 @@ public class MainMenu extends javax.swing.JFrame {
 
         expenditurePerConstruction.setMnemonic('t');
         expenditurePerConstruction.setText("Registro de gasto para obra");
+        expenditurePerConstruction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                expenditurePerConstructionMouseClicked(evt);
+            }
+        });
+        expenditurePerConstruction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                expenditurePerConstructionActionPerformed(evt);
+            }
+        });
         expensesMenu.add(expenditurePerConstruction);
 
         copyMenuItem.setMnemonic('y');
@@ -200,6 +210,17 @@ public class MainMenu extends javax.swing.JFrame {
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_registerForemanMouseClicked
+
+    private void expenditurePerConstructionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_expenditurePerConstructionMouseClicked
+        RegisterExpendituresForConstruction v = new RegisterExpendituresForConstruction(system1);      // TODO add your handling code here:
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+        //
+    }//GEN-LAST:event_expenditurePerConstructionMouseClicked
+
+    private void expenditurePerConstructionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expenditurePerConstructionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_expenditurePerConstructionActionPerformed
 
     /**
      * @param args the command line arguments

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+//import systemGuis.RegisterExpendituresForConstruction;
 
 public class ConstructionsManagementSystem {
    // Atributos de la clase
@@ -140,5 +141,9 @@ public class ConstructionsManagementSystem {
 
    public void exportDataPersons(String order) {
        // Implementar la lógica para exportar datos de propietarios y capataces
+   }
+   
+   public void RegisterExpendituresForConstruction(){
+       //logic here
    }
 }

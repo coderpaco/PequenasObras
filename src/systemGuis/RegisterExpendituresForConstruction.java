@@ -4,6 +4,8 @@
  */
 package systemGuis;
 
+import domain.ConstructionsManagementSystem;
+
 /**
  *
  * @author diego
@@ -15,6 +17,10 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
      */
     public RegisterExpendituresForConstruction() {
         initComponents();
+    }
+
+    RegisterExpendituresForConstruction(ConstructionsManagementSystem system1) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**

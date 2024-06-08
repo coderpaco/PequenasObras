@@ -17,6 +17,7 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         system1 = system;
         categoryListModel = new DefaultListModel<>();
         initComponents();
+         jList1.setModel(categoryListModel); // Asignar el modelo a jList1
         updateCategoryList();
     }
 
@@ -30,6 +31,7 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
      private void clearInputs() {
         nameInput.setText("");
         descriptionInput.setText("");
+        nameInput.setEditable(true); // Habilitar el campo de nombre después de limpiar
     }
 
     /**
@@ -110,10 +112,20 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         jScrollPane2.setBounds(200, 90, 180, 130);
 
         ModifyDescription.setText("Modificar");
+        ModifyDescription.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ModifyDescriptionMouseClicked(evt);
+            }
+        });
         getContentPane().add(ModifyDescription);
         ModifyDescription.setBounds(200, 240, 90, 23);
 
         confirmModify.setText("Confirmar");
+        confirmModify.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                confirmModifyMouseClicked(evt);
+            }
+        });
         getContentPane().add(confirmModify);
         confirmModify.setBounds(300, 240, 84, 23);
 
@@ -151,8 +163,9 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Rubro agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     
     }//GEN-LAST:event_addCategoryMouseClicked
- private void modifyDescriptionActionPerformed(ActionEvent evt) {
-        int selectedIndex = jList1.getSelectedIndex();
+
+    private void ModifyDescriptionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModifyDescriptionMouseClicked
+       int selectedIndex = jList1.getSelectedIndex();
         if (selectedIndex == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un rubro de la lista.", "No se seleccionó ningún rubro", JOptionPane.WARNING_MESSAGE);
             return;
@@ -163,13 +176,15 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
             if (category.getName().equals(selectedCategory)) {
                 nameInput.setText(category.getName());
                 descriptionInput.setText(category.getDescription());
+                nameInput.setEditable(false); // Deshabilitar el campo de nombre
                 break;
             }
         }
-    }
+    
+    }//GEN-LAST:event_ModifyDescriptionMouseClicked
 
-      private void confirmModifyActionPerformed(ActionEvent evt) {
-        int selectedIndex = jList1.getSelectedIndex();
+    private void confirmModifyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmModifyMouseClicked
+         int selectedIndex = jList1.getSelectedIndex();
         if (selectedIndex == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un rubro de la lista.", "No se seleccionó ningún rubro", JOptionPane.WARNING_MESSAGE);
             return;
@@ -193,7 +208,10 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         updateCategoryList();
         clearInputs();
         JOptionPane.showMessageDialog(this, "Descripción del rubro modificada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-    }
+    }//GEN-LAST:event_confirmModifyMouseClicked
+
+
+    
 
     /**
      * @param args the command line arguments
