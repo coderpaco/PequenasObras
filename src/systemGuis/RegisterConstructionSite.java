@@ -140,12 +140,12 @@ private void loadOwnerList() {
 
         TotalBudgetLabel.setText("Total Presupuesto");
         getContentPane().add(TotalBudgetLabel);
-        TotalBudgetLabel.setBounds(370, 250, 100, 16);
+        TotalBudgetLabel.setBounds(410, 250, 100, 16);
 
         jScrollPane3.setViewportView(TotalBudgetInput);
 
         getContentPane().add(jScrollPane3);
-        jScrollPane3.setBounds(490, 250, 64, 22);
+        jScrollPane3.setBounds(510, 250, 64, 22);
 
         AddButton.setText("Agregar");
         AddButton.setToolTipText("");
