@@ -9,9 +9,6 @@
             <Property name="mnemonic" type="int" value="102"/>
             <Property name="text" type="java.lang.String" value="Registros"/>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="registerMenuMouseClicked"/>
-          </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="registerModifyCat">
               <Properties>

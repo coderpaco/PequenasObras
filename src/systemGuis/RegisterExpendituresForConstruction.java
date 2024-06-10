@@ -1,14 +1,15 @@
 package systemGuis;
 
-//import domain.ConstructionsManagementSystem;
 import domain.ConstructionsManagementSystem;
 import domain.Category;
 import domain.ConstructionSite;
 import domain.*;
 import java.util.List;
+import java.util.Observable;
 import javax.swing.DefaultListModel;
+import java.util.Observer;
 
-public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
+public class RegisterExpendituresForConstruction extends javax.swing.JFrame implements Observer{
 
     private ConstructionsManagementSystem system1;
     private DefaultListModel<String> ConstructionSiteListModel;
@@ -22,6 +23,7 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
         initComponents();
         loadConstructionSites();
         loadCategories();
+        system1.addObserver(this);
     }
     private void loadConstructionSites() {
         ConstructionSiteListModel.clear();
@@ -41,6 +43,15 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
             CategoryListModel.addElement(category.getName());
         }
         listCategories.setModel(CategoryListModel);
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ConstructionsManagementSystem){
+            //ConstructionsManagementSystem systemData = (ConstructionsManagementSystem) o;
+            loadConstructionSites();
+            loadCategories();
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.

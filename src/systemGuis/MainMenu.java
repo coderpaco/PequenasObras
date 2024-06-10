@@ -39,11 +39,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         registerMenu.setMnemonic('f');
         registerMenu.setText("Registros");
-        registerMenu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                registerMenuMouseClicked(evt);
-            }
-        });
 
         registerModifyCat.setMnemonic('o');
         registerModifyCat.setText("Registrar/Modificar rubro");
@@ -218,10 +213,6 @@ public class MainMenu extends javax.swing.JFrame {
         v.setVisible(true);
     }//GEN-LAST:event_registerOwnerActionPerformed
 
-    private void registerMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerMenuMouseClicked
-        //LEAVE EMPTY
-    }//GEN-LAST:event_registerMenuMouseClicked
-
     private void registerModifyCatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerModifyCatMouseClicked
         RegisterModifyCategory v = new RegisterModifyCategory(system1);
         v.setLocationRelativeTo(null);
@@ -247,7 +238,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_registerForemanMouseClicked
 
     private void expenditurePerConstructionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_expenditurePerConstructionMouseClicked
-        RegisterExpendituresForConstruction v = new RegisterExpendituresForConstruction(system1);      // TODO add your handling code here:
+        RegisterExpendituresForConstruction v = new RegisterExpendituresForConstruction(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
         //

@@ -35,6 +35,11 @@ public class ImportData extends javax.swing.JFrame {
         ImportLabel.setBounds(30, 20, 220, 16);
 
         ImportButton.setText("Importar");
+        ImportButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ImportButtonMouseClicked(evt);
+            }
+        });
         ImportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ImportButtonActionPerformed(evt);
@@ -47,8 +52,12 @@ public class ImportData extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportButtonActionPerformed
-        // TODO add your handling code here:
+        // BUTTON CLICKED CODE
     }//GEN-LAST:event_ImportButtonActionPerformed
+
+    private void ImportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImportButtonMouseClicked
+        // BUTTON CLICKED CODE
+    }//GEN-LAST:event_ImportButtonMouseClicked
 
     /**
      * @param args the command line arguments

@@ -1,29 +1,34 @@
 package systemGuis;
 
 
-import domain.ConstructionsManagementSystem;
-import domain.Foreman;
-import domain.Owner;
-
+import domain.*;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class RegisterConstructionSite extends javax.swing.JFrame {
+public class RegisterConstructionSite extends javax.swing.JFrame implements Observer {
 
     private ConstructionsManagementSystem system1;
     private DefaultListModel<String> ownerListModel;
     private DefaultListModel<String> foremanListModel;
+    private DefaultListModel<String> categoryListModel;
     
     public RegisterConstructionSite(ConstructionsManagementSystem system) {
         system1 = system;
         ownerListModel = new DefaultListModel<>();
         foremanListModel = new DefaultListModel<>();
+        categoryListModel = new DefaultListModel<>();
         initComponents();
         loadOwnerList();
         loadForemanList();
+        loadPanelRubros();
+        system1.addObserver(this);
     }
-private void loadOwnerList() {
-         ownerListModel.clear();
+    private void loadOwnerList() {
+        ownerListModel.clear();
         List<Owner> owners = system1.obtainOwners();
         for (Owner owner : owners) {
             ownerListModel.addElement(owner.getName());
@@ -33,13 +38,45 @@ private void loadOwnerList() {
     }
 
     private void loadForemanList() {
-          foremanListModel.clear();
+        foremanListModel.clear();
         List<Foreman> foremen = system1.obtainForemen();
         for (Foreman foreman : foremen) {
             foremanListModel.addElement(foreman.getName());
         }
         ForemanList.setModel(foremanListModel); // Ensure JList is updated
         System.out.println("Loaded foremen: " + foremanListModel);
+    }
+    
+    private void loadPanelRubros(){
+        categoryListModel.clear();
+        List<Category> categories = system1.obtainCategories();
+        for (Category category : categories) {
+            JButton nuevo = new JButton(" ");
+            nuevo.setMargin(new Insets(-5, -5, -5, -5));
+            nuevo.setBackground(Color.BLACK);
+            nuevo.setForeground(Color.WHITE);
+            nuevo.setText( category.getName()); // texto ejemplo, a completar
+            nuevo.addActionListener(new RubroListener());
+            panelRubros.add(nuevo);
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ConstructionsManagementSystem){
+            //ConstructionsManagementSystem systemData = (ConstructionsManagementSystem) o;
+            loadOwnerList();
+            loadForemanList();
+            loadPanelRubros();
+        }
+    }
+    
+    private class RubroListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            // este código se ejecutará al presionar el botón, obtengo cuál botón
+            JButton cual = ((JButton) e.getSource());
+            // código a completar según el botón presionado
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -68,9 +105,13 @@ private void loadOwnerList() {
         jScrollPane3 = new javax.swing.JScrollPane();
         TotalBudgetInput = new javax.swing.JTextPane();
         javax.swing.JButton AddButton = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        panelRubros = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro de Obra");
+        setMinimumSize(new java.awt.Dimension(390, 465));
+        setPreferredSize(new java.awt.Dimension(390, 465));
         setSize(new java.awt.Dimension(5, 5));
         getContentPane().setLayout(null);
 
@@ -149,6 +190,11 @@ private void loadOwnerList() {
 
         AddButton.setText("Agregar");
         AddButton.setToolTipText("");
+        AddButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddButtonMouseClicked(evt);
+            }
+        });
         AddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddButtonActionPerformed(evt);
@@ -157,7 +203,13 @@ private void loadOwnerList() {
         getContentPane().add(AddButton);
         AddButton.setBounds(420, 380, 110, 23);
 
-        setBounds(0, 0, 605, 520);
+        panelRubros.setLayout(new java.awt.GridLayout());
+        jScrollPane4.setViewportView(panelRubros);
+
+        getContentPane().add(jScrollPane4);
+        jScrollPane4.setBounds(32, 252, 330, 170);
+
+        setBounds(0, 0, 605, 441);
     }// </editor-fold>//GEN-END:initComponents
 
     private void PermitNumberInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PermitNumberInputActionPerformed
@@ -169,8 +221,12 @@ private void loadOwnerList() {
     }//GEN-LAST:event_AdressInputActionPerformed
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
-        // TODO add your handling code here:
+        // BUTTON CODE
     }//GEN-LAST:event_AddButtonActionPerformed
+
+    private void AddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseClicked
+        // BUTTON CODE
+    }//GEN-LAST:event_AddButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -226,6 +282,8 @@ private void loadOwnerList() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JPanel panelRubros;
     // End of variables declaration//GEN-END:variables
 
 }

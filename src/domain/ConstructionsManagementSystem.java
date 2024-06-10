@@ -3,15 +3,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//import systemGuis.RegisterExpendituresForConstruction;
+import java.util.Observable;
 
-public class ConstructionsManagementSystem {
+public class ConstructionsManagementSystem extends Observable{
    // Atributos de la clase
    private List<Foreman> foremen;
    private List<Owner> owners;
    private List<ConstructionSite> constructionSites;
    private List<Category> categories;
    private Map<String, Category> categoriesMap;
+   
 
    // Constructor para inicializar los atributos
    public ConstructionsManagementSystem() {
@@ -28,6 +29,7 @@ public class ConstructionsManagementSystem {
            Category newCategory = new Category(name, description);
            categories.add(newCategory);
            categoriesMap.put(name, newCategory);
+           somethingChanged();
        } else {
            Category existingCategory = categoriesMap.get(name);
            existingCategory.setDescription(description);
@@ -38,6 +40,10 @@ public class ConstructionsManagementSystem {
        return new ArrayList<>(categories);
    }
 
+   public void somethingChanged(){
+        setChanged();
+        notifyObservers();
+   }
    
    // Métodos para registrar capataz
    public boolean registerForeman(String name, String id, String address, int yearHired) {
@@ -52,6 +58,7 @@ public class ConstructionsManagementSystem {
        }
        if (isUnique){
             foremen.add(newForeman);
+            somethingChanged();
             System.out.println(this.obtainForemen());
             FileManager.saveForemanToFile(newForeman);
        }
@@ -75,6 +82,7 @@ public class ConstructionsManagementSystem {
        }
        if (isUnique){
            owners.add(newOwner);
+           somethingChanged();
            System.out.println(this.obtainOwners());
            FileManager.saveOwnerToFile(newOwner);
        }
@@ -89,6 +97,7 @@ public class ConstructionsManagementSystem {
    public void registerConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget) {
        ConstructionSite newConstructionSite = new ConstructionSite(owner, foreman, permitNumber, address, startMonth, startYear, totalBudget);
        constructionSites.add(newConstructionSite);
+       somethingChanged();
    }
 
    public List<ConstructionSite> obtainConstructionSites() {
@@ -99,11 +108,13 @@ public class ConstructionsManagementSystem {
    public void registerExpenditures(ConstructionSite constructionSite, Category category, double amount, int month, int year, String description) {
        Expenditures newExpenditures = new Expenditures(constructionSite, category, amount, month, year, description);
        constructionSite.addExpenditure(newExpenditures);
+       somethingChanged();
    }
 
    // Métodos para registrar pago de gasto
    public void registerPaymentExpenditure(ConstructionSite constructionSite, Expenditures expenditures) {
        expenditures.setPaid(true);
+       somethingChanged();
    }
 
    // Métodos para obtener estado de obra

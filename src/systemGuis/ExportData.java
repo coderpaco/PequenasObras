@@ -49,6 +49,11 @@ public class ExportData extends javax.swing.JFrame {
         OrderOfExportation.setBounds(20, 50, 260, 22);
 
         ExportButton.setText("Exportar");
+        ExportButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ExportButtonMouseClicked(evt);
+            }
+        });
         ExportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExportButtonActionPerformed(evt);
@@ -65,8 +70,12 @@ public class ExportData extends javax.swing.JFrame {
     }//GEN-LAST:event_OrderOfExportationActionPerformed
 
     private void ExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportButtonActionPerformed
-        // TODO add your handling code here:
+        // EXPORT BUTTON CLICKED CODE
     }//GEN-LAST:event_ExportButtonActionPerformed
+
+    private void ExportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportButtonMouseClicked
+        // EXPORT BUTTON CLICKED CODE
+    }//GEN-LAST:event_ExportButtonMouseClicked
 
     /**
      * @param args the command line arguments
