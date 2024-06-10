@@ -7,6 +7,7 @@ public class ImportData extends javax.swing.JFrame {
     private ConstructionsManagementSystem system1;
     
     public ImportData(ConstructionsManagementSystem system) {
+        system1 = system;
         initComponents();
     }
 

@@ -5,9 +5,7 @@ import domain.*;
 public class ExportData extends javax.swing.JFrame {
 
     private ConstructionsManagementSystem system1;
-    /**
-     * Creates new form ExportData
-     */
+    
     public ExportData(ConstructionsManagementSystem system) {
         system1 = system;
         initComponents();
