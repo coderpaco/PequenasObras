@@ -2,14 +2,25 @@ package systemGuis;
 
 import domain.*;
 import java.util.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ExpendituresPayment extends javax.swing.JFrame {
+public class ExpendituresPayment extends javax.swing.JFrame implements Observer {
 
     private ConstructionsManagementSystem system1;
     
     public ExpendituresPayment(ConstructionsManagementSystem system) {
         system1 = system;
         initComponents();
+        system1.addObserver(this);
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ConstructionsManagementSystem){
+            //Here the methods will go that load the data once theyre implemented
+            //example: loadRubros();
+        }
     }
 
     /**
