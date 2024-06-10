@@ -1,18 +1,47 @@
 package systemGuis;
 
 //import domain.ConstructionsManagementSystem;
+import domain.ConstructionsManagementSystem;
+import domain.Category;
+import domain.ConstructionSite;
 import domain.*;
-import java.util.*;
+import java.util.List;
+import javax.swing.DefaultListModel;
 
 public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
 
     private ConstructionsManagementSystem system1;
+    private DefaultListModel<String> ConstructionSiteListModel;
+    private DefaultListModel<String> CategoryListModel;
+
     
     public RegisterExpendituresForConstruction(ConstructionsManagementSystem system) {
         system1 = system;
+        ConstructionSiteListModel = new DefaultListModel<>();
+        CategoryListModel = new DefaultListModel<>();
         initComponents();
+        loadConstructionSites();
+        loadCategories();
+    }
+    private void loadConstructionSites() {
+        ConstructionSiteListModel.clear();
+        List<ConstructionSite> constructions = system1.obtainConstructionSites();
+        for (ConstructionSite construction : constructions) {
+            ConstructionSiteListModel.addElement(construction.getPermitNumber());
+            ConstructionSiteListModel.addElement(construction.getAddress());
+            
+        }
+        listConstructions.setModel(ConstructionSiteListModel);
     }
 
+    private void loadCategories() {
+        CategoryListModel.clear();
+        List<Category> categories = system1.obtainCategories();
+        for (Category category : categories) {
+            CategoryListModel.addElement(category.getName());
+        }
+        listCategories.setModel(CategoryListModel);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -24,10 +53,10 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listConstructions = new javax.swing.JList<>();
         CategoriesListLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        listCategories = new javax.swing.JList<>();
         AmmountLabel = new javax.swing.JLabel();
         MonthLabel = new javax.swing.JLabel();
         ChangeLabel = new javax.swing.JLabel();
@@ -50,12 +79,12 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(23, 28, 50, 16);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        listConstructions.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(listConstructions);
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(20, 50, 110, 146);
@@ -64,12 +93,12 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
         getContentPane().add(CategoriesListLabel);
         CategoriesListLabel.setBounds(160, 30, 50, 16);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        listCategories.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(listCategories);
 
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(160, 50, 110, 146);
@@ -138,6 +167,7 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
         // BUTTON CLICK CODE
     }//GEN-LAST:event_jButton1MouseClicked
 
+  
     /**
      * @param args the command line arguments
      */
@@ -185,10 +215,10 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
     private javax.swing.JSpinner inputYear;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList<String> listCategories;
+    private javax.swing.JList<String> listConstructions;
     // End of variables declaration//GEN-END:variables
 }
