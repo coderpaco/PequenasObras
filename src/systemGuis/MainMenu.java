@@ -272,19 +272,19 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_copyMenuItemActionPerformed
 
     private void importDataNewConstructionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importDataNewConstructionActionPerformed
-        ImportData v = new ImportData();
+        ImportData v = new ImportData(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_importDataNewConstructionActionPerformed
 
     private void importDataNewConstructionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_importDataNewConstructionMouseClicked
-        ImportData v = new ImportData();
+        ImportData v = new ImportData(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_importDataNewConstructionMouseClicked
 
     private void exportDataNewOwnerForemanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportDataNewOwnerForemanActionPerformed
-        ExportData v = new ExportData();
+        ExportData v = new ExportData(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_exportDataNewOwnerForemanActionPerformed
