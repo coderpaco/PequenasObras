@@ -105,7 +105,7 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         jScrollPane3 = new javax.swing.JScrollPane();
         TotalBudgetInput = new javax.swing.JTextPane();
         javax.swing.JButton AddButton = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
         panelRubros = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -203,11 +203,12 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         getContentPane().add(AddButton);
         AddButton.setBounds(420, 380, 110, 23);
 
-        panelRubros.setLayout(new java.awt.GridLayout());
-        jScrollPane4.setViewportView(panelRubros);
+        panelRubros.setPreferredSize(new java.awt.Dimension(339, 200));
+        panelRubros.setLayout(new java.awt.GridLayout(0, 2));
+        jScrollPane5.setViewportView(panelRubros);
 
-        getContentPane().add(jScrollPane4);
-        jScrollPane4.setBounds(32, 252, 330, 170);
+        getContentPane().add(jScrollPane5);
+        jScrollPane5.setBounds(20, 230, 350, 190);
 
         setBounds(0, 0, 605, 441);
     }// </editor-fold>//GEN-END:initComponents
@@ -282,7 +283,7 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPanel panelRubros;
     // End of variables declaration//GEN-END:variables
 
