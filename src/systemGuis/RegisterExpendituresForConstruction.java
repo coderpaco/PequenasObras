@@ -37,9 +37,12 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
         MonthInput = new javax.swing.JSpinner();
         inputYear = new javax.swing.JSpinner();
         InputAmmount = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registracion de Gastos para Obra");
+        setMinimumSize(new java.awt.Dimension(520, 330));
+        setPreferredSize(new java.awt.Dimension(520, 330));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -106,12 +109,34 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
         getContentPane().add(InputAmmount);
         InputAmmount.setBounds(290, 50, 71, 22);
 
-        setBounds(0, 0, 534, 307);
+        jButton1.setText("Registrar Gastos");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(50, 240, 170, 23);
+
+        setBounds(0, 0, 542, 310);
     }// </editor-fold>//GEN-END:initComponents
 
     private void InputAmmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputAmmountActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_InputAmmountActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // BUTTON CLICK CODE
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // BUTTON CLICK CODE
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -158,6 +183,7 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
     private javax.swing.JLabel MonthLabel;
     private javax.swing.JTextArea inputDescription;
     private javax.swing.JSpinner inputYear;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
