@@ -29,7 +29,11 @@ public class ImportData extends javax.swing.JFrame {
         ImportLabel = new javax.swing.JLabel();
         ImportButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Importacion de Datos");
+        setMinimumSize(new java.awt.Dimension(286, 125));
+        setPreferredSize(new java.awt.Dimension(305, 150));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         ImportLabel.setText("Importación de Datos para Obra Nueva");

@@ -34,7 +34,9 @@ public class ExpendituresPayment extends javax.swing.JFrame {
         notPayedExpendituresList = new javax.swing.JList<>();
         payButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pago de Gastos");
+        setResizable(false);
         getContentPane().setLayout(null);
 
         constructionListLabel.setText("Obras");

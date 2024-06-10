@@ -122,6 +122,16 @@ public class MainMenu extends javax.swing.JFrame {
 
         copyMenuItem.setMnemonic('y');
         copyMenuItem.setText("Pago de gasto (Reintegro de gasto por parte del propietario)");
+        copyMenuItem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                copyMenuItemMouseClicked(evt);
+            }
+        });
+        copyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyMenuItemActionPerformed(evt);
+            }
+        });
         expensesMenu.add(copyMenuItem);
 
         constructionState.setMnemonic('p');
@@ -135,10 +145,25 @@ public class MainMenu extends javax.swing.JFrame {
 
         importDataNewConstruction.setMnemonic('c');
         importDataNewConstruction.setText("Importación de datos para obra nueva");
+        importDataNewConstruction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                importDataNewConstructionMouseClicked(evt);
+            }
+        });
+        importDataNewConstruction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importDataNewConstructionActionPerformed(evt);
+            }
+        });
         importationAndExportationMenu.add(importDataNewConstruction);
 
         exportDataNewOwnerForeman.setMnemonic('a');
         exportDataNewOwnerForeman.setText("Exportación de datos de Propietarios y Capataces");
+        exportDataNewOwnerForeman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportDataNewOwnerForemanActionPerformed(evt);
+            }
+        });
         importationAndExportationMenu.add(exportDataNewOwnerForeman);
 
         menuBar.add(importationAndExportationMenu);
@@ -219,8 +244,40 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_expenditurePerConstructionMouseClicked
 
     private void expenditurePerConstructionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expenditurePerConstructionActionPerformed
-        // TODO add your handling code here:
+        RegisterExpendituresForConstruction v = new RegisterExpendituresForConstruction(system1);
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
     }//GEN-LAST:event_expenditurePerConstructionActionPerformed
+
+    private void copyMenuItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_copyMenuItemMouseClicked
+        ExpendituresPayment v = new ExpendituresPayment();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_copyMenuItemMouseClicked
+
+    private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
+        ExpendituresPayment v = new ExpendituresPayment();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_copyMenuItemActionPerformed
+
+    private void importDataNewConstructionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importDataNewConstructionActionPerformed
+        ImportData v = new ImportData();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_importDataNewConstructionActionPerformed
+
+    private void importDataNewConstructionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_importDataNewConstructionMouseClicked
+        ImportData v = new ImportData();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_importDataNewConstructionMouseClicked
+
+    private void exportDataNewOwnerForemanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportDataNewOwnerForemanActionPerformed
+        ExportData v = new ExportData();
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_exportDataNewOwnerForemanActionPerformed
 
     /**
      * @param args the command line arguments

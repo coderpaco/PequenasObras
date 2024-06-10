@@ -1,26 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package systemGuis;
 
-import domain.ConstructionsManagementSystem;
+//import domain.ConstructionsManagementSystem;
+import domain.*;
+import java.util.*;
 
-/**
- *
- * @author diego
- */
 public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegisterExpendituresForConstruction
-     */
-    public RegisterExpendituresForConstruction() {
+    private ConstructionsManagementSystem system1;
+    
+    public RegisterExpendituresForConstruction(ConstructionsManagementSystem system) {
+        system1 = system;
         initComponents();
-    }
-
-    RegisterExpendituresForConstruction(ConstructionsManagementSystem system1) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -48,7 +38,9 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
         inputYear = new javax.swing.JSpinner();
         InputAmmount = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registracion de Gastos para Obra");
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel1.setText("Obras");
@@ -124,7 +116,7 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -151,7 +143,7 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegisterExpendituresForConstruction().setVisible(true);
+                new RegisterExpendituresForConstruction(system1).setVisible(true);
             }
         });
     }

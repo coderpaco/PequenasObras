@@ -34,10 +34,14 @@ public class ExportData extends javax.swing.JFrame {
         OrderOfExportation = new javax.swing.JComboBox<>();
         ExportButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Exportacion de Datos");
+        setMinimumSize(new java.awt.Dimension(305, 160));
+        setPreferredSize(new java.awt.Dimension(305, 160));
+        setResizable(false);
         getContentPane().setLayout(null);
 
-        jLabel1.setText("Eportación de datos de Capataces y Propietarios:");
+        jLabel1.setText("Exportación de datos de Capataces y Propietarios:");
         getContentPane().add(jLabel1);
         jLabel1.setBounds(20, 20, 280, 16);
 
