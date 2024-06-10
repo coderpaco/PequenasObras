@@ -136,6 +136,16 @@ public class MainMenu extends javax.swing.JFrame {
 
         constructionState.setMnemonic('p');
         constructionState.setText("Estado de obra");
+        constructionState.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                constructionStateMouseClicked(evt);
+            }
+        });
+        constructionState.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                constructionStateActionPerformed(evt);
+            }
+        });
         expensesMenu.add(constructionState);
 
         menuBar.add(expensesMenu);
@@ -250,13 +260,13 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_expenditurePerConstructionActionPerformed
 
     private void copyMenuItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_copyMenuItemMouseClicked
-        ExpendituresPayment v = new ExpendituresPayment();
+        ExpendituresPayment v = new ExpendituresPayment(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_copyMenuItemMouseClicked
 
     private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
-        ExpendituresPayment v = new ExpendituresPayment();
+        ExpendituresPayment v = new ExpendituresPayment(system1);
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_copyMenuItemActionPerformed
@@ -278,6 +288,18 @@ public class MainMenu extends javax.swing.JFrame {
         v.setLocationRelativeTo(null);
         v.setVisible(true);
     }//GEN-LAST:event_exportDataNewOwnerForemanActionPerformed
+
+    private void constructionStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constructionStateActionPerformed
+        ConstructionState v = new ConstructionState(system1);
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_constructionStateActionPerformed
+
+    private void constructionStateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_constructionStateMouseClicked
+        ConstructionState v = new ConstructionState(system1);
+        v.setLocationRelativeTo(null);
+        v.setVisible(true);
+    }//GEN-LAST:event_constructionStateMouseClicked
 
     /**
      * @param args the command line arguments

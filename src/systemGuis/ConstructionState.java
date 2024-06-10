@@ -1,19 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package systemGuis;
 
-/**
- *
- * @author diego
- */
-public class ConstructionState extends javax.swing.JFrame {
+import domain.*;
+import java.util.*;
 
-    /**
-     * Creates new form ConstructionState
-     */
-    public ConstructionState() {
+public class ConstructionState extends javax.swing.JFrame {
+    
+    private ConstructionsManagementSystem system1;
+    
+    public ConstructionState(ConstructionsManagementSystem system) {
+        system1 = system;
         initComponents();
     }
 
@@ -57,12 +52,16 @@ public class ConstructionState extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Estado de Obra");
+        setMinimumSize(new java.awt.Dimension(350, 425));
+        setPreferredSize(new java.awt.Dimension(350, 425));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         ConstructionListTitle.setText("Obras");
         getContentPane().add(ConstructionListTitle);
-        ConstructionListTitle.setBounds(10, 20, 31, 16);
+        ConstructionListTitle.setBounds(10, 20, 50, 16);
 
         ConstructionList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -76,7 +75,7 @@ public class ConstructionState extends javax.swing.JFrame {
 
         jLabel1.setText("Presupuesto (Rubros y  montos)");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(10, 150, 170, 16);
+        jLabel1.setBounds(10, 150, 190, 16);
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -90,7 +89,7 @@ public class ConstructionState extends javax.swing.JFrame {
 
         jLabel2.setText("Rubros con gastos en la obra");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(230, 150, 160, 16);
+        jLabel2.setBounds(230, 150, 190, 16);
 
         jList2.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -104,7 +103,7 @@ public class ConstructionState extends javax.swing.JFrame {
 
         jLabel3.setText("Gastos del rubro seleccionado");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(450, 150, 170, 16);
+        jLabel3.setBounds(450, 150, 200, 16);
 
         jList3.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -146,7 +145,7 @@ public class ConstructionState extends javax.swing.JFrame {
 
         jLabel6.setText("Comienzo de Obra:");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(240, 50, 102, 16);
+        jLabel6.setBounds(240, 50, 120, 16);
 
         jLabel7.setText("Total Gastado Ya Reintegrado:");
         getContentPane().add(jLabel7);
@@ -170,7 +169,7 @@ public class ConstructionState extends javax.swing.JFrame {
 
         jLabel12.setText("Total Presupuestado:");
         getContentPane().add(jLabel12);
-        jLabel12.setBounds(240, 70, 130, 16);
+        jLabel12.setBounds(240, 70, 140, 16);
 
         jTextField5.setBackground(new java.awt.Color(242, 242, 242));
         jTextField5.setText("0");
@@ -216,7 +215,7 @@ public class ConstructionState extends javax.swing.JFrame {
         getContentPane().add(jTextField9);
         jTextField9.setBounds(700, 80, 30, 20);
 
-        setBounds(0, 0, 762, 401);
+        setBounds(0, 0, 762, 400);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -234,7 +233,7 @@ public class ConstructionState extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -261,7 +260,7 @@ public class ConstructionState extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConstructionState().setVisible(true);
+                new ConstructionState(system1).setVisible(true);
             }
         });
     }
