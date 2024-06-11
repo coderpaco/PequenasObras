@@ -64,7 +64,7 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
             nuevo.setBackground(Color.BLACK);
             nuevo.setForeground(Color.WHITE);
             nuevo.setText( category.getName()); // texto ejemplo, a completar
-             nuevo.addActionListener(new RubroListener());
+            nuevo.addActionListener(new RubroListener());
             panelRubros.add(nuevo);
         }
         panelRubros.revalidate();
@@ -82,34 +82,36 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     }
     
   private class RubroListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        JButton cual = (JButton) e.getSource();
-        String rubroName = cual.getText();
-        String montoStr = JOptionPane.showInputDialog("Ingrese el monto para " + rubroName + ":");
-        if (montoStr == null) {
-            // User canceled the input dialog
-            return;
-        }
-        try {
-            double monto = Double.parseDouble(montoStr);
-            int montoCents = (int) (monto * 100); // Convert to cents
-            if (monto == 0) {
-                cual.setBackground(Color.BLACK);
-                cual.setForeground(Color.WHITE);
-                totalBudget -= selectedRubros.getOrDefault(cual, 0);
-                selectedRubros.remove(cual);
-            } else {
-                cual.setBackground(Color.BLUE);
-                cual.setForeground(Color.WHITE);
-                totalBudget += monto - selectedRubros.getOrDefault(cual, 0);
-                selectedRubros.put(cual, montoCents);
+        public void actionPerformed(ActionEvent e) {
+            JButton cual = (JButton) e.getSource();
+            String rubroName = cual.getText().split("\n")[0].trim(); // Only get the rubro name
+            String montoStr = JOptionPane.showInputDialog("Ingrese el monto para " + rubroName + ":");
+            if (montoStr == null) {
+                // User canceled the input dialog
+                return;
             }
-            totalPresupuestoLoad.setText(String.format("%.2f", totalBudget / 100.0)); // Convert back to dollars
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Monto inválido. Por favor, ingrese un número.");
+            try {
+                double monto = Double.parseDouble(montoStr);
+                int montoCents = (int) (monto * 100); // Convert to cents
+                if (monto == 0) {
+                    cual.setBackground(Color.BLACK);
+                    cual.setForeground(Color.WHITE);
+                    cual.setText(rubroName);
+                    totalBudget -= selectedRubros.getOrDefault(cual, 0);
+                    selectedRubros.remove(cual);
+                } else {
+                    cual.setBackground(Color.BLUE);
+                    cual.setForeground(Color.WHITE);
+                    totalBudget += montoCents - selectedRubros.getOrDefault(cual, 0);
+                    selectedRubros.put(cual, montoCents);
+                    cual.setText("<html>" + rubroName + "<br>$" + String.format("%.2f", monto) + "</html>"); // Update button text to include amount below the name
+                }
+                totalPresupuestoLoad.setText(String.format("%.2f", totalBudget / 100.0)); // Update total budget
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Monto inválido. Por favor, ingrese un número.");
+            }
         }
     }
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
