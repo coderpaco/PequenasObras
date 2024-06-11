@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,12 +17,18 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     private DefaultListModel<String> ownerListModel;
     private DefaultListModel<String> foremanListModel;
     private DefaultListModel<String> categoryListModel;
+    private Map<JButton, Integer> selectedRubros;
+    private double totalBudget;
+
+
     
     public RegisterConstructionSite(ConstructionsManagementSystem system) {
         system1 = system;
         ownerListModel = new DefaultListModel<>();
         foremanListModel = new DefaultListModel<>();
         categoryListModel = new DefaultListModel<>();
+        selectedRubros = new HashMap<>();
+        totalBudget = 0.0;
         initComponents();
         loadOwnerList();
         loadForemanList();
@@ -51,14 +59,16 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         categoryListModel.clear();
         List<Category> categories = system1.obtainCategories();
         for (Category category : categories) {
-            JButton nuevo = new JButton(" ");
+            JButton nuevo = new JButton(category.getName());
             nuevo.setMargin(new Insets(-5, -5, -5, -5));
             nuevo.setBackground(Color.BLACK);
             nuevo.setForeground(Color.WHITE);
             nuevo.setText( category.getName()); // texto ejemplo, a completar
-            nuevo.addActionListener(new RubroListener());
+             nuevo.addActionListener(new RubroListener());
             panelRubros.add(nuevo);
         }
+        panelRubros.revalidate();
+        panelRubros.repaint();
     }
 
     @Override
@@ -71,13 +81,35 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         }
     }
     
-    private class RubroListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            // este código se ejecutará al presionar el botón, obtengo cuál botón
-            JButton cual = ((JButton) e.getSource());
-            // código a completar según el botón presionado
+  private class RubroListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        JButton cual = (JButton) e.getSource();
+        String rubroName = cual.getText();
+        String montoStr = JOptionPane.showInputDialog("Ingrese el monto para " + rubroName + ":");
+        if (montoStr == null) {
+            // User canceled the input dialog
+            return;
+        }
+        try {
+            double monto = Double.parseDouble(montoStr);
+            int montoCents = (int) (monto * 100); // Convert to cents
+            if (monto == 0) {
+                cual.setBackground(Color.BLACK);
+                cual.setForeground(Color.WHITE);
+                totalBudget -= selectedRubros.getOrDefault(cual, 0);
+                selectedRubros.remove(cual);
+            } else {
+                cual.setBackground(Color.BLUE);
+                cual.setForeground(Color.WHITE);
+                totalBudget += monto - selectedRubros.getOrDefault(cual, 0);
+                selectedRubros.put(cual, montoCents);
+            }
+            totalPresupuestoLoad.setText(String.format("%.2f", totalBudget / 100.0)); // Convert back to dollars
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Monto inválido. Por favor, ingrese un número.");
         }
     }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -102,11 +134,10 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         MonthInput = new javax.swing.JSpinner();
         YearsInput = new javax.swing.JSpinner();
         TotalBudgetLabel = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        TotalBudgetInput = new javax.swing.JTextPane();
         javax.swing.JButton AddButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         panelRubros = new javax.swing.JPanel();
+        totalPresupuestoLoad = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro de Obra");
@@ -181,12 +212,7 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
 
         TotalBudgetLabel.setText("Total Presupuesto");
         getContentPane().add(TotalBudgetLabel);
-        TotalBudgetLabel.setBounds(410, 250, 100, 16);
-
-        jScrollPane3.setViewportView(TotalBudgetInput);
-
-        getContentPane().add(jScrollPane3);
-        jScrollPane3.setBounds(510, 250, 64, 22);
+        TotalBudgetLabel.setBounds(410, 250, 120, 16);
 
         AddButton.setText("Agregar");
         AddButton.setToolTipText("");
@@ -210,7 +236,11 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         getContentPane().add(jScrollPane5);
         jScrollPane5.setBounds(20, 230, 350, 190);
 
-        setBounds(0, 0, 605, 441);
+        totalPresupuestoLoad.setText("0");
+        getContentPane().add(totalPresupuestoLoad);
+        totalPresupuestoLoad.setBounds(560, 250, 80, 16);
+
+        setBounds(0, 0, 667, 441);
     }// </editor-fold>//GEN-END:initComponents
 
     private void PermitNumberInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PermitNumberInputActionPerformed
@@ -276,15 +306,14 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     private javax.swing.JTextField PermitNumberInput;
     private javax.swing.JLabel PermitNumberLable;
     private javax.swing.JLabel StartConstructionLabel;
-    private javax.swing.JTextPane TotalBudgetInput;
     private javax.swing.JLabel TotalBudgetLabel;
     private javax.swing.JSpinner YearsInput;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPanel panelRubros;
+    private javax.swing.JLabel totalPresupuestoLoad;
     // End of variables declaration//GEN-END:variables
 
 }
