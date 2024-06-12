@@ -258,9 +258,122 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void AddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseClicked
-        // BUTTON CODE
-    }//GEN-LAST:event_AddButtonMouseClicked
+          // Extract and validate permit number
+      // Validate and get user input
+    String permitNumber = PermitNumberInput.getText();
+    if (!isValidPermitNumber(permitNumber)) {
+      JOptionPane.showMessageDialog(null, "Permiso Nro inválido. Debe ser un número.");
+      return;
+    }
 
+    String address = AdressInput.getText();
+    if (address.length() < 4) {
+      JOptionPane.showMessageDialog(null, "Dirección inválida. Debe tener al menos 4 dígitos.");
+      return;
+    }
+
+    int month = (Integer) MonthInput.getValue();
+    if (month < 1 || month > 12) {
+      JOptionPane.showMessageDialog(null, "Mes inválido. Debe estar entre 1 y 12.");
+      return;
+    }
+
+    int year = (Integer) YearsInput.getValue();
+    if (year < 1990) {
+      JOptionPane.showMessageDialog(null, "Año inválido. Debe ser igual o mayor a 1990.");
+      return;
+    }
+
+    // Check if at least one owner and foreman is selected
+    if (OwnerList.getSelectedIndex() == -1) {
+      JOptionPane.showMessageDialog(null, "Debe seleccionar un propietario.");
+      return;
+    }
+    if (ForemanList.getSelectedIndex() == -1) {
+      JOptionPane.showMessageDialog(null, "Debe seleccionar un capataz.");
+      return;
+    }
+
+    // Check if at least one rubro is selected
+    if (selectedRubros.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un rubro.");
+      return;
+    }
+
+    // Get selected owner and foreman objects
+    int selectedOwnerIndex = OwnerList.getSelectedIndex();
+    Owner selectedOwner = system1.obtainOwners().get(selectedOwnerIndex);
+
+    int selectedForemanIndex = ForemanList.getSelectedIndex();
+    Foreman selectedForeman = system1.obtainForemen().get(selectedForemanIndex);
+
+    // Calculate total budget
+    double totalBudget = 0;
+    for (double amount : selectedRubros.values()) {
+      totalBudget += amount;
+    }
+
+    // Create and register the new construction site
+    ConstructionSite newConstructionSite = new ConstructionSite(selectedOwner, selectedForeman, permitNumber, address, month, year, totalBudget);
+    for (Map.Entry<JButton, Integer> entry : selectedRubros.entrySet()) {
+      String categoryName = entry.getKey().getText().split("\n")[0].trim();
+      Category category = system1.obtainCategories().stream()
+          .filter(c -> c.getName().equals(categoryName))
+          .findFirst().orElse(null);
+      if (category != null) {
+        double amount = entry.getValue() / 100.0; // Convert cents to dollars
+        Expenditures newExpenditure = new Expenditures(newConstructionSite, category, amount, month, year, "Initial expenditure");
+        newConstructionSite.addExpenditure(newExpenditure);
+      } else {
+        System.err.println("Category not found: " + categoryName);
+      }
+    }
+    system1.registerConstructionSite(selectedOwner, selectedForeman, permitNumber, address, month, year, totalBudget);
+
+    // Clear form fields
+    PermitNumberInput.setText("");
+    AdressInput.setText("");
+    MonthInput.setValue(1);
+    YearsInput.setValue(2024);
+    totalPresupuestoLoad.setText("0");
+    selectedRubros.clear();
+    updateRubroPanel(); // Update rubro panel to reflect changes
+
+    JOptionPane.showMessageDialog(null, "Obra registrada exitosamente!");
+  }
+
+  private boolean isValidPermitNumber(String permitNumber) {
+    try {
+      Integer.parseInt(permitNumber);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  
+    }//GEN-LAST:event_AddButtonMouseClicked
+private void updateRubroPanel() {
+  panelRubros.removeAll(); // Remove existing buttons
+
+  for (Category category : system1.obtainCategories()) {
+    JButton rubroButton = new JButton(category.getName());
+    rubroButton.setMargin(new Insets(-5, -5, -5, -5));
+    rubroButton.setBackground(Color.BLACK);
+    rubroButton.setForeground(Color.WHITE);
+
+    // Check if rubro is already selected
+    int amount = selectedRubros.getOrDefault(rubroButton, 0);
+    if (amount > 0) {
+      rubroButton.setBackground(Color.BLUE);
+      rubroButton.setText("<html>" + category.getName() + "<br>$" + String.format("%.2f", amount / 100.0) + "</html>"); // Update button text with amount
+    }
+
+    rubroButton.addActionListener(new RubroListener());
+    panelRubros.add(rubroButton);
+  }
+
+  panelRubros.revalidate();
+  panelRubros.repaint();
+}
     /**
      * @param args the command line arguments
      */
@@ -319,3 +432,4 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     // End of variables declaration//GEN-END:variables
 
 }
+
