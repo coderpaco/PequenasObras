@@ -1,62 +1,56 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package domain;
-import domain.Foreman;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Formatter;
-import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-/**
- *
- * @author diego
- */
 public class FileManager {
-         public static void saveForemanToFile(Foreman foreman) {
-        try {
-            Formatter formatter = new Formatter("foremen.txt");
-            formatter.format("%s;%s;%s;%d%n", foreman.getName(), foreman.getId(), foreman.getAddress(), foreman.getYear());
-            formatter.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error al guardar el archivo: " + e.getMessage());
-        }
-    }
-      public static void saveOwnerToFile(Owner owner) {
-        try {
-            Formatter formatter = new Formatter("owners.txt");
-            formatter.format("%s;%s;%s;%s%n", owner.getName(), owner.getId(), owner.getAddress(), owner.getCellphone());
-            formatter.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error al guardar el archivo: " + e.getMessage());
-        }
-    }
-
-
-    public static List<Foreman> loadForemenFromFile() {
-        List<Foreman> foremen = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File("foremen.txt"))) {
-            while (scanner.hasNextLine()) {
-                String[] data = scanner.nextLine().split(";");
-                String name = data[0];
-                String id = data[1];
-                String address = data[2];
-                int year = Integer.parseInt(data[3]);
-                Foreman foreman = new Foreman(name, id, address, year);
-                foremen.add(foreman);
-            }
+    
+    public static void saveToFile(List<Foreman> foremen, List<Owner> owners, List<ConstructionSite> constructionSites, List<Category> categories, Map<String, Category> categoriesMap) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data.ser"))) {
+           oos.writeObject(foremen);
+           oos.writeObject(owners);
+           oos.writeObject(constructionSites);
+           oos.writeObject(categories);
+           oos.writeObject(categoriesMap);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error saving to file: " + e.getMessage());
         }
-        return foremen;
     }
+        
+    public static Object[] loadFromFile() {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.ser"))) {
+                List<Foreman> foremen = (List<Foreman>) ois.readObject();
+                List<Owner> owners = (List<Owner>) ois.readObject();
+                List<ConstructionSite> constructionSites = (List<ConstructionSite>) ois.readObject();
+                List<Category> categories = (List<Category>) ois.readObject();
+                Map<String, Category> categoriesMap = (Map<String, Category>) ois.readObject();
+                return new Object[] {foremen, owners, constructionSites, categories, categoriesMap};
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+                return null;
+            }
+    }
+    
+    // Load only categories from the file
+    public static Object[] loadCategoriesFromFile() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.ser"))) {
+            ois.readObject(); // Skip foremen
+            ois.readObject(); // Skip owners
+            ois.readObject(); // Skip constructionSites
+            List<Category> categories = (List<Category>) ois.readObject();
+            Map<String, Category> categoriesMap = (Map<String, Category>) ois.readObject();
+            return new Object[] {categories, categoriesMap};
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
       /*   public static ArrayList<Foreman> loadForemenFromFile() {
         ArrayList<Foreman> foremen = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FOREMAN_FILE_PATH))) {

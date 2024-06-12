@@ -1,8 +1,9 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Owner {
+public class Owner implements Serializable{
     private String name;
     private String id;
     private String address;

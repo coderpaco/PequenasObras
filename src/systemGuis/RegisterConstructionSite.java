@@ -12,7 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class RegisterConstructionSite extends javax.swing.JFrame implements Observer {
-
+    
     private ConstructionsManagementSystem system1;
     private DefaultListModel<String> ownerListModel;
     private DefaultListModel<String> foremanListModel;
@@ -57,7 +57,9 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     
     private void loadPanelRubros(){
         categoryListModel.clear();
+        
         List<Category> categories = system1.obtainCategories();
+        
         for (Category category : categories) {
             JButton nuevo = new JButton(category.getName());
             nuevo.setMargin(new Insets(-5, -5, -5, -5));

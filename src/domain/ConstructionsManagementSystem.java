@@ -21,6 +21,11 @@ public class ConstructionsManagementSystem extends Observable{
        this.constructionSites = new ArrayList<>();
        this.categories = new ArrayList<>();
        this.categoriesMap = new HashMap<>();
+       
+       Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+           FileManager.saveToFile(foremen, owners, constructionSites, categories, categoriesMap);
+           System.out.println("Data saved to data.ser on shutdown.");
+       }));
    }
    
    // Métodos para registrar/modificar rubro
@@ -46,24 +51,22 @@ public class ConstructionsManagementSystem extends Observable{
    }
    
    // Métodos para registrar capataz
-   public boolean registerForeman(String name, String id, String address, int yearHired) {
-       Foreman newForeman = new Foreman(name, id, address, yearHired);
-       boolean isUnique = true;
-       for (Foreman f : this.obtainForemen()){
-           System.out.println(f);
-           if (f.equals(newForeman)){
-               isUnique = false; //return false bc it exists
-               break;
-           }
-       }
-       if (isUnique){
+      public boolean registerForeman(String name, String id, String address, int yearHired) {
+        Foreman newForeman = new Foreman(name, id, address, yearHired);
+        boolean isUnique = true;
+        for (Foreman f : this.obtainForemen()) {
+            if (f.equals(newForeman)) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
             foremen.add(newForeman);
             somethingChanged();
-            System.out.println(this.obtainForemen());
-            FileManager.saveForemanToFile(newForeman);
-       }
-       return isUnique;
-   }
+            //saveAllData(); only save on shutdown, so moved this out
+        }
+        return isUnique;
+    }
 
    public List<Foreman> obtainForemen() {
        return new ArrayList<>(foremen);
@@ -71,27 +74,50 @@ public class ConstructionsManagementSystem extends Observable{
 
    // Métodos para registrar propietario 
    public boolean registerOwner(String name, String id, String address, int cellphone) {
-       Owner newOwner = new Owner(name, id, address, cellphone);
-       boolean isUnique = true;
-       for (Owner o: this.obtainOwners()){
-           System.out.println(o);
-           if (o.equals(newOwner)){
-               isUnique = false;
-               break;
-           }
-       }
-       if (isUnique){
-           owners.add(newOwner);
-           somethingChanged();
-           System.out.println(this.obtainOwners());
-           FileManager.saveOwnerToFile(newOwner);
-       }
-       return isUnique;
-   }
+        Owner newOwner = new Owner(name, id, address, cellphone);
+        boolean isUnique = true;
+        for (Owner o : this.obtainOwners()) {
+            if (o.equals(newOwner)) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
+            owners.add(newOwner);
+            somethingChanged();
+            //saveAllData(); only save on shutdown, so moved this out
+        }
+        return isUnique;
+    }
 
    public List<Owner> obtainOwners() {
        return new ArrayList<>(owners);
    }
+   
+       public void setForemen(List<Foreman> foremen) {
+        this.foremen = foremen;
+    }
+
+    public void setOwners(List<Owner> owners) {
+        this.owners = owners;
+    }
+
+    public void setConstructionSites(List<ConstructionSite> constructionSites) {
+        this.constructionSites = constructionSites;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void setCategoriesMap(Map<String, Category> categoriesMap) {
+        this.categoriesMap = categoriesMap;
+    }
+   
+   /*
+   private void saveAllData() {
+        FileManager.saveToFile(foremen, owners);
+    }*/
 
    // Métodos para registrar obra
    public void registerConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget) {

@@ -2,8 +2,9 @@ package domain;
 
 import domain.ConstructionSite;
 import domain.Category;
+import java.io.Serializable;
 
-public class Expenditures {
+public class Expenditures implements Serializable{
     // Atributos de la clase
     private ConstructionSite constructionSite;
     private Category category;
