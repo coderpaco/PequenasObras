@@ -36,21 +36,6 @@ public class FileManager {
             }
     }
     
-    // Load only categories from the file
-    public static Object[] loadCategoriesFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.ser"))) {
-            ois.readObject(); // Skip foremen
-            ois.readObject(); // Skip owners
-            ois.readObject(); // Skip constructionSites
-            List<Category> categories = (List<Category>) ois.readObject();
-            Map<String, Category> categoriesMap = (Map<String, Category>) ois.readObject();
-            return new Object[] {categories, categoriesMap};
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
       /*   public static ArrayList<Foreman> loadForemenFromFile() {
         ArrayList<Foreman> foremen = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FOREMAN_FILE_PATH))) {

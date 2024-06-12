@@ -125,13 +125,15 @@ public class OptionChooser extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Object[] data = FileManager.loadCategoriesFromFile();
-            if (data != null) {
-                system1.setCategories((List<Category>) data[0]);
-                system1.setCategoriesMap((Map<String, Category>) data[1]);
-                System.out.println("Categories loaded.");
-            }
-            dispose();
+        system1.registerCategory("Sanitaria","Reparación de Sanitaria");
+        system1.registerCategory("Eléctrica","Instalación Eléctrica");
+        system1.registerCategory("Carpintería","Trabajo en Madera");
+        system1.registerCategory("Albañilería","Reparación de Paredes");
+        system1.registerCategory("Pisos","Instalación de pisos");
+        system1.registerCategory("Cambio de Ventanas","Reemplazo de Ventanas");
+        system1.registerCategory("Baño","Remodelación de Baño");
+        system1.registerCategory("Cocina","Renovación de Cocina");
+        system1.registerCategory("Aislamiento Térmico","Mejora Térmica");
         MainMenu window = new MainMenu(system1); //only categories system gata
         window.setVisible(true);
         window.setLocationRelativeTo(null);
