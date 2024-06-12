@@ -1,9 +1,10 @@
 package domain;
 import domain.Category;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConstructionSite {
+public class ConstructionSite implements Serializable{
   // Atributos de la clase
   private Owner owner;
   private Foreman foreman;

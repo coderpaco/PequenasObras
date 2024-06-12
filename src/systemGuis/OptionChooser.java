@@ -1,6 +1,8 @@
 package systemGuis;
 
 import domain.*;
+import java.util.List;
+import java.util.Map;
 
 public class OptionChooser extends javax.swing.JFrame {
 
@@ -98,21 +100,39 @@ public class OptionChooser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        MainMenu window = new MainMenu(system1);    
+        MainMenu window = new MainMenu(system1);   //Empty new system  data
+        System.out.println("New data loaded.");
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        MainMenu window = new MainMenu(system1);
+        Object[] data = FileManager.loadFromFile();
+            if (data != null) {
+                system1.setForemen((List<Foreman>) data[0]);
+                system1.setOwners((List<Owner>) data[1]);
+                system1.setConstructionSites((List<ConstructionSite>) data[2]);
+                system1.setCategories((List<Category>) data[3]);
+                system1.setCategoriesMap((Map<String, Category>) data[4]);
+                System.out.println("Entire data loaded.");
+            }
+            dispose();
+        MainMenu window = new MainMenu(system1); //Old previous system data
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        MainMenu window = new MainMenu(system1);
+        Object[] data = FileManager.loadCategoriesFromFile();
+            if (data != null) {
+                system1.setCategories((List<Category>) data[0]);
+                system1.setCategoriesMap((Map<String, Category>) data[1]);
+                System.out.println("Categories loaded.");
+            }
+            dispose();
+        MainMenu window = new MainMenu(system1); //only categories system gata
         window.setVisible(true);
         window.setLocationRelativeTo(null);
         this.setVisible(false);

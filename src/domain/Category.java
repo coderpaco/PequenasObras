@@ -1,6 +1,8 @@
 package domain;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
     // class atributes
   private String name;
   private String description;
