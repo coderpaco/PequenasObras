@@ -318,7 +318,10 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     // Create and register the new construction site
     ConstructionSite newConstructionSite = new ConstructionSite(selectedOwner, selectedForeman, permitNumber, address, month, year, totalBudget);
     for (Map.Entry<JButton, Integer> entry : selectedRubros.entrySet()) {
-      String categoryName = entry.getKey().getText().split("\n")[0].trim();
+      //String categoryName = entry.getKey().getText().split("\n")[0].trim();
+      String buttonText = entry.getKey().getText();
+      String categoryName = buttonText.split("<br>")[0].replaceAll("<[^>]*>", "").trim();
+      System.out.println("Category Name: " + categoryName); //debug
       Category category = system1.obtainCategories().stream()
           .filter(c -> c.getName().equals(categoryName))
           .findFirst().orElse(null);

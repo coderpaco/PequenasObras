@@ -175,6 +175,24 @@ public class ExpendituresPayment extends javax.swing.JFrame implements Observer 
         }
     }//GEN-LAST:event_payButtonMouseClicked
 
+    private void constructionListValueChanged(javax.swing.event.ListSelectionEvent evt) {
+    int selectedIndex = constructionList.getSelectedIndex();
+    if (selectedIndex != -1) {
+        selectedSite = constructionSites.get(selectedIndex);
+        loadExpenditures(selectedSite);
+    }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("Something Changed, updating Expenditures!");
+        loadConstructionSites();
+        for (ConstructionSite site : constructionSites){
+            System.out.println(site);
+        }
+        //loadExpenditures();
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -210,14 +228,6 @@ public class ExpendituresPayment extends javax.swing.JFrame implements Observer 
             }
         });
     }
-private void constructionListValueChanged(javax.swing.event.ListSelectionEvent evt) {
-    int selectedIndex = constructionList.getSelectedIndex();
-    if (selectedIndex != -1) {
-        selectedSite = constructionSites.get(selectedIndex);
-        loadExpenditures(selectedSite);
-    }
-}
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel PaidExpendituresLabel;
@@ -231,9 +241,4 @@ private void constructionListValueChanged(javax.swing.event.ListSelectionEvent e
     private javax.swing.JList<String> notPayedExpendituresList;
     private javax.swing.JButton payButton;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
