@@ -184,24 +184,5 @@ public class ConstructionsManagementSystem extends Observable{
    public void RegisterExpendituresForConstruction(){
        //logic here
    }
-   /*
-   public ConstructionSite createConstructionSite(int permitNumber, String address, int startMonth, int startYear, List<Owner> owners, List<Foreman> foremen, Map<JButton, Integer> selectedRubros) {
-    double totalBudget = 0;
-    for (int amount : selectedRubros.values()) {
-        totalBudget += amount;
-    }
-    totalBudget /= 100; // Convert cents to dollars
-
-    ConstructionSite newConstructionSite = new ConstructionSite(permitNumber, address, startMonth, startYear, owners, foremen, totalBudget);
-    for (Map.Entry<JButton, Integer> entry : selectedRubros.entrySet()) {
-        String categoryName = entry.getKey().getText().split("\n")[0].trim();
-        Category category = categoriesMap.get(categoryName);
-        double amount = entry.getValue() / 100.0; // Convert cents to dollars
-        Expenditures newExpenditures = new Expenditures(newConstructionSite, category, amount, startMonth, startYear, "Initial expenditure");
-        newConstructionSite.addExpenditure(newExpenditures);
-    }
-    constructionSites.add(newConstructionSite);
-    somethingChanged();
-    return newConstructionSite;
-}*/
+ 
 }

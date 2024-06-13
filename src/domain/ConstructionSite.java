@@ -92,6 +92,26 @@ public class ConstructionSite implements Serializable{
   public void addExpenditure(Expenditures expenditure) {
       this.expenditures.add(expenditure);
   }
+    public List<Expenditures> getUnpaidExpenditures() {
+        List<Expenditures> unpaidExpenditures = new ArrayList<>();
+        for (Expenditures expenditure : expenditures) {
+            if (!expenditure.isPaid()) {
+                unpaidExpenditures.add(expenditure);
+            }
+        }
+        return unpaidExpenditures;
+    }
+
+    public List<Expenditures> getPaidExpenditures() {
+        List<Expenditures> paidExpenditures = new ArrayList<>();
+        for (Expenditures expenditure : expenditures) {
+            if (expenditure.isPaid()) {
+                paidExpenditures.add(expenditure);
+            }
+        }
+        return paidExpenditures;
+    }
+
 
   //Métodos para calcular los totales
   public double calculateTotalExpenditures() {

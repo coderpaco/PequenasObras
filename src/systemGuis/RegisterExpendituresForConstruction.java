@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Observable;
 import javax.swing.DefaultListModel;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 
-public class RegisterExpendituresForConstruction extends javax.swing.JFrame implements Observer{
+public class RegisterExpendituresForConstruction extends javax.swing.JFrame implements Observer {
 
     private ConstructionsManagementSystem system1;
     private DefaultListModel<String> ConstructionSiteListModel;
     private DefaultListModel<String> CategoryListModel;
 
-    
     public RegisterExpendituresForConstruction(ConstructionsManagementSystem system) {
         system1 = system;
         ConstructionSiteListModel = new DefaultListModel<>();
@@ -25,13 +25,13 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame impl
         loadCategories();
         system1.addObserver(this);
     }
+
     private void loadConstructionSites() {
         ConstructionSiteListModel.clear();
         List<ConstructionSite> constructions = system1.obtainConstructionSites();
         for (ConstructionSite construction : constructions) {
-            ConstructionSiteListModel.addElement(construction.getPermitNumber());
-            ConstructionSiteListModel.addElement(construction.getAddress());
-            
+            String combinedInfo = construction.getPermitNumber() + " - " + construction.getAddress();
+            ConstructionSiteListModel.addElement(combinedInfo);
         }
         listConstructions.setModel(ConstructionSiteListModel);
     }
@@ -44,15 +44,16 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame impl
         }
         listCategories.setModel(CategoryListModel);
     }
-    
+
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof ConstructionsManagementSystem){
+        if (o instanceof ConstructionsManagementSystem) {
             //ConstructionsManagementSystem systemData = (ConstructionsManagementSystem) o;
             loadConstructionSites();
             loadCategories();
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -175,10 +176,78 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame impl
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // BUTTON CLICK CODE
+   // Get selected construction site
+        int selectedConstructionIndex = listConstructions.getSelectedIndex();
+        if (selectedConstructionIndex == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una obra.");
+            return;
+        }
+
+        // Get selected category
+        int selectedCategoryIndex = listCategories.getSelectedIndex();
+        if (selectedCategoryIndex == -1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un rubro.");
+            return;
+        }
+
+        // Validate amount
+        String amountString = InputAmmount.getText().trim();
+        if (amountString.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un monto.");
+            return;
+        }
+        double amount;
+        try {
+            amount = Double.parseDouble(amountString);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Monto inválido. Debe ser un número.");
+            return;
+        }
+        if (amount <= 0) {
+            JOptionPane.showMessageDialog(null, "Monto debe ser un número positivo.");
+            return;
+        }
+
+        // Validate month and year
+        int month = (Integer) MonthInput.getValue();
+        int year = (Integer) inputYear.getValue();
+
+        // Validate description
+        String description = inputDescription.getText().trim();
+        if (description.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una descripción.");
+            return;
+        }
+
+        // Get selected construction site object
+        ConstructionSite selectedConstructionSite = system1.obtainConstructionSites().get(selectedConstructionIndex);
+
+        // Get selected category object
+        Category selectedCategory = system1.obtainCategories().get(selectedCategoryIndex);
+
+        // Register expenditure
+        Expenditures newExpenditure = new Expenditures(selectedConstructionSite, selectedCategory, amount, month, year, description);
+        system1.registerExpenditures(
+                newExpenditure.getConstructionSite(),
+                newExpenditure.getCategory(),
+                newExpenditure.getAmount(),
+                newExpenditure.getMonth(),
+                newExpenditure.getYear(),
+                newExpenditure.getDescription()
+        );
+
+        // Clear form fields
+        listConstructions.setSelectedIndex(-1);
+        listCategories.setSelectedIndex(-1);
+        InputAmmount.setText("");
+        MonthInput.setValue(1);
+        inputYear.setValue(2024);
+        inputDescription.setText("");
+
+        JOptionPane.showMessageDialog(null, "Gasto registrado exitosamente!");
+
     }//GEN-LAST:event_jButton1MouseClicked
 
-  
     /**
      * @param args the command line arguments
      */
@@ -209,6 +278,7 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame impl
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                 ConstructionsManagementSystem system = new ConstructionsManagementSystem();
                 new RegisterExpendituresForConstruction(system1).setVisible(true);
             }
         });
