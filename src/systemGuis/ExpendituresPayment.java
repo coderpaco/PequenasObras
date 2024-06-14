@@ -12,64 +12,66 @@ import javax.swing.event.ListSelectionListener;
 
 public class ExpendituresPayment extends javax.swing.JFrame implements Observer {
 
-    private ConstructionsManagementSystem system1;
-    private DefaultListModel<String> ConstructionSiteListModel;
-    private DefaultListModel<String> unpaidModel;
-    private DefaultListModel<String> paidModel;
-    private List<ConstructionSite> constructionSites;
-    private ConstructionSite selectedSite;
-    
-    
-    public ExpendituresPayment(ConstructionsManagementSystem system) {
-        system1 = system;
-        initComponents();
-        system1.addObserver(this);
-        ConstructionSiteListModel = new DefaultListModel<>();
-        unpaidModel = new DefaultListModel<>();
-        paidModel = new DefaultListModel<>();
-        loadConstructionSites();
+  private ConstructionsManagementSystem system;
+  private DefaultListModel<String> constructionSiteListModel;
+  private DefaultListModel<String> unpaidModel;
+  private DefaultListModel<String> paidModel;
+  private List<ConstructionSite> constructionSites;
+  private ConstructionSite selectedSite;
 
-        // Add a ListSelectionListener to constructionList
-        constructionList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedIndex = constructionList.getSelectedIndex();
-                    if (selectedIndex != -1) {
-                        selectedSite = constructionSites.get(selectedIndex);
-                        loadExpenditures(selectedSite);
-                    }
-                }
-            }
-        });
-    }
-    
-  
-    private void loadConstructionSites() {
-        ConstructionSiteListModel.clear();
-        constructionSites = system1.obtainConstructionSites();
-        for (ConstructionSite site : constructionSites) {
-            ConstructionSiteListModel.addElement(site.getAddress());
+  public ExpendituresPayment(ConstructionsManagementSystem system) {
+    this.system = system;
+    initComponents();
+    this.system.addObserver(this);
+    constructionSiteListModel = new DefaultListModel<>();
+    unpaidModel = new DefaultListModel<>();
+    paidModel = new DefaultListModel<>();
+    loadConstructionSites();
+
+    constructionList.addListSelectionListener(new ListSelectionListener() {
+      @Override
+      public void valueChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+          int selectedIndex = constructionList.getSelectedIndex();
+          if (selectedIndex != -1) {
+            selectedSite = constructionSites.get(selectedIndex);
+            loadExpenditures(selectedSite);
+          }
         }
-        constructionList.setModel(ConstructionSiteListModel);
-    }
+      }
+    });
+  }
 
-   private void loadExpenditures(ConstructionSite site) {
-    unpaidModel.clear();
-    paidModel.clear();
-
-    // Get unpaid expenditures for the selected construction site
-    List<Expenditures> unpaidExpenditures = site.getUnpaidExpenditures();
-    
-    // Populate notPayedExpendituresList with the descriptions and amounts of unpaid expenditures
-    for (Expenditures expenditure : unpaidExpenditures) {
-        unpaidModel.addElement(expenditure.getDescription() + " - " + expenditure.getAmount());
+  private void loadConstructionSites() {
+    constructionSiteListModel.clear();
+    constructionSites = system.obtainConstructionSites();
+    for (ConstructionSite site : constructionSites) {
+      constructionSiteListModel.addElement(site.getAddress());
     }
+    constructionList.setModel(constructionSiteListModel);
+  }
 
-    // Populate paidModel with paid expenditures
-    for (Expenditures expenditure : site.getPaidExpenditures()) {
-        paidModel.addElement(expenditure.getDescription() + " - " + expenditure.getAmount());
-    }
+ private void loadExpenditures(ConstructionSite site) {
+  unpaidModel.clear();
+  paidModel.clear();
+
+  // Get all expenditure descriptions (assuming methods exist)
+  List<Expenditures> unpaidExpenditures = site.getUnpaidExpenditures();
+  List<Expenditures> paidExpenditures = site.getPaidExpenditures(); // Added line
+
+  // Add descriptions to respective models
+  for (Expenditures expenditure : unpaidExpenditures) {
+    String description = expenditure.getDescription();
+    unpaidModel.addElement(description);
+  }
+
+  for (Expenditures expenditure : paidExpenditures) {
+    String description = expenditure.getDescription();
+    paidModel.addElement(description);
+  }
+
+  notPayedExpendituresList.setModel(unpaidModel);
+  PaidExpendituresList.setModel(paidModel);
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -163,15 +165,17 @@ public class ExpendituresPayment extends javax.swing.JFrame implements Observer 
              int selectedIndex = notPayedExpendituresList.getSelectedIndex();
         if (selectedIndex != -1) {
             String selectedExpenditure = unpaidModel.getElementAt(selectedIndex);
-            ConstructionSite selectedSite = system1.obtainConstructionSites().get(constructionList.getSelectedIndex());
-
             for (Expenditures expenditure : selectedSite.getUnpaidExpenditures()) {
-                if ((expenditure.getDescription() + " - " + expenditure.getAmount()).equals(selectedExpenditure)) {
-                    system1.registerPaymentExpenditure(selectedSite, expenditure);
+                if ((expenditure.getDescription()).equals(selectedExpenditure)) {
+                    int response = JOptionPane.showConfirmDialog(null, "¿Desea pagar este gasto?", "Confirmar pago", JOptionPane.YES_NO_OPTION);
+                    if (response == JOptionPane.YES_OPTION) {
+                        system.registerPaymentExpenditure(selectedSite, expenditure);
+                        JOptionPane.showMessageDialog(null, "Este gasto ha sido pagado");
+                        loadExpenditures(selectedSite);
+                    }
                     break;
                 }
             }
-            loadExpenditures(selectedSite);
         }
     }//GEN-LAST:event_payButtonMouseClicked
 
@@ -183,15 +187,15 @@ public class ExpendituresPayment extends javax.swing.JFrame implements Observer 
     }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        System.out.println("Something Changed, updating Expenditures!");
-        loadConstructionSites();
-        for (ConstructionSite site : constructionSites){
-            System.out.println(site);
-        }
-        //loadExpenditures();
-    }
+   @Override
+public void update(Observable o, Object arg) {
+  System.out.println("Something Changed, updating Expenditures!");
+  loadConstructionSites();
+  // Update expenditures for the selected site as well
+  if (selectedSite != null) {
+    loadExpenditures(selectedSite);
+  }
+}
     
     /**
      * @param args the command line arguments

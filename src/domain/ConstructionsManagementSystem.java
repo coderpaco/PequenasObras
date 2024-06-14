@@ -135,13 +135,11 @@ public class ConstructionsManagementSystem extends Observable{
        Expenditures newExpenditures = new Expenditures(constructionSite, category, amount, month, year, description);
        constructionSite.addExpenditure(newExpenditures);
        somethingChanged();
+     
    }
 
    // Métodos para registrar pago de gasto
-   public void registerPaymentExpenditure(ConstructionSite constructionSite, Expenditures expenditures) {
-       expenditures.setPaid(true);
-       somethingChanged();
-   }
+ 
 
    // Métodos para obtener estado de obra
    public String obtainConstructionSiteStatus(ConstructionSite constructionSite) {
@@ -184,5 +182,10 @@ public class ConstructionsManagementSystem extends Observable{
    public void RegisterExpendituresForConstruction(){
        //logic here
    }
+   public void registerPaymentExpenditure(ConstructionSite site, Expenditures expenditure) {
+  // Register payment logic (assuming implemented)
+  expenditure.setPaid(true); // Set expenditure to paid
+  notifyObservers(); // Inform observers about the change
+}
  
 }
