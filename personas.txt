@@ -1,0 +1,4 @@
+Propetarios: 
+Owner{name='Mike', id='7654321', address='Ay 321', cellphone='987654321'}
+Capataces: 
+Foreman{name='Alex', id='1234567', address='Yi 123', year=1999}

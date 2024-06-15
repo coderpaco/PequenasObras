@@ -170,9 +170,9 @@ public class ConstructionsManagementSystem extends Observable{
 
        return status.toString();
    }
-   public void exportData(String filename, int option) {
+   public void exportData(String filename, int option) { // if option is 0 save via id if 1 or anything else save via name
         RecordFile recordFile = null;
-        if(option == 1){
+        if(option == 0){
             try {
                 System.out.println("saving via ID number creciente");
                 recordFile = new RecordFile(filename);
@@ -194,7 +194,7 @@ public class ConstructionsManagementSystem extends Observable{
                     recordFile.close(); // Close the file
                 }
             }
-        } else{
+        } else{ //if not 0
             try {
                 System.out.println("saving via nombre creciente");
                 

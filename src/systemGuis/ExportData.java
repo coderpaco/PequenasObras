@@ -62,7 +62,7 @@ public class ExportData extends javax.swing.JFrame {
             }
         });
         getContentPane().add(ExportButton);
-        ExportButton.setBounds(200, 90, 75, 23);
+        ExportButton.setBounds(174, 90, 100, 23);
 
         setBounds(0, 0, 319, 141);
     }// </editor-fold>//GEN-END:initComponents
@@ -72,12 +72,12 @@ public class ExportData extends javax.swing.JFrame {
     }//GEN-LAST:event_OrderOfExportationActionPerformed
 
     private void ExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportButtonActionPerformed
-    JFileChooser fileChooser = new JFileChooser();
-    if (fileChooser.showSaveDialog(ExportData.this) == JFileChooser.APPROVE_OPTION) {
-        String filename = fileChooser.getSelectedFile().getAbsolutePath();
-        system1.exportData(filename);
-        JOptionPane.showMessageDialog(ExportData.this, "Data exported successfully!");
-    }
+    String filename = "personas.txt";
+     //id, which is default, but implement code to check the menu selected option
+    int selectedParamIndex = OrderOfExportation.getSelectedIndex(); //if default is selected, returns 0
+    //code to check option here
+    system1.exportData(filename, selectedParamIndex);
+    JOptionPane.showMessageDialog(ExportData.this, "Data exported successfully!");
     }//GEN-LAST:event_ExportButtonActionPerformed
 
     private void ExportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportButtonMouseClicked
