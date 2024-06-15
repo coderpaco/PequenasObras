@@ -26,6 +26,9 @@ public class ExpendituresPayment extends javax.swing.JFrame implements Observer 
     constructionSiteListModel = new DefaultListModel<>();
     unpaidModel = new DefaultListModel<>();
     paidModel = new DefaultListModel<>();
+    constructionList.setModel(new DefaultListModel<>());
+    notPayedExpendituresList.setModel(new DefaultListModel<>());
+    PaidExpendituresList.setModel(new DefaultListModel<>());
     loadConstructionSites();
 
     constructionList.addListSelectionListener(new ListSelectionListener() {

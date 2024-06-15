@@ -14,6 +14,7 @@ public class ConstructionSite implements Serializable{
   private int startYear;
   private double totalBudget;
   private List<Expenditures> expenditures;
+  private List<Category> categories;
 
   // Constructor para inicializar los atributos
   public ConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget) {
@@ -25,6 +26,7 @@ public class ConstructionSite implements Serializable{
       this.startYear = startYear;
       this.totalBudget = totalBudget;
       this.expenditures = new ArrayList<>();
+      this.categories = new ArrayList<>();
   }
 
   // Métodos getter y setter para cada atributo
@@ -87,7 +89,9 @@ public class ConstructionSite implements Serializable{
   public List<Expenditures> getExpenditures() {
       return expenditures;
   }
-
+    public List<Category> getCategories(){
+        return categories;
+    }
   // Método para agregar un gasto a la lista de gastos
   public void addExpenditure(Expenditures expenditure) {
       this.expenditures.add(expenditure);
@@ -179,6 +183,11 @@ public class ConstructionSite implements Serializable{
               ", startYear=" + startYear +
               ", totalBudget=" + totalBudget +
               ", expenditures=" + expenditures +
+              ", categories=" + categories +
               '}';
   }
+
+    public Category getCategoryByName(Category categoryName) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

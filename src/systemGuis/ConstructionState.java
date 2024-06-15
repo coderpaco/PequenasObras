@@ -4,25 +4,44 @@ import domain.*;
 import java.util.*;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListModel;
+
 
 public class ConstructionState extends javax.swing.JFrame implements Observer{
     
-    private ConstructionsManagementSystem system1;
-    
+  private ConstructionsManagementSystem system1;
+    private DefaultListModel<String> constructionSiteListModel;
+    private DefaultListModel<String> categoryListModel;
+
     public ConstructionState(ConstructionsManagementSystem system) {
         system1 = system;
         initComponents();
         system1.addObserver(this);
+
+        // Initialize the list models and set them to the respective JLists
+        constructionSiteListModel = new DefaultListModel<>();
+        categoryListModel = new DefaultListModel<>();
+        
+        ConstructionList.setModel(constructionSiteListModel);
+        categoryConstruction.setModel(categoryListModel);
+        
+        // Load the construction sites
+        loadConstructionSites();
     }
 
-    
-    
-    
+    private void loadConstructionSites() {
+        constructionSiteListModel.clear();  // Clear the list model
+        List<ConstructionSite> constructionSites = system1.obtainConstructionSites();  // Fetch construction sites
+        
+        for (ConstructionSite site : constructionSites) {
+            constructionSiteListModel.addElement(site.getAddress());  // Add each site's address to the list model
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof ConstructionsManagementSystem){
-            //Here the methods will go that load the data once theyre implemented
-            //example: loadRubros();
+        if (o instanceof ConstructionsManagementSystem) {
+            loadConstructionSites();  // Update the list of construction sites
         }
     }
     /**
@@ -39,7 +58,7 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         ConstructionList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        categoryConstruction = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
@@ -59,16 +78,18 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
+        inputPlaned = new javax.swing.JLabel();
+        inputRegistered = new javax.swing.JLabel();
+        totalExpenditures = new javax.swing.JLabel();
+        ExpendituresNotGivenBack = new javax.swing.JLabel();
+        rest = new javax.swing.JLabel();
+        loadFOremanName = new javax.swing.JLabel();
+        loadOwnerName = new javax.swing.JLabel();
+        loadStartConstruction = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Estado de Obra");
         setMinimumSize(new java.awt.Dimension(350, 425));
-        setPreferredSize(new java.awt.Dimension(350, 425));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -81,6 +102,11 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        ConstructionList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                ConstructionListValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(ConstructionList);
 
         getContentPane().add(jScrollPane1);
@@ -90,12 +116,12 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         getContentPane().add(jLabel1);
         jLabel1.setBounds(10, 150, 190, 16);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        categoryConstruction.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(categoryConstruction);
 
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(10, 170, 190, 146);
@@ -178,70 +204,44 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
 
         jLabel11.setText("Saldo:");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(660, 80, 43, 16);
+        jLabel11.setBounds(650, 110, 43, 16);
 
         jLabel12.setText("Total Presupuestado:");
         getContentPane().add(jLabel12);
         jLabel12.setBounds(240, 70, 140, 16);
 
-        jTextField5.setBackground(new java.awt.Color(242, 242, 242));
-        jTextField5.setText("0");
-        jTextField5.setDisabledTextColor(new java.awt.Color(242, 242, 242));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField5);
-        jTextField5.setBounds(410, 82, 30, 20);
+        inputPlaned.setText("0");
+        getContentPane().add(inputPlaned);
+        inputPlaned.setBounds(410, 70, 43, 16);
 
-        jTextField6.setBackground(new java.awt.Color(242, 242, 242));
-        jTextField6.setText("0");
-        jTextField6.setCaretColor(new java.awt.Color(242, 242, 242));
-        jTextField6.setDisabledTextColor(new java.awt.Color(242, 242, 242));
-        jTextField6.setSelectionColor(new java.awt.Color(242, 242, 242));
-        getContentPane().add(jTextField6);
-        jTextField6.setBounds(410, 62, 30, 20);
+        inputRegistered.setText("0");
+        getContentPane().add(inputRegistered);
+        inputRegistered.setBounds(410, 90, 70, 16);
 
-        jTextField7.setBackground(new java.awt.Color(242, 242, 242));
-        jTextField7.setText("0");
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField7);
-        jTextField7.setBounds(550, 60, 30, 20);
+        totalExpenditures.setText("0");
+        getContentPane().add(totalExpenditures);
+        totalExpenditures.setBounds(620, 60, 90, 16);
 
-        jTextField8.setBackground(new java.awt.Color(242, 242, 242));
-        jTextField8.setText("0");
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField8);
-        jTextField8.setBounds(620, 80, 30, 20);
+        ExpendituresNotGivenBack.setText("0");
+        getContentPane().add(ExpendituresNotGivenBack);
+        ExpendituresNotGivenBack.setBounds(640, 80, 20, 16);
 
-        jTextField9.setBackground(new java.awt.Color(242, 242, 242));
-        jTextField9.setText("0");
-        getContentPane().add(jTextField9);
-        jTextField9.setBounds(700, 80, 30, 20);
+        rest.setText("0");
+        getContentPane().add(rest);
+        rest.setBounds(690, 110, 43, 16);
+        getContentPane().add(loadFOremanName);
+        loadFOremanName.setBounds(590, 20, 0, 0);
+        getContentPane().add(loadOwnerName);
+        loadOwnerName.setBounds(370, 20, 0, 0);
+        getContentPane().add(loadStartConstruction);
+        loadStartConstruction.setBounds(380, 50, 0, 0);
 
         setBounds(0, 0, 762, 400);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void ConstructionListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ConstructionListValueChanged
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_ConstructionListValueChanged
 
     /**
      * @param args the command line arguments
@@ -281,6 +281,10 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> ConstructionList;
     private javax.swing.JLabel ConstructionListTitle;
+    private javax.swing.JLabel ExpendituresNotGivenBack;
+    private javax.swing.JList<String> categoryConstruction;
+    private javax.swing.JLabel inputPlaned;
+    private javax.swing.JLabel inputRegistered;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -293,7 +297,6 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JList<String> jList3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -304,10 +307,10 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel loadFOremanName;
+    private javax.swing.JLabel loadOwnerName;
+    private javax.swing.JLabel loadStartConstruction;
+    private javax.swing.JLabel rest;
+    private javax.swing.JLabel totalExpenditures;
     // End of variables declaration//GEN-END:variables
 }
