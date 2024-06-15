@@ -31,10 +31,15 @@ public class Category implements Serializable {
   }
 
   @Override
-  public String toString() {
-      return "Category{" +
-              "name='" + name + '\'' +
-              ", description='" + description + '\'' +
-              '}';
-  }
+    public String toString() {
+        return "Category{" +
+            "name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            '}';
+    }
+    public static Category fromString(String str) {
+        String name = str.split("name='")[1].split("'")[0];
+        String description = str.split("id='")[1].split("'")[0];
+        return new Category(name, description);
+    }
 }

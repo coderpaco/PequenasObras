@@ -55,4 +55,12 @@ public class Foreman implements Serializable{
                 ", year=" + year +
                 '}';
     }
+    public static Foreman fromString(String str) {
+        String name = str.split("name='")[1].split("'")[0];
+        String id = str.split("id='")[1].split("'")[0];
+        String address = str.split("address='")[1].split("'")[0];
+        int year = Integer.parseInt(str.split("year=")[1].split("}")[0]);
+        return new Foreman(name, id, address, year);
+    }
+    
 }

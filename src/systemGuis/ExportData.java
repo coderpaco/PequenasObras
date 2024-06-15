@@ -1,6 +1,8 @@
 package systemGuis;
 
 import domain.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class ExportData extends javax.swing.JFrame {
 
@@ -39,7 +41,7 @@ public class ExportData extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(20, 20, 280, 16);
 
-        OrderOfExportation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        OrderOfExportation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Número de cédula creciente", "Nombre creciente" }));
         OrderOfExportation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OrderOfExportationActionPerformed(evt);
@@ -70,7 +72,12 @@ public class ExportData extends javax.swing.JFrame {
     }//GEN-LAST:event_OrderOfExportationActionPerformed
 
     private void ExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportButtonActionPerformed
-        // EXPORT BUTTON CLICKED CODE
+    JFileChooser fileChooser = new JFileChooser();
+    if (fileChooser.showSaveDialog(ExportData.this) == JFileChooser.APPROVE_OPTION) {
+        String filename = fileChooser.getSelectedFile().getAbsolutePath();
+        system1.exportData(filename);
+        JOptionPane.showMessageDialog(ExportData.this, "Data exported successfully!");
+    }
     }//GEN-LAST:event_ExportButtonActionPerformed
 
     private void ExportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportButtonMouseClicked

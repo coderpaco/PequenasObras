@@ -186,8 +186,62 @@ public class ConstructionSite implements Serializable{
               ", categories=" + categories +
               '}';
   }
+    public static ConstructionSite fromString(String str) {
+        str = str.replace("ConstructionSite{", "").replace("}", "");
 
-    public Category getCategoryByName(Category categoryName) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-}
+        String[] parts = str.split(", ");
+        Owner owner = null;
+        Foreman foreman = null;
+        String permitNumber = null;
+        String address = null;
+        int startMonth = 0;
+        int startYear = 0;
+        double totalBudget = 0;
+        List<Expenditures> expenditures = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
+
+        for (String part : parts) {
+            if (part.startsWith("owner=")) {
+                String ownerStr = part.substring("owner=".length());
+                owner = Owner.fromString(ownerStr);
+            } else if (part.startsWith("foreman=")) {
+                String foremanStr = part.substring("foreman=".length());
+                foreman = Foreman.fromString(foremanStr);
+            } else if (part.startsWith("permitNumber='")) {
+                permitNumber = part.substring("permitNumber='".length(), part.length() - 1);
+            } else if (part.startsWith("address='")) {
+                address = part.substring("address='".length(), part.length() - 1);
+            } else if (part.startsWith("startMonth=")) {
+                startMonth = Integer.parseInt(part.substring("startMonth=".length()));
+            } else if (part.startsWith("startYear=")) {
+                startYear = Integer.parseInt(part.substring("startYear=".length()));
+            } else if (part.startsWith("totalBudget=")) {
+                totalBudget = Double.parseDouble(part.substring("totalBudget=".length()));
+            } else if (part.startsWith("expenditures=[")) {
+                String expendituresStr = part.substring("expenditures=[".length(), part.length() - 1);
+                if (!expendituresStr.isEmpty()) {
+                    String[] expendituresParts = expendituresStr.split("}, Expenditures\\{");
+                    for (String expenditureStr : expendituresParts) {
+                        expenditureStr = "Expenditures{" + expenditureStr + "}";
+                        Expenditures expenditure = Expenditures.fromString(expenditureStr);
+                        expenditures.add(expenditure);
+                    }
+                }
+            } else if (part.startsWith("categories=[")) {
+                String categoriesStr = part.substring("categories=[".length(), part.length() - 1);
+                if (!categoriesStr.isEmpty()) {
+                    String[] categoriesParts = categoriesStr.split(", ");
+                    for (String categoryStr : categoriesParts) {
+                        Category category = Category.fromString(categoryStr);
+                        categories.add(category);
+                    }
+                }
+            }
+        }
+
+        ConstructionSite site = new ConstructionSite(owner, foreman, permitNumber, address, startMonth, startYear, totalBudget);
+        site.expenditures.addAll(expenditures);
+        site.categories.addAll(categories);
+        return site;
+    }    
+}  

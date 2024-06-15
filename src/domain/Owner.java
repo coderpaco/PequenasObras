@@ -75,5 +75,33 @@ public class Owner implements Serializable{
                 ", cellphone='" + cellphone + '\'' +
                 '}';
     }
+    public static Owner fromString(String str) {
+        // Remove "Owner{" and "}" from the string
+        str = str.replace("Owner{", "").replace("}", "");
 
+        // Split the string into parts based on ", "
+        String[] parts = str.split(", ");
+
+        // Initialize variables to store attributes
+        String name = null;
+        String id = null;
+        String address = null;
+        int cellphone = 0;
+
+        // Iterate through parts to extract attributes
+        for (String part : parts) {
+            if (part.startsWith("name='")) {
+                name = part.substring(6, part.length() - 1); // Extract substring after "name='"
+            } else if (part.startsWith("id='")) {
+                id = part.substring(4, part.length() - 1); // Extract substring after "id='"
+            } else if (part.startsWith("address='")) {
+                address = part.substring(9, part.length() - 1); // Extract substring after "address='"
+            } else if (part.startsWith("cellphone=")) {
+                cellphone = Integer.parseInt(part.substring(10)); // Extract substring after "cellphone=" and parse to int
+            }
+        }
+
+        // Create and return a new Owner object
+        return new Owner(name, id, address, cellphone);
+    }
 }

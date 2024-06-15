@@ -226,14 +226,15 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame impl
         Category selectedCategory = system1.obtainCategories().get(selectedCategoryIndex);
 
         // Register expenditure
-        Expenditures newExpenditure = new Expenditures(selectedConstructionSite, selectedCategory, amount, month, year, description);
+        Expenditures newExpenditure = new Expenditures(selectedConstructionSite, selectedCategory, amount, month, year, description, false);
         system1.registerExpenditures(
                 newExpenditure.getConstructionSite(),
                 newExpenditure.getCategory(),
                 newExpenditure.getAmount(),
                 newExpenditure.getMonth(),
                 newExpenditure.getYear(),
-                newExpenditure.getDescription()
+                newExpenditure.getDescription(),
+                newExpenditure.isPaid()
         );
 
         // Clear form fields

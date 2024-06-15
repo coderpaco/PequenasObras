@@ -327,7 +327,7 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
           .findFirst().orElse(null);
       if (category != null) {
         double amount = entry.getValue() / 100.0; // Convert cents to dollars
-        Expenditures newExpenditure = new Expenditures(newConstructionSite, category, amount, month, year, "Initial expenditure");
+        Expenditures newExpenditure = new Expenditures(newConstructionSite, category, amount, month, year, "Initial expenditure", false);
         newConstructionSite.addExpenditure(newExpenditure);
       } else {
         System.err.println("Category not found: " + categoryName);

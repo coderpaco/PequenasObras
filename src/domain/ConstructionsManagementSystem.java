@@ -1,5 +1,7 @@
 package domain;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,8 +133,8 @@ public class ConstructionsManagementSystem extends Observable{
    }
 
    // Métodos para registrar gasto
-   public void registerExpenditures(ConstructionSite constructionSite, Category category, double amount, int month, int year, String description) {
-       Expenditures newExpenditures = new Expenditures(constructionSite, category, amount, month, year, description);
+   public void registerExpenditures(ConstructionSite constructionSite, Category category, double amount, int month, int year, String description, Boolean paid) {
+       Expenditures newExpenditures = new Expenditures(constructionSite, category, amount, month, year, description, paid);
        constructionSite.addExpenditure(newExpenditures);
        somethingChanged();
      
@@ -168,7 +170,101 @@ public class ConstructionsManagementSystem extends Observable{
 
        return status.toString();
    }
+   public void exportData(String filename, int option) {
+        RecordFile recordFile = null;
+        if(option == 1){
+            try {
+                System.out.println("saving via ID number creciente");
+                recordFile = new RecordFile(filename);
+                recordFile.recordLine("Propetarios: ");
+                for (Owner owner : owners) {
+                    recordFile.recordLine(owner.toString());
+                }
+                recordFile.recordLine("Capataces: ");
+                for (Foreman foreman : foremen) {
+                    recordFile.recordLine(foreman.toString());
+                }
+                System.out.println("Data guardado exitosimente en: " + filename);
 
+            } catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+                e.printStackTrace();
+            } finally {
+                if (recordFile != null) {
+                    recordFile.close(); // Close the file
+                }
+            }
+        } else{
+            try {
+                System.out.println("saving via nombre creciente");
+                
+                //sort owners by ascending order
+                Collections.sort(owners, new Comparator<Owner>() {
+                @Override
+                   public int compare(Owner o1, Owner o2) {
+                       return o1.getName().compareTo(o2.getName());
+                   }
+               });
+
+                // Sort foremen by name in ascending order
+                Collections.sort(foremen, new Comparator<Foreman>() {
+                @Override
+                    public int compare(Foreman f1, Foreman f2) {
+                    return f1.getName().compareTo(f2.getName());
+                    }
+                });
+                
+                recordFile = new RecordFile(filename);
+                recordFile.recordLine("Propetarios: ");
+                for (Owner owner : owners) {
+                    recordFile.recordLine(owner.toString());
+                }
+                
+                recordFile.recordLine("Capataces: ");
+                for (Foreman foreman : foremen) {
+                    recordFile.recordLine(foreman.toString());
+                }
+
+                System.out.println("Data guardado exitosimente en: " + filename);
+
+            } catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+                e.printStackTrace();
+            } finally {
+                if (recordFile != null) {
+                    recordFile.close(); // Close the file
+                }
+            }
+        }
+    }
+
+    // Method to import data from a text file
+    public void importData(String filename) {
+        ReadFile readFile = new ReadFile(filename);
+        while (readFile.hasMoreLines()) {
+            String line = readFile.line();
+            // Add logic to parse the line and add the appropriate objects to your lists
+            // For example, if the line represents a Foreman:
+            if (line.startsWith("Foreman")) {
+                Foreman foreman = Foreman.fromString(line);
+                foremen.add(foreman);
+            }
+            if (line.startsWith("Owners")) {
+                Owner owner = Owner.fromString(line);
+                owners.add(owner);
+            }
+            if (line.startsWith("Owners")) {
+                ConstructionSite site = ConstructionSite.fromString(line);
+                constructionSites.add(site);
+            }
+            if (line.startsWith("Categories")) {
+                Category category = Category.fromString(line);
+                categories.add(category);
+            }
+            
+        }
+        readFile.close();
+    }
     
    // Métodos para importación y exportación de datos
    public void importDataConstructionSite(String file) {
