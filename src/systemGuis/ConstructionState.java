@@ -9,7 +9,7 @@ import javax.swing.DefaultListModel;
 
 public class ConstructionState extends javax.swing.JFrame implements Observer{
     
-  private ConstructionsManagementSystem system1;
+    private ConstructionsManagementSystem system1;
     private DefaultListModel<String> constructionSiteListModel;
     private DefaultListModel<String> categoryListModel;
 
@@ -21,20 +21,20 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         // Initialize the list models and set them to the respective JLists
         constructionSiteListModel = new DefaultListModel<>();
         categoryListModel = new DefaultListModel<>();
-        
+
         ConstructionList.setModel(constructionSiteListModel);
         categoryConstruction.setModel(categoryListModel);
-        
+
         // Load the construction sites
         loadConstructionSites();
     }
 
     private void loadConstructionSites() {
         constructionSiteListModel.clear();  // Clear the list model
-        List<ConstructionSite> constructionSites = system1.obtainConstructionSites();  // Fetch construction sites
-        
+        List<ConstructionSite> constructionSites = system1.obtainConstructionSites();
+
         for (ConstructionSite site : constructionSites) {
-            constructionSiteListModel.addElement(site.getAddress());  // Add each site's address to the list model
+            constructionSiteListModel.addElement(site.getAddress());
         }
     }
 
@@ -44,6 +44,8 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
             loadConstructionSites();  // Update the list of construction sites
         }
     }
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -240,7 +242,22 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConstructionListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ConstructionListValueChanged
-        // TODO add your handling code here:
+        // Get the selected construction site
+        int selectedIndex = ConstructionList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            ConstructionSite selectedSite = system1.obtainConstructionSites().get(selectedIndex);
+
+            // Clear the category list before populating it
+            categoryListModel.clear();
+
+            // Get the categories with expenditures for the selected site
+            List<Category> categoriesWithExpenditures = selectedSite.obtainCategoriesWithExpenditures();
+
+            // Add each category name to the list model
+            for (Category category : categoriesWithExpenditures) {
+                categoryListModel.addElement(category.getName());
+            }
+        }
     }//GEN-LAST:event_ConstructionListValueChanged
 
     /**
