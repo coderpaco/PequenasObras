@@ -42,6 +42,15 @@ public class RegisterOwner extends javax.swing.JFrame {
                 JOptionPane.WARNING_MESSAGE);
             return false;
         }
+        for (Owner o : system1.obtainOwners()) {
+                if (o.getId().equals(id)) {
+                    JOptionPane.showMessageDialog(null, 
+                "Ya existe un propetario con el cedula de identidad ingresado.", 
+                "ID inválido", 
+                JOptionPane.WARNING_MESSAGE);
+                }
+            return false;
+        }
         if (!isNumeric(cellphone) || cellphone.length() < 9 || cellphone.length() > 9) {
             JOptionPane.showMessageDialog(null,
                 "El celular debe contener solo números y tener 9 dígitos.",

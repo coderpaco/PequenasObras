@@ -35,6 +35,15 @@ public class RegisterForeman extends javax.swing.JFrame {
                 JOptionPane.WARNING_MESSAGE);
             return false;
         }
+        for (Foreman f : system1.obtainForemen()) {
+                if (f.getId().equals(id)) {
+                    JOptionPane.showMessageDialog(null, 
+                "Ya existe un capataz con el cedula de identidad ingresado.", 
+                "ID inválido", 
+                JOptionPane.WARNING_MESSAGE);
+                }
+            return false;
+        }
         if (address.length() < 4) {
             JOptionPane.showMessageDialog(null, 
                 "La dirección debe tener al menos 4 caracteres.", 
