@@ -291,3 +291,4 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame impl
     private javax.swing.JList<String> listConstructions;
     // End of variables declaration//GEN-END:variables
 }
+

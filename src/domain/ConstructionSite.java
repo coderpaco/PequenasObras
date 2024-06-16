@@ -125,6 +125,7 @@ public class ConstructionSite implements Serializable {
         return paidExpenditures;
     }
 
+
     // Método para obtener los rubros con gastos
     public List<Category> obtainCategoriesWithExpenditures() {
         List<Category> categoriesWithExpenditures = new ArrayList<>();
@@ -138,14 +139,14 @@ public class ConstructionSite implements Serializable {
 
     // Método para obtener los gastos por rubro
     public List<Expenditures> obtainExpendituresPerCategory(Category category) {
-        List<Expenditures> expendituresPerCategory = new ArrayList<>();
-        for (Expenditures expenditure : expenditures) {
-            if (expenditure.getCategory().equals(category)) {
-                expendituresPerCategory.add(expenditure);
-            }
+    List<Expenditures> expendituresPerCategory = new ArrayList<>();
+    for (Expenditures expenditure : expenditures) {
+        if (expenditure.getCategory().equals(category)) {
+            expendituresPerCategory.add(expenditure);
         }
-        return expendituresPerCategory;
     }
+    return expendituresPerCategory;
+}
 
     @Override
     public String toString() {

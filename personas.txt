@@ -1,4 +1,6 @@
 Propetarios: 
-Owner{name='Mike', id='7654321', address='Ay 321', cellphone='987654321'}
+Owner{name='Elisa Tomey Sosa', id='41237895', address='Arenal Grande 2567', cellphone='98590245'}
+Owner{name='Mario Castro', id='34561234', address='Yi 1785', cellphone='98124578'}
 Capataces: 
-Foreman{name='Alex', id='1234567', address='Yi 123', year=1999}
+Foreman{name='Diego Pereira', id='51313535', address='Convencion 1295', year=2023}
+Foreman{name='Maximiliano de Leon', id='41234568', address='Pablo di Maria 5220', year=2022}

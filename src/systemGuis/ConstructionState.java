@@ -1,17 +1,24 @@
 package systemGuis;
 
-import domain.*;
-import java.util.*;
+import domain.ConstructionsManagementSystem;
+import domain.Category;
+import domain.ConstructionSite;
+import domain.Expenditures;
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
-import java.util.Observer;
 import javax.swing.DefaultListModel;
+import java.util.Observer;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+public class ConstructionState extends javax.swing.JFrame implements Observer {
 
-public class ConstructionState extends javax.swing.JFrame implements Observer{
-    
-    private ConstructionsManagementSystem system1;
+   private ConstructionsManagementSystem system1;
     private DefaultListModel<String> constructionSiteListModel;
     private DefaultListModel<String> categoryListModel;
+    private DefaultListModel<String> registeredExpendituresListModel;
+    private DefaultListModel<String> selectedCategoryModel;
 
     public ConstructionState(ConstructionsManagementSystem system) {
         system1 = system;
@@ -21,16 +28,30 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         // Initialize the list models and set them to the respective JLists
         constructionSiteListModel = new DefaultListModel<>();
         categoryListModel = new DefaultListModel<>();
+        registeredExpendituresListModel = new DefaultListModel<>();
+        selectedCategoryModel = new DefaultListModel<>();
 
         ConstructionList.setModel(constructionSiteListModel);
         categoryConstruction.setModel(categoryListModel);
+        registeredExpendituresList.setModel(registeredExpendituresListModel);
+        SelectedCategory.setModel(selectedCategoryModel);
 
         // Load the construction sites
         loadConstructionSites();
+
+        // Add listener for registeredExpendituresList
+        registeredExpendituresList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    loadSelectedCategoryExpenditures();
+                }
+            }
+        });
     }
 
-    private void loadConstructionSites() {
-        constructionSiteListModel.clear();  // Clear the list model
+     private void loadConstructionSites() {
+        constructionSiteListModel.clear();
         List<ConstructionSite> constructionSites = system1.obtainConstructionSites();
 
         for (ConstructionSite site : constructionSites) {
@@ -38,13 +59,33 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof ConstructionsManagementSystem) {
-            loadConstructionSites();  // Update the list of construction sites
+    private void loadSelectedCategoryExpenditures() {
+        int selectedCategoryIndex = registeredExpendituresList.getSelectedIndex();
+        if (selectedCategoryIndex != -1) {
+            String selectedCategoryName = registeredExpendituresListModel.getElementAt(selectedCategoryIndex);
+
+            int selectedIndex = ConstructionList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                ConstructionSite selectedSite = system1.obtainConstructionSites().get(selectedIndex);
+                Category selectedCategory = new Category(selectedCategoryName, "", 0.0);
+
+                selectedCategoryModel.clear();
+                List<Expenditures> expendituresList = selectedSite.obtainExpendituresPerCategory(selectedCategory);
+
+                for (Expenditures expenditure : expendituresList) {
+                    selectedCategoryModel.addElement(expenditure.getDescription() + " - $" + expenditure.getAmount());
+                }
+            }
         }
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ConstructionsManagementSystem) {
+            loadConstructionSites();
+        }
+    } 
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,7 +107,7 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         registeredExpendituresList = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
+        SelectedCategory = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
@@ -146,12 +187,12 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         getContentPane().add(jLabel3);
         jLabel3.setBounds(450, 150, 200, 16);
 
-        jList3.setModel(new javax.swing.AbstractListModel<String>() {
+        SelectedCategory.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane4.setViewportView(jList3);
+        jScrollPane4.setViewportView(SelectedCategory);
 
         getContentPane().add(jScrollPane4);
         jScrollPane4.setBounds(450, 170, 260, 146);
@@ -243,49 +284,63 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
 
     private void ConstructionListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ConstructionListValueChanged
     if (!evt.getValueIsAdjusting()) {
-        // Get the selected construction site index
-        int selectedIndex = ConstructionList.getSelectedIndex();
-        if (selectedIndex != -1) {
-            ConstructionSite selectedSite = system1.obtainConstructionSites().get(selectedIndex);
+            int selectedIndex = ConstructionList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                ConstructionSite selectedSite = system1.obtainConstructionSites().get(selectedIndex);
 
-            // Clear the category list before populating it
-            categoryListModel.clear();
+                categoryListModel.clear();
+                registeredExpendituresListModel.clear();
+                selectedCategoryModel.clear();
 
-            // Get the categories and their budgets for the selected site
-            Map<String, Double> categoriesWithBudgets = selectedSite.getBudgetCategories();
+                Map<String, Double> categoriesWithBudgets = selectedSite.getBudgetCategories();
+                for (Map.Entry<String, Double> entry : categoriesWithBudgets.entrySet()) {
+                    String categoryDisplay = entry.getKey() + " - $" + String.format("%.2f", entry.getValue());
+                    categoryListModel.addElement(categoryDisplay);
+                }
 
-            // Add each category and its budget to the list model
-            for (Map.Entry<String, Double> entry : categoriesWithBudgets.entrySet()) {
-                String categoryDisplay = entry.getKey() + " - $" + String.format("%.2f", entry.getValue());
-                categoryListModel.addElement(categoryDisplay);
+                List<Category> categoriesWithExpenditures = selectedSite.obtainCategoriesWithExpenditures();
+                for (Category category : categoriesWithExpenditures) {
+                    registeredExpendituresListModel.addElement(category.getName());
+                }
+
+                loadFOremanName.setText(selectedSite.getForeman().getName());
+                loadOwnerName.setText(selectedSite.getOwner().getName());
+                loadStartConstruction.setText(selectedSite.getStartMonth() + "/" + selectedSite.getStartYear());
+
+                inputPlaned.setText(String.format("%.2f", selectedSite.getTotalBudget()));
+            } else {
+                categoryListModel.clear();
+                registeredExpendituresListModel.clear();
+                selectedCategoryModel.clear();
+
+                loadFOremanName.setText("");
+                loadOwnerName.setText("");
+                loadStartConstruction.setText("");
+                inputPlaned.setText("0");
             }
+        }
+    
 
-            // Update foreman name, owner name, and start construction details
-            loadFOremanName.setText(selectedSite.getForeman().getName());
-            loadOwnerName.setText(selectedSite.getOwner().getName());
-            loadStartConstruction.setText(selectedSite.getStartMonth() + "/" + selectedSite.getStartYear());
+    
+            
+        
 
-            // Update planned budget and other financial details
-            inputPlaned.setText(String.format("%.2f", selectedSite.getTotalBudget()));
-        //    inputRegistered.setText(String.format("%.2f", selectedSite.getTotalGivenBack()));
-          //  totalExpenditures.setText(String.format("%.2f", selectedSite.calculateTotalExpenditures()));
-        //    ExpendituresNotGivenBack.setText(String.format("%.2f", selectedSite.calculateTotalNotGivenBack()));
-        //    rest.setText(String.format("%.2f", selectedSite.calculateBalance()));
-        } else {
-            // Clear labels if no site is selected
-            categoryListModel.clear();
-            loadFOremanName.setText("");
-            loadOwnerName.setText("");
-            loadStartConstruction.setText("");
-            inputPlaned.setText("0");
-            inputRegistered.setText("0");
-            totalExpenditures.setText("0");
-            ExpendituresNotGivenBack.setText("0");
-            rest.setText("0");
+    }//GEN-LAST:event_ConstructionListValueChanged
+  private void registeredExpendituresListValueChanged(javax.swing.event.ListSelectionEvent evt) {
+        if (!evt.getValueIsAdjusting()) {
+            int selectedIndex = registeredExpendituresList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                String selectedCategoryName = registeredExpendituresList.getSelectedValue();
+                ConstructionSite selectedSite = system1.obtainConstructionSites().get(ConstructionList.getSelectedIndex());
+
+                selectedCategoryModel.clear();
+                List<Expenditures> expendituresList = selectedSite.obtainExpendituresPerCategory(new Category(selectedCategoryName, "", 0.0));
+                for (Expenditures expenditure : expendituresList) {
+                    selectedCategoryModel.addElement(expenditure.getDescription() + " - $" + expenditure.getAmount());
+                }
+            }
         }
     }
-    }//GEN-LAST:event_ConstructionListValueChanged
-
     /**
      * @param args the command line arguments
      */
@@ -325,6 +380,7 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
     private javax.swing.JList<String> ConstructionList;
     private javax.swing.JLabel ConstructionListTitle;
     private javax.swing.JLabel ExpendituresNotGivenBack;
+    private javax.swing.JList<String> SelectedCategory;
     private javax.swing.JList<String> categoryConstruction;
     private javax.swing.JLabel inputPlaned;
     private javax.swing.JLabel inputRegistered;
@@ -340,7 +396,6 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
