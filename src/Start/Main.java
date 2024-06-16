@@ -3,6 +3,10 @@ package Start;
 import domain.*;
 import systemGuis.*;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class Main {
     
     public static void main(String[] args) throws Exception {

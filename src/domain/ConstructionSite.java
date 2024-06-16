@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class ConstructionSite implements Serializable {
     private Owner owner;
     private Foreman foreman;

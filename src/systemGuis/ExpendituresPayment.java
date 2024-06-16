@@ -9,6 +9,9 @@ import java.util.Observer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
 
 public class ExpendituresPayment extends javax.swing.JFrame implements Observer {
 

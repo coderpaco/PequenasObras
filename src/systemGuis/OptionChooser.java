@@ -4,6 +4,10 @@ import domain.*;
 import java.util.List;
 import java.util.Map;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class OptionChooser extends javax.swing.JFrame {
 
     private ConstructionsManagementSystem system1;

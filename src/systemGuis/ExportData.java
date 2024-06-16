@@ -4,6 +4,10 @@ import domain.*;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class ExportData extends javax.swing.JFrame {
 
     private ConstructionsManagementSystem system1;
@@ -39,7 +43,7 @@ public class ExportData extends javax.swing.JFrame {
 
         jLabel1.setText("Exportación de datos de Capataces y Propietarios:");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(20, 20, 280, 16);
+        jLabel1.setBounds(10, 20, 290, 16);
 
         OrderOfExportation.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Número de cédula creciente", "Nombre creciente" }));
         OrderOfExportation.addActionListener(new java.awt.event.ActionListener() {

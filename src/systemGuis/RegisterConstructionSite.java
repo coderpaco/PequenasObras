@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class RegisterConstructionSite extends javax.swing.JFrame implements Observer {
     
    private ConstructionsManagementSystem system1;

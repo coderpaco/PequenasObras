@@ -113,7 +113,7 @@ public class RegisterForeman extends javax.swing.JFrame {
         getContentPane().add(foremanAddressInput);
         foremanAddressInput.setBounds(200, 70, 160, 22);
 
-        YearOfIncomeForeman.setText("Año de ingreso");
+        YearOfIncomeForeman.setText("Año de ingreso:");
         getContentPane().add(YearOfIncomeForeman);
         YearOfIncomeForeman.setBounds(200, 110, 100, 16);
         getContentPane().add(foremanYearInput);

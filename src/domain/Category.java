@@ -3,6 +3,10 @@ package domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class Category implements Serializable {
     // class atributes
   private String name;

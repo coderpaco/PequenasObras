@@ -1,6 +1,11 @@
 package domain;
 import java.io.Serializable;
 import java.util.Objects;
+
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class Foreman implements Serializable{
     private String name;
     private String id;

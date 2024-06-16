@@ -4,6 +4,10 @@ import domain.ConstructionSite;
 import domain.Category;
 import java.io.Serializable;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class Expenditures implements Serializable{
     // Atributos de la clase
     private ConstructionSite constructionSite;

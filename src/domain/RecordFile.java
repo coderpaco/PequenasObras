@@ -3,6 +3,10 @@ package domain;
 import java.io.FileNotFoundException;
 import java.util.Formatter;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class RecordFile {
 
     private Formatter exit;

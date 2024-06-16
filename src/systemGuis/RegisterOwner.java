@@ -2,6 +2,10 @@ package systemGuis;
 import domain.*;
 import javax.swing.JOptionPane;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class RegisterOwner extends javax.swing.JFrame {
 
     private ConstructionsManagementSystem system1;
@@ -87,7 +91,7 @@ public class RegisterOwner extends javax.swing.JFrame {
 
         RegisterOwnerTitle.setText("Registrar Propietario");
         getContentPane().add(RegisterOwnerTitle);
-        RegisterOwnerTitle.setBounds(16, 16, 110, 16);
+        RegisterOwnerTitle.setBounds(16, 16, 230, 16);
 
         NameOwnerInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,7 +123,7 @@ public class RegisterOwner extends javax.swing.JFrame {
         getContentPane().add(AddressOwnerInput);
         AddressOwnerInput.setBounds(200, 70, 160, 22);
 
-        CellphoneOwnerLable.setText("Celular");
+        CellphoneOwnerLable.setText("Celular:");
         getContentPane().add(CellphoneOwnerLable);
         CellphoneOwnerLable.setBounds(200, 110, 100, 16);
         getContentPane().add(CellphoneOwnerInput);

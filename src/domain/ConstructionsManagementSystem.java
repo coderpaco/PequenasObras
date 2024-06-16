@@ -11,6 +11,10 @@ import java.util.Map;
 import java.util.Observable;
 import javax.swing.JOptionPane;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class ConstructionsManagementSystem extends Observable{
    // Atributos de la clase
    private List<Foreman> foremen;

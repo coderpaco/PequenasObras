@@ -8,6 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class RegisterModifyCategory extends javax.swing.JFrame {
     
     private ConstructionsManagementSystem system1;
@@ -66,7 +70,7 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
 
         descriptionLabel.setText("Descripción:");
         getContentPane().add(descriptionLabel);
-        descriptionLabel.setBounds(20, 130, 70, 16);
+        descriptionLabel.setBounds(20, 130, 110, 16);
 
         nameInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,22 +116,31 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         jScrollPane2.setBounds(200, 90, 180, 130);
 
         ModifyDescription.setText("Modificar");
+        ModifyDescription.setMargin(new java.awt.Insets(2, 10, 3, 10));
         ModifyDescription.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ModifyDescriptionMouseClicked(evt);
             }
         });
         getContentPane().add(ModifyDescription);
-        ModifyDescription.setBounds(200, 240, 90, 23);
+        ModifyDescription.setBounds(200, 240, 80, 23);
 
         confirmModify.setText("Confirmar");
+        confirmModify.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        confirmModify.setMargin(new java.awt.Insets(2, 8, 3, 8));
+        confirmModify.setName(""); // NOI18N
         confirmModify.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 confirmModifyMouseClicked(evt);
             }
         });
+        confirmModify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmModifyActionPerformed(evt);
+            }
+        });
         getContentPane().add(confirmModify);
-        confirmModify.setBounds(300, 240, 84, 23);
+        confirmModify.setBounds(298, 240, 80, 23);
 
         jLabel2.setText("Rubro:");
         getContentPane().add(jLabel2);
@@ -209,6 +222,10 @@ public class RegisterModifyCategory extends javax.swing.JFrame {
         clearInputs();
         JOptionPane.showMessageDialog(this, "Descripción del rubro modificada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_confirmModifyMouseClicked
+
+    private void confirmModifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmModifyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_confirmModifyActionPerformed
 
 
     

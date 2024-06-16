@@ -10,6 +10,10 @@ import javax.swing.DefaultListModel;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class RegisterExpendituresForConstruction extends javax.swing.JFrame implements Observer {
 
     private ConstructionsManagementSystem system1;
@@ -121,15 +125,15 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame impl
 
         MonthLabel.setText("Mes:");
         getContentPane().add(MonthLabel);
-        MonthLabel.setBounds(290, 80, 25, 16);
+        MonthLabel.setBounds(290, 80, 50, 16);
 
         ChangeLabel.setText("Año:");
         getContentPane().add(ChangeLabel);
-        ChangeLabel.setBounds(360, 80, 25, 16);
+        ChangeLabel.setBounds(360, 80, 60, 16);
 
         DescriptionLabel.setText("Descripcion:");
         getContentPane().add(DescriptionLabel);
-        DescriptionLabel.setBounds(290, 130, 70, 16);
+        DescriptionLabel.setBounds(290, 130, 120, 16);
 
         inputDescription.setColumns(20);
         inputDescription.setRows(5);

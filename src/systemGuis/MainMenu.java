@@ -2,6 +2,10 @@ package systemGuis;
 
 import domain.*;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class MainMenu extends javax.swing.JFrame {
     
     private static ConstructionsManagementSystem system1;

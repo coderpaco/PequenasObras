@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/*
+    Davit Dostourian Erbe 281665 & Diego Pereira Puig - 329028
+*/
+
 public class FileManager {
     
     public static void saveToFile(List<Foreman> foremen, List<Owner> owners, List<ConstructionSite> constructionSites, List<Category> categories, Map<String, Category> categoriesMap) {
