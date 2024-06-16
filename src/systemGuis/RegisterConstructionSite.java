@@ -332,6 +332,11 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     int selectedForemanIndex = ForemanList.getSelectedIndex();
     Foreman selectedForeman = system1.obtainForemen().get(selectedForemanIndex);
 
+    if (year < selectedForeman.getYear()){
+        JOptionPane.showMessageDialog(null, "Año inválido. El ano del del obra no puede ser antes del ano de entrada del capataz. (" + selectedForeman.getYear() + ").");
+        return;
+    }
+    
     // Convert selectedCategories to Map<String, Double>
     Map<String, Double> selectedCategoriesInDollars = new HashMap<>();
     for (Map.Entry<String, Integer> entry : selectedCategories.entrySet()) {
