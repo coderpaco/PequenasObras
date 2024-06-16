@@ -290,8 +290,21 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
 
     // Extract and validate permit number
     String permitNumber = PermitNumberInput.getText();
+    boolean permitNumberExists = false;
+    
     if (!isValidPermitNumber(permitNumber)) {
         JOptionPane.showMessageDialog(null, "Permiso Nro inválido. Debe ser un número.");
+        return;
+    }
+      
+    for (ConstructionSite site : system1.obtainConstructionSites()) {
+        if (site.getPermitNumber().equals(permitNumber)) {
+            permitNumberExists = true;
+            break;
+        }
+    }
+    if (permitNumberExists) {
+        JOptionPane.showMessageDialog(null, "Permiso Nro inválido. Ya existe una obra con el numero de permiso ingresado.");
         return;
     }
 
