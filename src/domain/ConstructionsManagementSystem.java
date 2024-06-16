@@ -1,4 +1,7 @@
 package domain;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -6,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import javax.swing.JOptionPane;
 
 public class ConstructionsManagementSystem extends Observable{
    // Atributos de la clase
@@ -42,6 +46,76 @@ public class ConstructionsManagementSystem extends Observable{
            existingCategory.setDescription(description);
        }
    }
+    // Method to import data for a new construction site
+    public void importDataConstructionSite(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line = reader.readLine();
+            String[] parts = line.split("#");
+
+            String foremanId = parts[0];
+            String ownerId = parts[1];
+            String address = parts[2];
+            int startMonth = Integer.parseInt(parts[3]);
+            int startYear = Integer.parseInt(parts[4]);
+            String permitNumber = parts[5];
+
+            // Check if permit number is unique
+            for (ConstructionSite site : constructionSites) {
+                if (site.getPermitNumber().equals(permitNumber)) {
+                    JOptionPane.showMessageDialog(null, "Permit number already exists. Import aborted.");
+                    return;
+                }
+            }
+
+            // Find foreman and owner
+            Foreman foreman = null;
+            for (Foreman f : foremen) {
+                if (f.getId().equals(foremanId)) {
+                    foreman = f;
+                    break;
+                }
+            }
+
+            Owner owner = null;
+            for (Owner o : owners) {
+                if (o.getId().equals(ownerId)) {
+                    owner = o;
+                    break;
+                }
+            }
+
+            if (foreman == null || owner == null) {
+                JOptionPane.showMessageDialog(null, "Foreman or owner not registered. Import aborted.");
+                return;
+            }
+
+            // Read budget categories
+            Map<String, Double> categoryBudgets = new HashMap<>();
+            int numCategories = Integer.parseInt(reader.readLine().trim());
+
+            for (int i = 0; i < numCategories; i++) {
+                line = reader.readLine();
+                parts = line.split("#");
+                String categoryName = parts[0];
+                double budget = Double.parseDouble(parts[1]);
+
+                if (!categoriesMap.containsKey(categoryName)) {
+                    Category newCategory = new Category(categoryName, "Descripción a Definir", 0.0);
+                    categories.add(newCategory);
+                    categoriesMap.put(categoryName, newCategory);
+                }
+
+                categoryBudgets.put(categoryName, budget);
+            }
+
+            // Register new construction site
+            registerConstructionSite(owner, foreman, permitNumber, address, startMonth, startYear, 0.0, categoryBudgets);
+            JOptionPane.showMessageDialog(null, "Construction site imported successfully!");
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage());
+        }
+    }
 
    public List<Category> obtainCategories() {
        return new ArrayList<>(categories);
@@ -266,10 +340,7 @@ public class ConstructionsManagementSystem extends Observable{
         readFile.close();
     }
     
-   // Métodos para importación y exportación de datos
-   public void importDataConstructionSite(String file) {
-       // Implementar la lógica para importar datos de una obra desde un archivo
-   }
+
 
    public void exportDataPersons(String order) {
        // Implementar la lógica para exportar datos de propietarios y capataces

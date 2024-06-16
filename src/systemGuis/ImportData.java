@@ -1,6 +1,6 @@
 package systemGuis;
 
-import domain.*;
+import domain.ConstructionsManagementSystem;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -54,12 +54,11 @@ public class ImportData extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportButtonActionPerformed
-    JFileChooser fileChooser = new JFileChooser();
-    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-        String filename = fileChooser.getSelectedFile().getAbsolutePath();
-        system1.importData(filename);
-        JOptionPane.showMessageDialog(null, "Data imported successfully!");
-    }
+   JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            String filename = fileChooser.getSelectedFile().getAbsolutePath();
+            system1.importDataConstructionSite(filename);
+        }
     }//GEN-LAST:event_ImportButtonActionPerformed
 
     private void ImportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ImportButtonMouseClicked
