@@ -13,29 +13,29 @@ import java.util.Observer;
 
 public class RegisterConstructionSite extends javax.swing.JFrame implements Observer {
     
-    private ConstructionsManagementSystem system1;
+   private ConstructionsManagementSystem system1;
     private DefaultListModel<String> ownerListModel;
     private DefaultListModel<String> foremanListModel;
     private DefaultListModel<String> categoryListModel;
-    private Map<JButton, Integer> selectedRubros;
+    private Map<String, Integer> selectedCategories; // Category name and its budget in cents
     private double totalBudget;
 
-
     
-    public RegisterConstructionSite(ConstructionsManagementSystem system) {
+     public RegisterConstructionSite(ConstructionsManagementSystem system) {
         system1 = system;
         ownerListModel = new DefaultListModel<>();
         foremanListModel = new DefaultListModel<>();
         categoryListModel = new DefaultListModel<>();
-        selectedRubros = new HashMap<>();
+        selectedCategories = new HashMap<>();
         totalBudget = 0.0;
         initComponents();
         loadOwnerList();
         loadForemanList();
-        loadPanelRubros();
+        loadPanelCategories();
         system1.addObserver(this);
     }
-    private void loadOwnerList() {
+ 
+      private void loadOwnerList() {
         ownerListModel.clear();
         List<Owner> owners = system1.obtainOwners();
         for (Owner owner : owners) {
@@ -55,39 +55,38 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         System.out.println("Loaded foremen: " + foremanListModel);
     }
     
-    private void loadPanelRubros(){
+    private void loadPanelCategories() {
         categoryListModel.clear();
-        
         List<Category> categories = system1.obtainCategories();
-        
         for (Category category : categories) {
             JButton nuevo = new JButton(category.getName());
             nuevo.setMargin(new Insets(-5, -5, -5, -5));
             nuevo.setBackground(Color.BLACK);
             nuevo.setForeground(Color.WHITE);
-            nuevo.setText( category.getName()); // texto ejemplo, a completar
-            nuevo.addActionListener(new RubroListener());
-            panelRubros.add(nuevo);
+            nuevo.setText(category.getName());
+            nuevo.addActionListener(new CategoryListener());
+            panelCategories.add(nuevo);
         }
-        panelRubros.revalidate();
-        panelRubros.repaint();
+        panelCategories.revalidate();
+        panelCategories.repaint();
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof ConstructionsManagementSystem){
-            //ConstructionsManagementSystem systemData = (ConstructionsManagementSystem) o;
             loadOwnerList();
             loadForemanList();
-            loadPanelRubros();
+            loadPanelCategories();
         }
     }
     
-  private class RubroListener implements ActionListener {
+    
+    
+  private class CategoryListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JButton cual = (JButton) e.getSource();
-            String rubroName = cual.getText().split("\n")[0].trim(); // Only get the rubro name
-            String montoStr = JOptionPane.showInputDialog("Ingrese el monto para " + rubroName + ":");
+            String categoryName = cual.getText().split("\n")[0].trim(); // Only get the category name
+            String montoStr = JOptionPane.showInputDialog("Ingrese el monto para " + categoryName + ":");
             if (montoStr == null) {
                 // User canceled the input dialog
                 return;
@@ -98,21 +97,41 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
                 if (monto == 0) {
                     cual.setBackground(Color.BLACK);
                     cual.setForeground(Color.WHITE);
-                    cual.setText(rubroName);
-                    totalBudget -= selectedRubros.getOrDefault(cual, 0);
-                    selectedRubros.remove(cual);
+                    cual.setText(categoryName);
+                    totalBudget -= selectedCategories.getOrDefault(categoryName, 0);
+                    selectedCategories.remove(categoryName);
                 } else {
                     cual.setBackground(Color.BLUE);
                     cual.setForeground(Color.WHITE);
-                    totalBudget += montoCents - selectedRubros.getOrDefault(cual, 0);
-                    selectedRubros.put(cual, montoCents);
-                    cual.setText("<html>" + rubroName + "<br>$" + String.format("%.2f", monto) + "</html>"); // Update button text to include amount below the name
+                    totalBudget += montoCents - selectedCategories.getOrDefault(categoryName, 0);
+                    selectedCategories.put(categoryName, montoCents);
+                    cual.setText("<html>" + categoryName + "<br>$" + String.format("%.2f", monto) + "</html>"); // Update button text to include amount below the name
                 }
                 totalPresupuestoLoad.setText(String.format("%.2f", totalBudget / 100.0)); // Update total budget
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Monto inválido. Por favor, ingrese un número.");
             }
         }
+    }
+    
+    private void updateCategoryPanel() {
+        panelCategories.removeAll(); // Remove existing buttons
+        for (Category category : system1.obtainCategories()) {
+            JButton categoryButton = new JButton(category.getName());
+            categoryButton.setMargin(new Insets(-5, -5, -5, -5));
+            categoryButton.setBackground(Color.BLACK);
+            categoryButton.setForeground(Color.WHITE);
+            // Check if category is already selected
+            int amount = selectedCategories.getOrDefault(category.getName(), 0);
+            if (amount > 0) {
+                categoryButton.setBackground(Color.BLUE);
+                categoryButton.setText("<html>" + category.getName() + "<br>$" + String.format("%.2f", amount / 100.0) + "</html>"); // Update button text with amount
+            }
+            categoryButton.addActionListener(new CategoryListener());
+            panelCategories.add(categoryButton);
+        }
+        panelCategories.revalidate();
+        panelCategories.repaint();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -140,7 +159,7 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         TotalBudgetLabel = new javax.swing.JLabel();
         javax.swing.JButton AddButton = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        panelRubros = new javax.swing.JPanel();
+        panelCategories = new javax.swing.JPanel();
         totalPresupuestoLoad = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -233,9 +252,9 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
         getContentPane().add(AddButton);
         AddButton.setBounds(420, 380, 110, 23);
 
-        panelRubros.setPreferredSize(new java.awt.Dimension(339, 200));
-        panelRubros.setLayout(new java.awt.GridLayout(0, 2));
-        jScrollPane5.setViewportView(panelRubros);
+        panelCategories.setPreferredSize(new java.awt.Dimension(339, 200));
+        panelCategories.setLayout(new java.awt.GridLayout(0, 2));
+        jScrollPane5.setViewportView(panelCategories);
 
         getContentPane().add(jScrollPane5);
         jScrollPane5.setBounds(20, 230, 350, 190);
@@ -260,46 +279,49 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void AddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseClicked
-          // Extract and validate permit number
-      // Validate and get user input
+    // Reset totalBudget before starting a new registration process
+    totalBudget = 0;
+    totalPresupuestoLoad.setText(String.format("%.2f", totalBudget / 100.0)); // Reset totalPresupuestoLoad
+
+    // Extract and validate permit number
     String permitNumber = PermitNumberInput.getText();
     if (!isValidPermitNumber(permitNumber)) {
-      JOptionPane.showMessageDialog(null, "Permiso Nro inválido. Debe ser un número.");
-      return;
+        JOptionPane.showMessageDialog(null, "Permiso Nro inválido. Debe ser un número.");
+        return;
     }
 
     String address = AdressInput.getText();
     if (address.length() < 4) {
-      JOptionPane.showMessageDialog(null, "Dirección inválida. Debe tener al menos 4 dígitos.");
-      return;
+        JOptionPane.showMessageDialog(null, "Dirección inválida. Debe tener al menos 4 dígitos.");
+        return;
     }
 
     int month = (Integer) MonthInput.getValue();
     if (month < 1 || month > 12) {
-      JOptionPane.showMessageDialog(null, "Mes inválido. Debe estar entre 1 y 12.");
-      return;
+        JOptionPane.showMessageDialog(null, "Mes inválido. Debe estar entre 1 y 12.");
+        return;
     }
 
     int year = (Integer) YearsInput.getValue();
     if (year < 1990) {
-      JOptionPane.showMessageDialog(null, "Año inválido. Debe ser igual o mayor a 1990.");
-      return;
+        JOptionPane.showMessageDialog(null, "Año inválido. Debe ser igual o mayor a 1990.");
+        return;
     }
 
     // Check if at least one owner and foreman is selected
     if (OwnerList.getSelectedIndex() == -1) {
-      JOptionPane.showMessageDialog(null, "Debe seleccionar un propietario.");
-      return;
+        JOptionPane.showMessageDialog(null, "Debe seleccionar un propietario.");
+        return;
     }
     if (ForemanList.getSelectedIndex() == -1) {
-      JOptionPane.showMessageDialog(null, "Debe seleccionar un capataz.");
-      return;
+        JOptionPane.showMessageDialog(null, "Debe seleccionar un capataz.");
+        return;
     }
 
-    // Check if at least one rubro is selected
-    if (selectedRubros.isEmpty()) {
-      JOptionPane.showMessageDialog(null, "Debe seleccionar al menos un rubro.");
-      return;
+    // Check if at least one category is selected
+    if (selectedCategories.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una categoría.");
+        return;
     }
 
     // Get selected owner and foreman objects
@@ -309,76 +331,46 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     int selectedForemanIndex = ForemanList.getSelectedIndex();
     Foreman selectedForeman = system1.obtainForemen().get(selectedForemanIndex);
 
+    // Convert selectedCategories to Map<String, Double>
+    Map<String, Double> selectedCategoriesInDollars = new HashMap<>();
+    for (Map.Entry<String, Integer> entry : selectedCategories.entrySet()) {
+        selectedCategoriesInDollars.put(entry.getKey(), entry.getValue() / 100.0);
+    }
+
     // Calculate total budget
-    double totalBudget = 0;
-    for (double amount : selectedRubros.values()) {
-      totalBudget += amount;
+    double totalBudgetForRegistration = 0;
+    for (double amount : selectedCategories.values()) {
+        totalBudgetForRegistration += amount;
     }
 
     // Create and register the new construction site
-    ConstructionSite newConstructionSite = new ConstructionSite(selectedOwner, selectedForeman, permitNumber, address, month, year, totalBudget);
-    for (Map.Entry<JButton, Integer> entry : selectedRubros.entrySet()) {
-      //String categoryName = entry.getKey().getText().split("\n")[0].trim();
-      String buttonText = entry.getKey().getText();
-      String categoryName = buttonText.split("<br>")[0].replaceAll("<[^>]*>", "").trim();
-      System.out.println("Category Name: " + categoryName); //debug
-      Category category = system1.obtainCategories().stream()
-          .filter(c -> c.getName().equals(categoryName))
-          .findFirst().orElse(null);
-      if (category != null) {
-        double amount = entry.getValue() / 100.0; // Convert cents to dollars
-        Expenditures newExpenditure = new Expenditures(newConstructionSite, category, amount, month, year, "Initial expenditure", false);
-        newConstructionSite.addExpenditure(newExpenditure);
-      } else {
-        System.err.println("Category not found: " + categoryName);
-      }
-    }
-    system1.registerConstructionSite(selectedOwner, selectedForeman, permitNumber, address, month, year, totalBudget);
+    system1.registerConstructionSite(selectedOwner, selectedForeman, permitNumber, address, month, year, totalBudgetForRegistration / 100.0, selectedCategoriesInDollars);
 
-    // Clear form fields
+    // Clear form fields and reset total budget
     PermitNumberInput.setText("");
     AdressInput.setText("");
     MonthInput.setValue(1);
     YearsInput.setValue(2024);
-    totalPresupuestoLoad.setText("0");
-    selectedRubros.clear();
-    updateRubroPanel(); // Update rubro panel to reflect changes
+    selectedCategories.clear();
+    totalBudget = 0; // Reset total budget
+    totalPresupuestoLoad.setText("0.00");
+    updateCategoryPanel(); // Update category panel to reflect changes
 
     JOptionPane.showMessageDialog(null, "Obra registrada exitosamente!");
-  }
-
-  private boolean isValidPermitNumber(String permitNumber) {
-    try {
-      Integer.parseInt(permitNumber);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
     }
+    
+ private boolean isValidPermitNumber(String permitNumber) {
+        try {
+            Integer.parseInt(permitNumber);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    
   
     }//GEN-LAST:event_AddButtonMouseClicked
-private void updateRubroPanel() {
-  panelRubros.removeAll(); // Remove existing buttons
 
-  for (Category category : system1.obtainCategories()) {
-    JButton rubroButton = new JButton(category.getName());
-    rubroButton.setMargin(new Insets(-5, -5, -5, -5));
-    rubroButton.setBackground(Color.BLACK);
-    rubroButton.setForeground(Color.WHITE);
-
-    // Check if rubro is already selected
-    int amount = selectedRubros.getOrDefault(rubroButton, 0);
-    if (amount > 0) {
-      rubroButton.setBackground(Color.BLUE);
-      rubroButton.setText("<html>" + category.getName() + "<br>$" + String.format("%.2f", amount / 100.0) + "</html>"); // Update button text with amount
-    }
-
-    rubroButton.addActionListener(new RubroListener());
-    panelRubros.add(rubroButton);
-  }
-
-  panelRubros.revalidate();
-  panelRubros.repaint();
-}
+ 
     /**
      * @param args the command line arguments
      */
@@ -432,7 +424,7 @@ private void updateRubroPanel() {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JPanel panelRubros;
+    private javax.swing.JPanel panelCategories;
     private javax.swing.JLabel totalPresupuestoLoad;
     // End of variables declaration//GEN-END:variables
 

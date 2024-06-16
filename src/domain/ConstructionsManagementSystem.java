@@ -32,11 +32,11 @@ public class ConstructionsManagementSystem extends Observable{
    
    // Métodos para registrar/modificar rubro
    public void registerCategory(String name, String description) {
-       if (!categoriesMap.containsKey(name)) {
-           Category newCategory = new Category(name, description);
-           categories.add(newCategory);
-           categoriesMap.put(name, newCategory);
-           somethingChanged();
+  if (!categoriesMap.containsKey(name)) {
+    Category newCategory = new Category(name, description, 0.0); // Set initial budget to 0.0
+    categories.add(newCategory);
+    categoriesMap.put(name, newCategory);
+    somethingChanged();
        } else {
            Category existingCategory = categoriesMap.get(name);
            existingCategory.setDescription(description);
@@ -122,11 +122,11 @@ public class ConstructionsManagementSystem extends Observable{
     }*/
 
    // Métodos para registrar obra
-   public void registerConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget) {
-       ConstructionSite newConstructionSite = new ConstructionSite(owner, foreman, permitNumber, address, startMonth, startYear, totalBudget);
-       constructionSites.add(newConstructionSite);
-       somethingChanged();
-   }
+  public void registerConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget, Map<String, Double> categoryBudgets) {
+  ConstructionSite newConstructionSite = new ConstructionSite(owner, foreman, permitNumber, address, startMonth, startYear, totalBudget, categoryBudgets);
+  constructionSites.add(newConstructionSite);
+  somethingChanged();
+}
 
    public List<ConstructionSite> obtainConstructionSites() {
        return new ArrayList<>(constructionSites);
@@ -150,10 +150,10 @@ public class ConstructionsManagementSystem extends Observable{
        status.append("Foreman: ").append(constructionSite.getForeman().getName()).append("\n");
        status.append("Start Date: ").append(constructionSite.getStartMonth()).append("/").append(constructionSite.getStartYear()).append("\n");
        status.append("Total Budget: ").append(constructionSite.getTotalBudget()).append("\n");
-       status.append("Total Spent: ").append(constructionSite.calculateTotalExpenditures()).append("\n");
-       status.append("Total Given Back: ").append(constructionSite.calculateTotalGivenBack()).append("\n");
-       status.append("Total Not Given Back: ").append(constructionSite.calculateTotalNotGivenBack()).append("\n");
-       status.append("Balance: ").append(constructionSite.calculateBalance()).append("\n");
+     //  status.append("Total Spent: ").append(constructionSite.calculateTotalExpenditures()).append("\n");
+     //  status.append("Total Given Back: ").append(constructionSite.calculateTotalGivenBack()).append("\n");
+      // status.append("Total Not Given Back: ").append(constructionSite.calculateTotalNotGivenBack()).append("\n");
+      // status.append("Balance: ").append(constructionSite.calculateBalance()).append("\n");
 
        status.append("Categories with Expenditures: \n");
        for (Category category : constructionSite.obtainCategoriesWithExpenditures()) {
@@ -285,3 +285,4 @@ public class ConstructionsManagementSystem extends Observable{
 }
  
 }
+

@@ -1,191 +1,145 @@
 package domain;
-import domain.Category;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ConstructionSite implements Serializable{
-  // Atributos de la clase
-  private Owner owner;
-  private Foreman foreman;
-  private String permitNumber;
-  private String address;
-  private int startMonth;
-  private int startYear;
-  private double totalBudget;
-  private List<Expenditures> expenditures;
-  private List<Category> categories;
+public class ConstructionSite implements Serializable {
+    // Atributos de la clase
+    private Owner owner;
+    private Foreman foreman;
+    private String permitNumber;
+    private String address;
+    private int startMonth;
+    private int startYear;
+    private double totalBudget;
+    private List<Expenditures> expenditures;
+    private Map<String, Double> categoryBudgets; // Category budgets
 
-  // Constructor para inicializar los atributos
-  public ConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget) {
-      this.owner = owner;
-      this.foreman = foreman;
-      this.permitNumber = permitNumber;
-      this.address = address;
-      this.startMonth = startMonth;
-      this.startYear = startYear;
-      this.totalBudget = totalBudget;
-      this.expenditures = new ArrayList<>();
-      this.categories = new ArrayList<>();
-  }
-
-  // Métodos getter y setter para cada atributo
-  public Owner getOwner() {
-      return owner;
-  }
-
-  public void setOwner(Owner owner) {
-      this.owner = owner;
-  }
-
-  public Foreman getForeman() {
-      return foreman;
-  }
-
-  public void setForeman(Foreman foreman) {
-      this.foreman = foreman;
-  }
-
-  public String getPermitNumber() {
-      return permitNumber;
-  }
-
-  public void setPermitNumber(String permitNumber) {
-      this.permitNumber = permitNumber;
-  }
-
-  public String getAddress() {
-      return address;
-  }
-
-  public void setAddress(String address) {
-      this.address = address;
-  }
-
-  public int getStartMonth() {
-      return startMonth;
-  }
-
-  public void setStartMonth(int startMonth) {
-      this.startMonth = startMonth;
-  }
-
-  public int getStartYear() {
-      return startYear;
-  }
-
-  public void setStartYear(int startYear) {
-      this.startYear = startYear;
-  }
-
-  public double getTotalBudget() {
-      return totalBudget;
-  }
-
-  public void setTotalBudget(double totalBudget) {
-      this.totalBudget = totalBudget;
-  }
-
-  public List<Expenditures> getExpenditures() {
-      return expenditures;
-  }
-    public List<Category> getCategories(){
-        return categories;
+  // Constructor (update to include category budgets)
+  public ConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget, Map<String, Double> categoryBudgets) {
+        this.owner = owner;
+        this.foreman = foreman;
+        this.permitNumber = permitNumber;
+        this.address = address;
+        this.startMonth = startMonth;
+        this.startYear = startYear;
+        this.totalBudget = totalBudget;
+        this.expenditures = new ArrayList<>();  // Initialize expenditures list
+        this.categoryBudgets = categoryBudgets; // Initialize category budgets
     }
-  // Método para agregar un gasto a la lista de gastos
-  public void addExpenditure(Expenditures expenditure) {
-      this.expenditures.add(expenditure);
-  }
-    public List<Expenditures> getUnpaidExpenditures() {
-        List<Expenditures> unpaidExpenditures = new ArrayList<>();
+  
+   // Métodos getter y setter para cada atributo
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public Foreman getForeman() {
+        return foreman;
+    }
+
+    public void setForeman(Foreman foreman) {
+        this.foreman = foreman;
+    }
+
+    public String getPermitNumber() {
+        return permitNumber;
+    }
+
+    public void setPermitNumber(String permitNumber) {
+        this.permitNumber = permitNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getStartMonth() {
+        return startMonth;
+    }
+
+    public void setStartMonth(int startMonth) {
+        this.startMonth = startMonth;
+    }
+
+    public int getStartYear() {
+        return startYear;
+    }
+
+    public void setStartYear(int startYear) {
+        this.startYear = startYear;
+    }
+
+    public double getTotalBudget() {
+        return totalBudget;
+    }
+
+    public void setTotalBudget(double totalBudget) {
+        this.totalBudget = totalBudget;
+    }
+
+    public List<Expenditures> getExpenditures() {
+        return expenditures;
+    }
+
+    public void setExpenditures(List<Expenditures> expenditures) {
+        this.expenditures = expenditures;
+    }
+
+    public Map<String, Double> getBudgetCategories() {
+        return categoryBudgets;
+    }
+
+    // Método para agregar un gasto a la lista de gastos
+    public void addExpenditure(Expenditures expenditure) {
+        this.expenditures.add(expenditure);
+    }
+
+    // Método para obtener los rubros con gastos
+    public List<Category> obtainCategoriesWithExpenditures() {
+        List<Category> categoriesWithExpenditures = new ArrayList<>();
         for (Expenditures expenditure : expenditures) {
-            if (!expenditure.isPaid()) {
-                unpaidExpenditures.add(expenditure);
+            if (!categoriesWithExpenditures.contains(expenditure.getCategory())) {
+                categoriesWithExpenditures.add(expenditure.getCategory());
             }
         }
-        return unpaidExpenditures;
+        return categoriesWithExpenditures;
     }
 
-    public List<Expenditures> getPaidExpenditures() {
-        List<Expenditures> paidExpenditures = new ArrayList<>();
+    // Método para obtener los gastos por rubro
+    public List<Expenditures> obtainExpendituresPerCategory(Category category) {
+        List<Expenditures> expendituresPerCategory = new ArrayList<>();
         for (Expenditures expenditure : expenditures) {
-            if (expenditure.isPaid()) {
-                paidExpenditures.add(expenditure);
+            if (expenditure.getCategory().equals(category)) {
+                expendituresPerCategory.add(expenditure);
             }
         }
-        return paidExpenditures;
+        return expendituresPerCategory;
     }
 
-
-  //Métodos para calcular los totales
-  public double calculateTotalExpenditures() {
-      double totalExpenditure = 0;
-      for (Expenditures expenditure : expenditures) {
-          totalExpenditure += expenditure.getAmount();
-      }
-      return totalExpenditure;
-  }
-
-  public double calculateTotalGivenBack() {
-      double totalGivenBack = 0;
-      for (Expenditures expenditure : expenditures) {
-          if (expenditure.isPaid()) {
-              totalGivenBack += expenditure.getAmount();
-          }
-      }
-      return totalGivenBack;
-  }
-
-  public double calculateTotalNotGivenBack() {
-      double totalNotGivenBack = 0;
-      for (Expenditures expenditure : expenditures) {
-          if (!expenditure.isPaid()) {
-              totalNotGivenBack += expenditure.getAmount();
-          }
-      }
-      return totalNotGivenBack;
-  }
-
-  public double calculateBalance() {
-      return totalBudget - calculateTotalExpenditures();
-  }
-
-  // Método para obtener los rubros con gastos
-  public List<Category> obtainCategoriesWithExpenditures() {
-      List<Category> categoriesWithExpenditures = new ArrayList<>();
-      for (Expenditures expenditure : expenditures) {
-          if (!categoriesWithExpenditures.contains(expenditure.getCategory())) {
-              categoriesWithExpenditures.add(expenditure.getCategory());
-          }
-      }
-      return categoriesWithExpenditures;
-  }
-
-  // Método para obtener los gastos por rubro
-  public List<Expenditures> obtainExpendituresPerCategory(Category category) {
-      List<Expenditures> expendituresPerCategory = new ArrayList<>();
-      for (Expenditures expenditure : expenditures) {
-          if (expenditure.getCategory().equals(category)) {
-              expendituresPerCategory.add(expenditure);
-          }
-      }
-      return expendituresPerCategory;
-  }
-
-  @Override
-  public String toString() {
-      return "ConstructionSite{" +
-              "owner=" + owner +
-              ", foreman=" + foreman +
-              ", permitNumber='" + permitNumber + '\'' +
-              ", address='" + address + '\'' +
-              ", startMonth=" + startMonth +
-              ", startYear=" + startYear +
-              ", totalBudget=" + totalBudget +
-              ", expenditures=" + expenditures +
-              ", categories=" + categories +
-              '}';
-  }
+    @Override
+    public String toString() {
+        return "ConstructionSite{" +
+                "owner=" + owner +
+                ", foreman=" + foreman +
+                ", permitNumber='" + permitNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", startMonth=" + startMonth +
+                ", startYear=" + startYear +
+                ", totalBudget=" + totalBudget +
+                ", expenditures=" + expenditures +
+                ", categoryBudgets=" + categoryBudgets +
+                '}';
+    }
     public static ConstructionSite fromString(String str) {
         str = str.replace("ConstructionSite{", "").replace("}", "");
 
@@ -198,7 +152,7 @@ public class ConstructionSite implements Serializable{
         int startYear = 0;
         double totalBudget = 0;
         List<Expenditures> expenditures = new ArrayList<>();
-        List<Category> categories = new ArrayList<>();
+        Map<String, Double> categoryBudgets = new HashMap<>();
 
         for (String part : parts) {
             if (part.startsWith("owner=")) {
@@ -227,21 +181,23 @@ public class ConstructionSite implements Serializable{
                         expenditures.add(expenditure);
                     }
                 }
-            } else if (part.startsWith("categories=[")) {
-                String categoriesStr = part.substring("categories=[".length(), part.length() - 1);
+            } else if (part.startsWith("categories={")) { // Adjust to match correct format
+                String categoriesStr = part.substring("categories={".length(), part.length() - 1);
                 if (!categoriesStr.isEmpty()) {
                     String[] categoriesParts = categoriesStr.split(", ");
                     for (String categoryStr : categoriesParts) {
-                        Category category = Category.fromString(categoryStr);
-                        categories.add(category);
+                        String[] categoryPair = categoryStr.split("=");
+                        String categoryName = categoryPair[0].trim();
+                        Double budget = Double.parseDouble(categoryPair[1].trim());
+                        categoryBudgets.put(categoryName, budget);
                     }
                 }
             }
         }
 
-        ConstructionSite site = new ConstructionSite(owner, foreman, permitNumber, address, startMonth, startYear, totalBudget);
-        site.expenditures.addAll(expenditures);
-        site.categories.addAll(categories);
+        ConstructionSite site = new ConstructionSite(owner, foreman, permitNumber, address, startMonth, startYear, totalBudget, categoryBudgets);
+        site.setExpenditures(expenditures);
         return site;
-    }    
-}  
+    }
+}
+

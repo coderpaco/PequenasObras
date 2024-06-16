@@ -63,7 +63,7 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         categoryConstruction = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        registeredExpendituresList = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList<>();
@@ -132,12 +132,12 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         getContentPane().add(jLabel2);
         jLabel2.setBounds(230, 150, 190, 16);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        registeredExpendituresList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(jList2);
+        jScrollPane3.setViewportView(registeredExpendituresList);
 
         getContentPane().add(jScrollPane3);
         jScrollPane3.setBounds(230, 170, 180, 146);
@@ -232,17 +232,18 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
         getContentPane().add(rest);
         rest.setBounds(690, 110, 43, 16);
         getContentPane().add(loadFOremanName);
-        loadFOremanName.setBounds(590, 20, 0, 0);
+        loadFOremanName.setBounds(590, 20, 80, 20);
         getContentPane().add(loadOwnerName);
-        loadOwnerName.setBounds(370, 20, 0, 0);
+        loadOwnerName.setBounds(370, 20, 70, 20);
         getContentPane().add(loadStartConstruction);
-        loadStartConstruction.setBounds(380, 50, 0, 0);
+        loadStartConstruction.setBounds(380, 50, 50, 20);
 
         setBounds(0, 0, 762, 400);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConstructionListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ConstructionListValueChanged
-        // Get the selected construction site
+    if (!evt.getValueIsAdjusting()) {
+        // Get the selected construction site index
         int selectedIndex = ConstructionList.getSelectedIndex();
         if (selectedIndex != -1) {
             ConstructionSite selectedSite = system1.obtainConstructionSites().get(selectedIndex);
@@ -250,14 +251,39 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
             // Clear the category list before populating it
             categoryListModel.clear();
 
-            // Get the categories with expenditures for the selected site
-            List<Category> categoriesWithExpenditures = selectedSite.obtainCategoriesWithExpenditures();
+            // Get the categories and their budgets for the selected site
+            Map<String, Double> categoriesWithBudgets = selectedSite.getBudgetCategories();
 
-            // Add each category name to the list model
-            for (Category category : categoriesWithExpenditures) {
-                categoryListModel.addElement(category.getName());
+            // Add each category and its budget to the list model
+            for (Map.Entry<String, Double> entry : categoriesWithBudgets.entrySet()) {
+                String categoryDisplay = entry.getKey() + " - $" + String.format("%.2f", entry.getValue());
+                categoryListModel.addElement(categoryDisplay);
             }
+
+            // Update foreman name, owner name, and start construction details
+            loadFOremanName.setText(selectedSite.getForeman().getName());
+            loadOwnerName.setText(selectedSite.getOwner().getName());
+            loadStartConstruction.setText(selectedSite.getStartMonth() + "/" + selectedSite.getStartYear());
+
+            // Update planned budget and other financial details
+            inputPlaned.setText(String.format("%.2f", selectedSite.getTotalBudget()));
+        //    inputRegistered.setText(String.format("%.2f", selectedSite.getTotalGivenBack()));
+          //  totalExpenditures.setText(String.format("%.2f", selectedSite.calculateTotalExpenditures()));
+        //    ExpendituresNotGivenBack.setText(String.format("%.2f", selectedSite.calculateTotalNotGivenBack()));
+        //    rest.setText(String.format("%.2f", selectedSite.calculateBalance()));
+        } else {
+            // Clear labels if no site is selected
+            categoryListModel.clear();
+            loadFOremanName.setText("");
+            loadOwnerName.setText("");
+            loadStartConstruction.setText("");
+            inputPlaned.setText("0");
+            inputRegistered.setText("0");
+            totalExpenditures.setText("0");
+            ExpendituresNotGivenBack.setText("0");
+            rest.setText("0");
         }
+    }
     }//GEN-LAST:event_ConstructionListValueChanged
 
     /**
@@ -314,7 +340,6 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JList<String> jList3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -327,6 +352,7 @@ public class ConstructionState extends javax.swing.JFrame implements Observer{
     private javax.swing.JLabel loadFOremanName;
     private javax.swing.JLabel loadOwnerName;
     private javax.swing.JLabel loadStartConstruction;
+    private javax.swing.JList<String> registeredExpendituresList;
     private javax.swing.JLabel rest;
     private javax.swing.JLabel totalExpenditures;
     // End of variables declaration//GEN-END:variables
