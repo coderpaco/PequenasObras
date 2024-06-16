@@ -3,11 +3,11 @@ import java.io.Serializable;
 import java.util.Objects;
 public class Foreman implements Serializable{
     private String name;
-    private String id;
+    private int id;
     private String address;
     private int year;
 
-    public Foreman(String name, String id, String address, int year) {
+    public Foreman(String name, int id, String address, int year) {
         this.name = name;
         this.id = id;
         this.address = address;
@@ -18,7 +18,7 @@ public class Foreman implements Serializable{
         return name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -57,7 +57,7 @@ public class Foreman implements Serializable{
     }
     public static Foreman fromString(String str) {
         String name = str.split("name='")[1].split("'")[0];
-        String id = str.split("id='")[1].split("'")[0];
+        int id = Integer.parseInt(str.split("id='")[1].split("'")[0]);
         String address = str.split("address='")[1].split("'")[0];
         int year = Integer.parseInt(str.split("year=")[1].split("}")[0]);
         return new Foreman(name, id, address, year);

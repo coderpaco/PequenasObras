@@ -53,7 +53,7 @@ public class ConstructionsManagementSystem extends Observable{
    }
    
    // Métodos para registrar capataz
-      public boolean registerForeman(String name, String id, String address, int yearHired) {
+      public boolean registerForeman(String name, int id, String address, int yearHired) {
         Foreman newForeman = new Foreman(name, id, address, yearHired);
         boolean isUnique = true;
         for (Foreman f : this.obtainForemen()) {
@@ -75,7 +75,7 @@ public class ConstructionsManagementSystem extends Observable{
    }
 
    // Métodos para registrar propietario 
-   public boolean registerOwner(String name, String id, String address, int cellphone) {
+   public boolean registerOwner(String name, int id, String address, int cellphone) {
         Owner newOwner = new Owner(name, id, address, cellphone);
         boolean isUnique = true;
         for (Owner o : this.obtainOwners()) {

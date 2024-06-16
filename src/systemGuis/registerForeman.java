@@ -149,7 +149,8 @@ public class RegisterForeman extends javax.swing.JFrame {
         }else {
             if  (validateInputs(foremanName,foremanId,foremanAddress,foremanYearStr)){
                 int foremanYear = Integer.parseInt(foremanYearStr);
-                if (system1.registerForeman(foremanName, foremanId, foremanAddress, foremanYear)){
+                int foremanIdInt = Integer.parseInt(foremanId);
+                if (system1.registerForeman(foremanName, foremanIdInt, foremanAddress, foremanYear)){
                     // Clear the input fields
                     foremanNameInput.setText("");
                     foremanIdInput.setText("");

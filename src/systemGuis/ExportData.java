@@ -72,12 +72,17 @@ public class ExportData extends javax.swing.JFrame {
     }//GEN-LAST:event_OrderOfExportationActionPerformed
 
     private void ExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportButtonActionPerformed
-    String filename = "personas.txt";
-     //id, which is default, but implement code to check the menu selected option
-    int selectedParamIndex = OrderOfExportation.getSelectedIndex(); //if default is selected, returns 0
-    //code to check option here
-    system1.exportData(filename, selectedParamIndex);
-    JOptionPane.showMessageDialog(ExportData.this, "Data exported successfully!");
+    if(system1.obtainOwners().isEmpty() || system1.obtainForemen().isEmpty()){
+        System.out.println("There are no owners, or there are no foremen registered.");
+        JOptionPane.showMessageDialog(null, "No hay propetarios/capataces en el sistema. Registrar 1 de cada uno para continuar.", "Error: No propetarios o capataces", 0);
+    }else{
+        String filename = "personas.txt";
+        //id, which is default, but implement code to check the menu selected option
+        int selectedParamIndex = OrderOfExportation.getSelectedIndex(); //if default is selected, returns 0
+        //code to check option here
+        system1.exportData(filename, selectedParamIndex);
+        JOptionPane.showMessageDialog(ExportData.this, "Data exported successfully!");
+    }
     }//GEN-LAST:event_ExportButtonActionPerformed
 
     private void ExportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportButtonMouseClicked
