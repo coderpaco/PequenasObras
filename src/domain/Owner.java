@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class Owner implements Serializable{
     private String name;
-    private String id;
+    private int id;
     private String address;
     private int cellphone;
 
-    public Owner(String name, String id, String address, int cellphone) {
+    public Owner(String name, int id, String address, int cellphone) {
         this.name = name;
         this.id = id;
         this.address = address;
@@ -25,11 +25,11 @@ public class Owner implements Serializable{
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -84,7 +84,7 @@ public class Owner implements Serializable{
 
         // Initialize variables to store attributes
         String name = null;
-        String id = null;
+        int id = 0;
         String address = null;
         int cellphone = 0;
 
@@ -93,7 +93,7 @@ public class Owner implements Serializable{
             if (part.startsWith("name='")) {
                 name = part.substring(6, part.length() - 1); // Extract substring after "name='"
             } else if (part.startsWith("id='")) {
-                id = part.substring(4, part.length() - 1); // Extract substring after "id='"
+                id = Integer.parseInt(part.substring(4, part.length() - 1)); // Extract substring after "id='"
             } else if (part.startsWith("address='")) {
                 address = part.substring(9, part.length() - 1); // Extract substring after "address='"
             } else if (part.startsWith("cellphone=")) {
