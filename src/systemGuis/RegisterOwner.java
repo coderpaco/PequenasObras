@@ -42,9 +42,9 @@ public class RegisterOwner extends javax.swing.JFrame {
                 JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (!isNumeric(cellphone) || cellphone.length() < 9) {
+        if (!isNumeric(cellphone) || cellphone.length() < 9 || cellphone.length() > 9) {
             JOptionPane.showMessageDialog(null,
-                "El celular debe contener solo números y tener al menos 9 dígitos.",
+                "El celular debe contener solo números y tener 9 dígitos.",
                 "Celular inválido",
                 JOptionPane.WARNING_MESSAGE);
             return false;
