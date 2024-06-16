@@ -1,4 +1,5 @@
 package domain;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ConstructionSite implements Serializable {
-    // Atributos de la clase
     private Owner owner;
     private Foreman foreman;
     private String permitNumber;
@@ -15,10 +15,9 @@ public class ConstructionSite implements Serializable {
     private int startYear;
     private double totalBudget;
     private List<Expenditures> expenditures;
-    private Map<String, Double> categoryBudgets; // Category budgets
+    private Map<String, Double> categoryBudgets;
 
-  // Constructor (update to include category budgets)
-  public ConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget, Map<String, Double> categoryBudgets) {
+    public ConstructionSite(Owner owner, Foreman foreman, String permitNumber, String address, int startMonth, int startYear, double totalBudget, Map<String, Double> categoryBudgets) {
         this.owner = owner;
         this.foreman = foreman;
         this.permitNumber = permitNumber;
@@ -26,11 +25,10 @@ public class ConstructionSite implements Serializable {
         this.startMonth = startMonth;
         this.startYear = startYear;
         this.totalBudget = totalBudget;
-        this.expenditures = new ArrayList<>(); // Initialize the expenditures list
-        this.categoryBudgets = categoryBudgets; // Initialize category budgets
+        this.expenditures = new ArrayList<>();
+        this.categoryBudgets = categoryBudgets;
     }
-  
-   // Métodos getter y setter para cada atributo
+
     public Owner getOwner() {
         return owner;
     }
@@ -99,12 +97,10 @@ public class ConstructionSite implements Serializable {
         return categoryBudgets;
     }
 
-    // Método para agregar un gasto a la lista de gastos
     public void addExpenditure(Expenditures expenditure) {
         this.expenditures.add(expenditure);
     }
-    
-     // Add methods to retrieve paid and unpaid expenditures
+
     public List<Expenditures> getUnpaidExpenditures() {
         List<Expenditures> unpaidExpenditures = new ArrayList<>();
         for (Expenditures expenditure : expenditures) {
@@ -125,8 +121,6 @@ public class ConstructionSite implements Serializable {
         return paidExpenditures;
     }
 
-
-    // Método para obtener los rubros con gastos
     public List<Category> obtainCategoriesWithExpenditures() {
         List<Category> categoriesWithExpenditures = new ArrayList<>();
         for (Expenditures expenditure : expenditures) {
@@ -136,17 +130,46 @@ public class ConstructionSite implements Serializable {
         }
         return categoriesWithExpenditures;
     }
-
-    // Método para obtener los gastos por rubro
-    public List<Expenditures> obtainExpendituresPerCategory(Category category) {
-    List<Expenditures> expendituresPerCategory = new ArrayList<>();
+    public double getTotalExpenditures() {
+    double total = 0;
     for (Expenditures expenditure : expenditures) {
-        if (expenditure.getCategory().equals(category)) {
-            expendituresPerCategory.add(expenditure);
+        total += expenditure.getAmount();
+    }
+    return total;
+}
+
+public double getTotalPaidExpenditures() {
+    double total = 0;
+    for (Expenditures expenditure : expenditures) {
+        if (expenditure.isPaid()) {
+            total += expenditure.getAmount();
         }
     }
-    return expendituresPerCategory;
+    return total;
 }
+
+public double getTotalUnpaidExpenditures() {
+    double total = 0;
+    for (Expenditures expenditure : expenditures) {
+        if (!expenditure.isPaid()) {
+            total += expenditure.getAmount();
+        }
+    }
+    return total;
+}
+
+    public List<Expenditures> obtainExpendituresPerCategory(Category category) {
+        List<Expenditures> expendituresPerCategory = new ArrayList<>();
+        System.out.println("Looking for expenditures in category: " + category.getName());
+        for (Expenditures expenditure : expenditures) {
+            System.out.println("Checking expenditure with category: " + expenditure.getCategory().getName());
+            if (expenditure.getCategory().equals(category)) {
+                expendituresPerCategory.add(expenditure);
+            }
+        }
+        System.out.println("Found " + expendituresPerCategory.size() + " expenditures for category: " + category.getName());
+        return expendituresPerCategory;
+    }
 
     @Override
     public String toString() {
@@ -162,6 +185,7 @@ public class ConstructionSite implements Serializable {
                 ", categoryBudgets=" + categoryBudgets +
                 '}';
     }
+
     public static ConstructionSite fromString(String str) {
         str = str.replace("ConstructionSite{", "").replace("}", "");
 
@@ -203,7 +227,7 @@ public class ConstructionSite implements Serializable {
                         expenditures.add(expenditure);
                     }
                 }
-            } else if (part.startsWith("categories={")) { // Adjust to match correct format
+            } else if (part.startsWith("categories={")) {
                 String categoriesStr = part.substring("categories={".length(), part.length() - 1);
                 if (!categoriesStr.isEmpty()) {
                     String[] categoriesParts = categoriesStr.split(", ");
@@ -222,4 +246,3 @@ public class ConstructionSite implements Serializable {
         return site;
     }
 }
-

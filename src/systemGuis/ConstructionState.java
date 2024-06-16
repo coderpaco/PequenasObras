@@ -4,22 +4,27 @@ import domain.ConstructionsManagementSystem;
 import domain.Category;
 import domain.ConstructionSite;
 import domain.Expenditures;
+import java.awt.Component;
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import javax.swing.DefaultListModel;
 import java.util.Observer;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class ConstructionState extends javax.swing.JFrame implements Observer {
 
-  
-    private ConstructionsManagementSystem system1;
+   private ConstructionsManagementSystem system1;
     private DefaultListModel<String> constructionSiteListModel;
     private DefaultListModel<String> categoryListModel;
     private DefaultListModel<String> registeredExpendituresListModel;
     private DefaultListModel<String> selectedCategoryModel;
+    private List<Expenditures> currentExpendituresList;
 
     public ConstructionState(ConstructionsManagementSystem system) {
         system1 = system;
@@ -36,6 +41,10 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
         categoryConstruction.setModel(categoryListModel);
         registeredExpendituresList.setModel(registeredExpendituresListModel);
         descriptionAmmountCategory.setModel(selectedCategoryModel);
+        
+        // Set the custom renderer
+        descriptionAmmountCategory.setCellRenderer(new ExpenditureCellRenderer());
+        descriptionAmmountCategory.setOpaque(true);
 
         // Load the construction sites
         loadConstructionSites();
@@ -49,25 +58,102 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
                 }
             }
         });
-
-        // Add listener for ConstructionList
-        ConstructionList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    loadCategoriesWithExpenditures();
-                }
-            }
-        });
     }
 
-   private void loadConstructionSites() {
+    private void loadConstructionSites() {
         constructionSiteListModel.clear();
         List<ConstructionSite> constructionSites = system1.obtainConstructionSites();
+
         for (ConstructionSite site : constructionSites) {
             constructionSiteListModel.addElement(site.getAddress());
         }
     }
+
+    private void loadSelectedCategoryExpenditures() {
+        int selectedCategoryIndex = registeredExpendituresList.getSelectedIndex();
+        if (selectedCategoryIndex != -1) {
+            String selectedCategoryName = registeredExpendituresListModel.getElementAt(selectedCategoryIndex);
+
+            int selectedIndex = ConstructionList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                ConstructionSite selectedSite = system1.obtainConstructionSites().get(selectedIndex);
+                Category selectedCategory = new Category(selectedCategoryName, "", 0.0);
+
+                selectedCategoryModel.clear();
+                currentExpendituresList = selectedSite.obtainExpendituresPerCategory(selectedCategory);
+
+                System.out.println("Selected Category: " + selectedCategoryName);
+                System.out.println("Expenditures List Size: " + currentExpendituresList.size());
+
+                for (Expenditures expenditure : currentExpendituresList) {
+                    System.out.println("Adding Expenditure: " + expenditure.getDescription() + " - $" + expenditure.getAmount());
+                    selectedCategoryModel.addElement(expenditure.getDescription() + " - $" + expenditure.getAmount());
+                    descriptionAmmountCategory.setCellRenderer(new ExpenditureCellRenderer());
+                }
+                descriptionAmmountCategory.repaint();
+            }
+        }
+    }
+
+    private void displayConstructionSiteDetails(ConstructionSite selectedSite) {
+        double totalExpenditures = selectedSite.getTotalExpenditures();
+        double totalPaidExpenditures = selectedSite.getTotalPaidExpenditures();
+        double totalUnpaidExpenditures = selectedSite.getTotalUnpaidExpenditures();
+        double rest = totalPaidExpenditures - totalUnpaidExpenditures;
+
+        this.totalExpenditures.setText(String.format("%.2f", totalExpenditures));
+        totalPaid.setText(String.format("%.2f", totalPaidExpenditures));
+        totalUnpaid.setText(String.format("%.2f", totalUnpaidExpenditures));
+        this.rest.setText(String.format("%.2f", rest));
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ConstructionsManagementSystem) {
+            loadConstructionSites();
+        }
+    }
+
+
+    private class ExpenditureCellRenderer extends JLabel implements ListCellRenderer<String> {
+    @Override
+    public Component getListCellRendererComponent(JList<? extends String> list, String value, int index, boolean isSelected, boolean cellHasFocus) {
+        setText(value);
+
+        if (currentExpendituresList != null && index < currentExpendituresList.size()) {
+            Expenditures expenditure = currentExpendituresList.get(index);
+            ConstructionSite selectedSite = system1.obtainConstructionSites().get(ConstructionList.getSelectedIndex());
+
+            boolean isOnBudgetList = selectedSite.getBudgetCategories().containsKey(expenditure.getCategory().getName());
+            boolean isPaid = expenditure.isPaid();
+
+             if (isOnBudgetList && isPaid) {
+                setBackground(new Color(0, 255, 51)); // Green: [0,255,51]
+                System.out.println("Setting color to GREEN for: " + value);
+            } else if (isOnBudgetList && !isPaid) {
+                setBackground(new Color(153, 204, 255)); // Cyan: [153,204,255]
+                System.out.println("Setting color to CYAN for: " + value);
+            } else if (!isOnBudgetList && isPaid) {
+                setBackground(new Color(255, 204, 102)); // Orange: [255,204,102]
+                System.out.println("Setting color to ORANGE for: " + value);
+            } else if (!isOnBudgetList && !isPaid) {
+                setBackground(new Color(255, 102, 204)); // Pink: [255,102,204]
+                System.out.println("Setting color to PINK for: " + value);
+            }
+        }
+
+    /*    if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        } else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
+*/
+        setOpaque(true); // Ensure the label is opaque
+        return this;
+    }
+}
 
     private void loadCategoriesWithExpenditures() {
         int selectedIndex = ConstructionList.getSelectedIndex();
@@ -96,35 +182,6 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
             inputPlaned.setText("0");
         }
     }
-
-    private void loadSelectedCategoryExpenditures() {
-        int selectedCategoryIndex = registeredExpendituresList.getSelectedIndex();
-        if (selectedCategoryIndex != -1) {
-            String selectedCategoryName = registeredExpendituresListModel.getElementAt(selectedCategoryIndex);
-
-            int constructionSiteIndex = ConstructionList.getSelectedIndex();
-            if (constructionSiteIndex != -1) {
-                ConstructionSite selectedSite = system1.obtainConstructionSites().get(constructionSiteIndex);
-                
-                selectedCategoryModel.clear();
-                List<Expenditures> expendituresList = selectedSite.getExpenditures();
-                for (Expenditures expenditure : expendituresList) {
-                    if (expenditure.getCategory().getName().equals(selectedCategoryName) &&
-                        expenditure.getConstructionSite().equals(selectedSite)) {
-                        selectedCategoryModel.addElement(expenditure.getDescription() + " - $" + expenditure.getAmount());
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof ConstructionsManagementSystem) {
-            loadConstructionSites();
-        }
-    }
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -161,9 +218,9 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         inputPlaned = new javax.swing.JLabel();
-        inputRegistered = new javax.swing.JLabel();
+        totalPaid = new javax.swing.JLabel();
         totalExpenditures = new javax.swing.JLabel();
-        ExpendituresNotGivenBack = new javax.swing.JLabel();
+        totalUnpaid = new javax.swing.JLabel();
         rest = new javax.swing.JLabel();
         loadFOremanName = new javax.swing.JLabel();
         loadOwnerName = new javax.swing.JLabel();
@@ -252,6 +309,11 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
 
         jTextField3.setBackground(new java.awt.Color(255, 204, 102));
         jTextField3.setText("No Presupuestado y Reintegrado");
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jTextField3);
         jTextField3.setBounds(450, 330, 210, 22);
 
@@ -266,11 +328,11 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
 
         jLabel6.setText("Comienzo de Obra:");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(240, 50, 120, 16);
+        jLabel6.setBounds(220, 50, 120, 16);
 
         jLabel7.setText("Total Gastado Ya Reintegrado:");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(240, 90, 170, 16);
+        jLabel7.setBounds(220, 90, 170, 16);
 
         jLabel8.setText("Capataz:");
         getContentPane().add(jLabel8);
@@ -278,106 +340,112 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
 
         jLabel9.setText("Total Gastado:");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(450, 60, 100, 16);
+        jLabel9.setBounds(490, 60, 100, 16);
 
         jLabel10.setText("Total Gastado No Reintegrado:");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(450, 80, 180, 16);
+        jLabel10.setBounds(490, 90, 180, 16);
 
         jLabel11.setText("Saldo:");
         getContentPane().add(jLabel11);
-        jLabel11.setBounds(650, 110, 43, 16);
+        jLabel11.setBounds(640, 130, 43, 16);
 
         jLabel12.setText("Total Presupuestado:");
         getContentPane().add(jLabel12);
-        jLabel12.setBounds(240, 70, 140, 16);
+        jLabel12.setBounds(220, 70, 140, 16);
 
         inputPlaned.setText("0");
         getContentPane().add(inputPlaned);
-        inputPlaned.setBounds(410, 70, 43, 16);
+        inputPlaned.setBounds(410, 70, 70, 16);
 
-        inputRegistered.setText("0");
-        getContentPane().add(inputRegistered);
-        inputRegistered.setBounds(410, 90, 70, 16);
+        totalPaid.setText("0");
+        getContentPane().add(totalPaid);
+        totalPaid.setBounds(410, 90, 70, 16);
 
         totalExpenditures.setText("0");
         getContentPane().add(totalExpenditures);
-        totalExpenditures.setBounds(620, 60, 90, 16);
+        totalExpenditures.setBounds(650, 60, 90, 16);
 
-        ExpendituresNotGivenBack.setText("0");
-        getContentPane().add(ExpendituresNotGivenBack);
-        ExpendituresNotGivenBack.setBounds(640, 80, 20, 16);
+        totalUnpaid.setText("0");
+        getContentPane().add(totalUnpaid);
+        totalUnpaid.setBounds(670, 90, 50, 16);
 
         rest.setText("0");
         getContentPane().add(rest);
-        rest.setBounds(690, 110, 43, 16);
+        rest.setBounds(690, 130, 43, 16);
         getContentPane().add(loadFOremanName);
-        loadFOremanName.setBounds(590, 20, 80, 20);
+        loadFOremanName.setBounds(590, 20, 130, 20);
         getContentPane().add(loadOwnerName);
-        loadOwnerName.setBounds(370, 20, 70, 20);
+        loadOwnerName.setBounds(370, 20, 130, 20);
         getContentPane().add(loadStartConstruction);
-        loadStartConstruction.setBounds(380, 50, 50, 20);
+        loadStartConstruction.setBounds(380, 50, 70, 20);
 
-        setBounds(0, 0, 762, 400);
+        setBounds(0, 0, 803, 400);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ConstructionListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ConstructionListValueChanged
     if (!evt.getValueIsAdjusting()) {
-            int selectedIndex = ConstructionList.getSelectedIndex();
-            if (selectedIndex != -1) {
-                ConstructionSite selectedSite = system1.obtainConstructionSites().get(selectedIndex);
+        int selectedIndex = ConstructionList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            ConstructionSite selectedSite = system1.obtainConstructionSites().get(selectedIndex);
 
-                categoryListModel.clear();
-                registeredExpendituresListModel.clear();
-                selectedCategoryModel.clear();
+            categoryListModel.clear();
+            registeredExpendituresListModel.clear();
+            selectedCategoryModel.clear();
 
-                Map<String, Double> categoriesWithBudgets = selectedSite.getBudgetCategories();
-                for (Map.Entry<String, Double> entry : categoriesWithBudgets.entrySet()) {
-                    String categoryDisplay = entry.getKey() + " - $" + String.format("%.2f", entry.getValue());
-                    categoryListModel.addElement(categoryDisplay);
-                }
-
-                List<Category> categoriesWithExpenditures = selectedSite.obtainCategoriesWithExpenditures();
-                for (Category category : categoriesWithExpenditures) {
-                    registeredExpendituresListModel.addElement(category.getName());
-                }
-
-                loadFOremanName.setText(selectedSite.getForeman().getName());
-                loadOwnerName.setText(selectedSite.getOwner().getName());
-                loadStartConstruction.setText(selectedSite.getStartMonth() + "/" + selectedSite.getStartYear());
-
-                inputPlaned.setText(String.format("%.2f", selectedSite.getTotalBudget()));
-            } else {
-                categoryListModel.clear();
-                registeredExpendituresListModel.clear();
-                selectedCategoryModel.clear();
-
-                loadFOremanName.setText("");
-                loadOwnerName.setText("");
-                loadStartConstruction.setText("");
-                inputPlaned.setText("0");
+            Map<String, Double> categoriesWithBudgets = selectedSite.getBudgetCategories();
+            for (Map.Entry<String, Double> entry : categoriesWithBudgets.entrySet()) {
+                String categoryDisplay = entry.getKey() + " - $" + String.format("%.2f", entry.getValue());
+                categoryListModel.addElement(categoryDisplay);
             }
+
+            List<Category> categoriesWithExpenditures = selectedSite.obtainCategoriesWithExpenditures();
+            for (Category category : categoriesWithExpenditures) {
+                registeredExpendituresListModel.addElement(category.getName());
+            }
+
+            loadFOremanName.setText(selectedSite.getForeman().getName());
+            loadOwnerName.setText(selectedSite.getOwner().getName());
+            loadStartConstruction.setText(selectedSite.getStartMonth() + "/" + selectedSite.getStartYear());
+
+            inputPlaned.setText(String.format("%.2f", selectedSite.getTotalBudget()));
+
+            // Display the construction site details
+            displayConstructionSiteDetails(selectedSite);
+        } else {
+            categoryListModel.clear();
+            registeredExpendituresListModel.clear();
+            selectedCategoryModel.clear();
+
+            loadFOremanName.setText("");
+            loadOwnerName.setText("");
+            loadStartConstruction.setText("");
+            inputPlaned.setText("0");
+
+            totalExpenditures.setText("0");
+            totalPaid.setText("0");
+            totalUnpaid.setText("0");
+            rest.setText("0");
         }
-    
-
-    
-            
-        
-
+    }
     }//GEN-LAST:event_ConstructionListValueChanged
-  
-    private void registeredExpendituresListValueChanged(javax.swing.event.ListSelectionEvent evt) {
-        if (!evt.getValueIsAdjusting()) {
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+  private void registeredExpendituresListValueChanged(javax.swing.event.ListSelectionEvent evt) {
+         if (!evt.getValueIsAdjusting()) {
             int selectedIndex = registeredExpendituresList.getSelectedIndex();
             if (selectedIndex != -1) {
                 String selectedCategoryName = registeredExpendituresList.getSelectedValue();
                 ConstructionSite selectedSite = system1.obtainConstructionSites().get(ConstructionList.getSelectedIndex());
 
                 selectedCategoryModel.clear();
-                List<Expenditures> expendituresList = selectedSite.obtainExpendituresPerCategory(new Category(selectedCategoryName, "", 0.0));
-                for (Expenditures expenditure : expendituresList) {
+                currentExpendituresList = selectedSite.obtainExpendituresPerCategory(new Category(selectedCategoryName, "", 0.0));
+                for (Expenditures expenditure : currentExpendituresList) {
                     selectedCategoryModel.addElement(expenditure.getDescription() + " - $" + expenditure.getAmount());
                 }
+                descriptionAmmountCategory.repaint();
             }
         }
     }
@@ -419,11 +487,9 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> ConstructionList;
     private javax.swing.JLabel ConstructionListTitle;
-    private javax.swing.JLabel ExpendituresNotGivenBack;
     private javax.swing.JList<String> categoryConstruction;
     private javax.swing.JList<String> descriptionAmmountCategory;
     private javax.swing.JLabel inputPlaned;
-    private javax.swing.JLabel inputRegistered;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -450,5 +516,7 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
     private javax.swing.JList<String> registeredExpendituresList;
     private javax.swing.JLabel rest;
     private javax.swing.JLabel totalExpenditures;
+    private javax.swing.JLabel totalPaid;
+    private javax.swing.JLabel totalUnpaid;
     // End of variables declaration//GEN-END:variables
 }

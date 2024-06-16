@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Category implements Serializable {
     // class atributes
@@ -48,10 +49,24 @@ public double getCategorySelectedBudget() {
             ", categorySelectedBudget='" + categorySelectedBudget + '\'' +
             '}';
     }
+    
   public static Category fromString(String str) {
   String name = str.split("name='")[1].split("'")[0];
   String description = str.split("description='")[1].split("'")[0];
   double budget = Double.parseDouble(str.split("categorySelectedBudget='")[1].split("'")[0]); // Extract and parse budget
   return new Category(name, description, budget);
 }
+   @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Category category = (Category) obj;
+        return this.getName().equals(category.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
+    }
 }
+
