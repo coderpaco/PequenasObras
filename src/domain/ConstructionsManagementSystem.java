@@ -280,8 +280,8 @@ public class ConstructionsManagementSystem extends Observable{
    }
    public void registerPaymentExpenditure(ConstructionSite site, Expenditures expenditure) {
   // Register payment logic (assuming implemented)
-  expenditure.setPaid(true); // Set expenditure to paid
-  notifyObservers(); // Inform observers about the change
+   expenditure.setPaid(true); // Set expenditure to paid
+    somethingChanged(); // Notify observers about the change
 }
  
 }

@@ -176,77 +176,64 @@ public class RegisterExpendituresForConstruction extends javax.swing.JFrame impl
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-   // Get selected construction site
-        int selectedConstructionIndex = listConstructions.getSelectedIndex();
-        if (selectedConstructionIndex == -1) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar una obra.");
-            return;
-        }
+  int selectedConstructionIndex = listConstructions.getSelectedIndex();
+    if (selectedConstructionIndex == -1) {
+        JOptionPane.showMessageDialog(null, "Debe seleccionar una obra.");
+        return;
+    }
 
-        // Get selected category
-        int selectedCategoryIndex = listCategories.getSelectedIndex();
-        if (selectedCategoryIndex == -1) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un rubro.");
-            return;
-        }
+    int selectedCategoryIndex = listCategories.getSelectedIndex();
+    if (selectedCategoryIndex == -1) {
+        JOptionPane.showMessageDialog(null, "Debe seleccionar un rubro.");
+        return;
+    }
 
-        // Validate amount
-        String amountString = InputAmmount.getText().trim();
-        if (amountString.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar un monto.");
-            return;
-        }
-        double amount;
-        try {
-            amount = Double.parseDouble(amountString);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Monto inválido. Debe ser un número.");
-            return;
-        }
-        if (amount <= 0) {
-            JOptionPane.showMessageDialog(null, "Monto debe ser un número positivo.");
-            return;
-        }
+    String amountString = InputAmmount.getText().trim();
+    if (amountString.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Debe ingresar un monto.");
+        return;
+    }
+    double amount;
+    try {
+        amount = Double.parseDouble(amountString);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Monto inválido. Debe ser un número.");
+        return;
+    }
+    if (amount <= 0) {
+        JOptionPane.showMessageDialog(null, "Monto debe ser un número positivo.");
+        return;
+    }
 
-        // Validate month and year
-        int month = (Integer) MonthInput.getValue();
-        int year = (Integer) inputYear.getValue();
+    int month = (Integer) MonthInput.getValue();
+    int year = (Integer) inputYear.getValue();
+    String description = inputDescription.getText().trim();
+    if (description.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Debe ingresar una descripción.");
+        return;
+    }
 
-        // Validate description
-        String description = inputDescription.getText().trim();
-        if (description.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar una descripción.");
-            return;
-        }
+    ConstructionSite selectedConstructionSite = system1.obtainConstructionSites().get(selectedConstructionIndex);
+    Category selectedCategory = system1.obtainCategories().get(selectedCategoryIndex);
 
-        // Get selected construction site object
-        ConstructionSite selectedConstructionSite = system1.obtainConstructionSites().get(selectedConstructionIndex);
+    system1.registerExpenditures(
+            selectedConstructionSite,
+            selectedCategory,
+            amount,
+            month,
+            year,
+            description,
+            false
+    );
 
-        // Get selected category object
-        Category selectedCategory = system1.obtainCategories().get(selectedCategoryIndex);
+    listConstructions.setSelectedIndex(-1);
+    listCategories.setSelectedIndex(-1);
+    InputAmmount.setText("");
+    MonthInput.setValue(1);
+    inputYear.setValue(2024);
+    inputDescription.setText("");
 
-        // Register expenditure
-        Expenditures newExpenditure = new Expenditures(selectedConstructionSite, selectedCategory, amount, month, year, description, false);
-        system1.registerExpenditures(
-                newExpenditure.getConstructionSite(),
-                newExpenditure.getCategory(),
-                newExpenditure.getAmount(),
-                newExpenditure.getMonth(),
-                newExpenditure.getYear(),
-                newExpenditure.getDescription(),
-                newExpenditure.isPaid()
-        );
-
-        // Clear form fields
-        listConstructions.setSelectedIndex(-1);
-        listCategories.setSelectedIndex(-1);
-        InputAmmount.setText("");
-        MonthInput.setValue(1);
-        inputYear.setValue(2024);
-        inputDescription.setText("");
-
-        JOptionPane.showMessageDialog(null, "Gasto registrado exitosamente!");
-
+    JOptionPane.showMessageDialog(null, "Gasto registrado exitosamente!");
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**

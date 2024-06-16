@@ -26,7 +26,7 @@ public class ConstructionSite implements Serializable {
         this.startMonth = startMonth;
         this.startYear = startYear;
         this.totalBudget = totalBudget;
-        this.expenditures = new ArrayList<>();  // Initialize expenditures list
+        this.expenditures = new ArrayList<>(); // Initialize the expenditures list
         this.categoryBudgets = categoryBudgets; // Initialize category budgets
     }
   
@@ -102,6 +102,27 @@ public class ConstructionSite implements Serializable {
     // Método para agregar un gasto a la lista de gastos
     public void addExpenditure(Expenditures expenditure) {
         this.expenditures.add(expenditure);
+    }
+    
+     // Add methods to retrieve paid and unpaid expenditures
+    public List<Expenditures> getUnpaidExpenditures() {
+        List<Expenditures> unpaidExpenditures = new ArrayList<>();
+        for (Expenditures expenditure : expenditures) {
+            if (!expenditure.isPaid()) {
+                unpaidExpenditures.add(expenditure);
+            }
+        }
+        return unpaidExpenditures;
+    }
+
+    public List<Expenditures> getPaidExpenditures() {
+        List<Expenditures> paidExpenditures = new ArrayList<>();
+        for (Expenditures expenditure : expenditures) {
+            if (expenditure.isPaid()) {
+                paidExpenditures.add(expenditure);
+            }
+        }
+        return paidExpenditures;
     }
 
     // Método para obtener los rubros con gastos

@@ -55,27 +55,29 @@ public class ExpendituresPayment extends javax.swing.JFrame implements Observer 
   }
 
  private void loadExpenditures(ConstructionSite site) {
-  unpaidModel.clear();
-  paidModel.clear();
+   unpaidModel.clear();
+    paidModel.clear();
 
-  // Get all expenditure descriptions (assuming methods exist)
-  List<Expenditures> unpaidExpenditures = site.getUnpaidExpenditures();
-  List<Expenditures> paidExpenditures = site.getPaidExpenditures(); // Added line
+    // Get all expenditure descriptions
+    List<Expenditures> unpaidExpenditures = site.getUnpaidExpenditures();
+    List<Expenditures> paidExpenditures = site.getPaidExpenditures();
 
-  // Add descriptions to respective models
-  for (Expenditures expenditure : unpaidExpenditures) {
-    String description = expenditure.getDescription();
-    unpaidModel.addElement(description);
-  }
+    // Add descriptions to respective models
+    for (Expenditures expenditure : unpaidExpenditures) {
+        String description = expenditure.getDescription();
+        unpaidModel.addElement(description);
+    }
 
-  for (Expenditures expenditure : paidExpenditures) {
-    String description = expenditure.getDescription();
-    paidModel.addElement(description);
-  }
+    for (Expenditures expenditure : paidExpenditures) {
+        String description = expenditure.getDescription();
+        paidModel.addElement(description);
+    }
 
-  notPayedExpendituresList.setModel(unpaidModel);
-  PaidExpendituresList.setModel(paidModel);
+    notPayedExpendituresList.setModel(unpaidModel);
+    PaidExpendituresList.setModel(paidModel);
 }
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -165,21 +167,21 @@ public class ExpendituresPayment extends javax.swing.JFrame implements Observer 
     }//GEN-LAST:event_payButtonActionPerformed
 
     private void payButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_payButtonMouseClicked
-             int selectedIndex = notPayedExpendituresList.getSelectedIndex();
-        if (selectedIndex != -1) {
-            String selectedExpenditure = unpaidModel.getElementAt(selectedIndex);
-            for (Expenditures expenditure : selectedSite.getUnpaidExpenditures()) {
-                if ((expenditure.getDescription()).equals(selectedExpenditure)) {
-                    int response = JOptionPane.showConfirmDialog(null, "¿Desea pagar este gasto?", "Confirmar pago", JOptionPane.YES_NO_OPTION);
-                    if (response == JOptionPane.YES_OPTION) {
-                        system.registerPaymentExpenditure(selectedSite, expenditure);
-                        JOptionPane.showMessageDialog(null, "Este gasto ha sido pagado");
-                        loadExpenditures(selectedSite);
-                    }
-                    break;
+       int selectedIndex = notPayedExpendituresList.getSelectedIndex();
+    if (selectedIndex != -1) {
+        String selectedExpenditure = unpaidModel.getElementAt(selectedIndex);
+        for (Expenditures expenditure : selectedSite.getUnpaidExpenditures()) {
+            if (expenditure.getDescription().equals(selectedExpenditure)) {
+                int response = JOptionPane.showConfirmDialog(null, "¿Desea pagar este gasto?", "Confirmar pago", JOptionPane.YES_NO_OPTION);
+                if (response == JOptionPane.YES_OPTION) {
+                    system.registerPaymentExpenditure(selectedSite, expenditure);
+                    JOptionPane.showMessageDialog(null, "Este gasto ha sido pagado");
+                    loadExpenditures(selectedSite);
                 }
+                break;
             }
         }
+    }
     }//GEN-LAST:event_payButtonMouseClicked
 
     private void constructionListValueChanged(javax.swing.event.ListSelectionEvent evt) {
