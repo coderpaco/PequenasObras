@@ -1,7 +1,4 @@
 Propetarios: 
-Owner{name='alfone', id='3333333', address='sjie231', cellphone='283726134'}
-Owner{name='manga', id='9999999', address='yi321', cellphone='192837465'}
+Owner{name='Alex', id='7654321', address='oiu 123', cellphone='192837465'}
 Capataces: 
-Foreman{name='Bowman', id='2223333', address='yi321', year=2001}
-Foreman{name='liam', id='7772222', address='iy321', year=1999}
-Foreman{name='Zeta', id='111111', address='yi123', year=1999}
+Foreman{name='Mike', id='1234567', address='yi 123', year=1999}

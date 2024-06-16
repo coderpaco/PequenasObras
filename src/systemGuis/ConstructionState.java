@@ -399,7 +399,7 @@ public class ConstructionState extends javax.swing.JFrame implements Observer {
 
             Map<String, Double> categoriesWithBudgets = selectedSite.getBudgetCategories();
             for (Map.Entry<String, Double> entry : categoriesWithBudgets.entrySet()) {
-                String categoryDisplay = entry.getKey() + " - $" + String.format("%.2f", entry.getValue());
+                String categoryDisplay = "• " + entry.getKey() + " - $" + String.format("%.2f", entry.getValue());
                 categoryListModel.addElement(categoryDisplay);
             }
 
