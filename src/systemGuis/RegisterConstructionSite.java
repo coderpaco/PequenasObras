@@ -56,7 +56,8 @@ public class RegisterConstructionSite extends javax.swing.JFrame implements Obse
     }
     
     private void loadPanelCategories() {
-        categoryListModel.clear();
+        //categoryListModel.clear();
+        panelCategories.removeAll();
         List<Category> categories = system1.obtainCategories();
         for (Category category : categories) {
             JButton nuevo = new JButton(category.getName());
