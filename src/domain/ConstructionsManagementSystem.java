@@ -147,6 +147,27 @@ public class ConstructionsManagementSystem extends Observable{
         }
         return isUnique;
     }
+      
+      public boolean removeForeman(String name, String id, String address, int yearHired) {
+        Foreman newForeman = new Foreman(name, id, address, yearHired);
+        boolean found = false;
+        for (Foreman f : this.obtainForemen()) {
+            if (f.equals(newForeman)) {
+                found = true;
+                System.out.println(obtainForemen());
+                this.foremen.remove(this.foremen.indexOf(f));
+                System.out.println(obtainForemen());
+                break;
+            }
+        }
+        if (found) {
+            
+            //foremen.add(newForeman);
+            somethingChanged();
+            //saveAllData(); only save on shutdown, so moved this out
+        }
+        return found;
+    }
 
    public List<Foreman> obtainForemen() {
        return new ArrayList<>(foremen);
